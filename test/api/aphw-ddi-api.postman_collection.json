@@ -1,0 +1,1434 @@
+{
+	"info": {
+		"_postman_id": "4956cc3d-fd78-49d3-a94c-ef25f07fd959",
+		"name": "aphw-ddi-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12107479"
+	},
+	"item": [
+		{
+			"name": "CDO",
+			"item": [
+				{
+					"name": "User can add a Cdo and view Cdo, Dog and Owner",
+					"item": [
+						{
+							"name": "/cdo submits a valid CDO",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let cdoPostIndex = pm.environment.get(\"cdoPostIndex\");",
+											"",
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns an owner\", function () {",
+											"    const owner = pm.response.json().owner;",
+											"    pm.expect(owner).to.deep.equal({",
+											"        \"firstName\": `Homer${cdoPostIndex}`,",
+											"        \"lastName\": `Simpson${cdoPostIndex}`,",
+											"        \"birthDate\": \"1998-05-10\",",
+											"        \"address\": {",
+											"            \"addressLine1\": `${cdoPostIndex} Anywhere St`,",
+											"            \"addressLine2\": \"Anywhere Estate\",",
+											"            \"town\": \"City of London\",",
+											"            \"postcode\": \"S1 1AA\",",
+											"            \"country\": \"England\"",
+											"        }",
+											"    })",
+											"});",
+											"",
+											"pm.test(\"response returns enforcement details\", function () {",
+											"    const enforcementDetails = pm.response.json().enforcementDetails;",
+											"    pm.expect(enforcementDetails.policeForce).to.be.a('string')",
+											"    pm.expect(enforcementDetails.court).to.be.a('string')",
+											"    pm.expect(enforcementDetails.legislationOfficer).to.equal('Sidney Lewis')",
+											"});",
+											"",
+											"pm.test(\"dog details\", function () {",
+											"    const dogs = pm.response.json().dogs;",
+											"    const dog = dogs[0]",
+											"    pm.expect(dogs).to.have.length(1)",
+											"    pm.expect(dog.indexNumber.startsWith('ED3')).to.be.true",
+											"    pm.expect(dog.name).to.eq(`Rex${cdoPostIndex}`)",
+											"    pm.expect(dog.status).to.eq('Interim exempt')",
+											"    pm.expect(dog.breed).to.eq('XL Bully')",
+											"    pm.expect(dog.cdoIssued).to.eq('2023-10-10')",
+											"    pm.expect(dog.cdoExpiry).to.eq('2023-12-10')",
+											"    pm.expect(dog.interimExemption).to.eq('2023-12-10')",
+											"    pm.collectionVariables.set(\"index-number\",  dog.indexNumber);",
+											"});",
+											"",
+											"cdoPostIndex++",
+											"pm.environment.set(\"cdoPostIndex\", cdoPostIndex);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"Homer{{cdoPostIndex}}\",\n    \"lastName\": \"Simpson{{cdoPostIndex}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{cdoPostIndex}} Anywhere St\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/cdo submits a valid CDO with country",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let cdoPostIndex = pm.environment.get(\"cdoPostIndex\");",
+											"",
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns an owner\", function () {",
+											"    const owner = pm.response.json().owner;",
+											"    pm.expect(owner.firstName).to.be.a('string')",
+											"    pm.expect(owner.lastName).to.be.a('string')",
+											"    pm.expect(owner.address.addressLine1).to.be.a('string')",
+											"    pm.expect(owner.address.country).to.eq('Wales')",
+											"});",
+											"",
+											"pm.test(\"response returns enforcement details\", function () {",
+											"    const enforcementDetails = pm.response.json().enforcementDetails;",
+											"    pm.expect(enforcementDetails.policeForce).to.be.a('string')",
+											"    pm.expect(enforcementDetails.court).to.be.a('string')",
+											"    pm.expect(enforcementDetails.legislationOfficer).to.equal('Sidney Lewis')",
+											"});",
+											"",
+											"pm.test(\"dog details\", function () {",
+											"    const dogs = pm.response.json().dogs;",
+											"    const dog = dogs[0]",
+											"    pm.expect(dogs).to.have.length(1)",
+											"    pm.expect(dog.indexNumber.startsWith('ED3')).to.be.true",
+											"    pm.expect(dog.name).to.eq(`Rex${cdoPostIndex}`)",
+											"    pm.expect(dog.status).to.eq('Interim exempt')",
+											"    pm.expect(dog.breed).to.eq('XL Bully')",
+											"    pm.expect(dog.cdoIssued).to.eq('2023-10-10')",
+											"    pm.expect(dog.cdoExpiry).to.eq('2023-12-10')",
+											"    pm.expect(dog.interimExemption).to.eq('2023-12-10')",
+											"    pm.collectionVariables.set(\"index-number\",  dog.indexNumber);",
+											"});",
+											"",
+											"cdoPostIndex++",
+											"pm.environment.set(\"cdoPostIndex\", cdoPostIndex);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/cdo/:index-number returns a 200 and valid cdo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns a person\", function () {",
+											"    const owner = pm.response.json().cdo.person;",
+											"    pm.expect(owner.id).to.be.a('number')",
+											"    pm.expect(owner.firstName).to.be.a('string')",
+											"});",
+											"",
+											"pm.test(\"response returns a dog\", function () {",
+											"    const dog = pm.response.json().cdo.dog;",
+											"    pm.expect(dog.id).to.be.a('number')",
+											"    pm.expect(dog.indexNumber).to.eq(pm.collectionVariables.get('index-number'))",
+											"});",
+											"",
+											"pm.test(\"response returns an exemption\", function () {",
+											"    const exemption = pm.response.json().cdo.exemption;",
+											"    pm.expect(exemption.exemptionOrder).to.be.a('string')",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo/{{index-number}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo",
+										"{{index-number}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/cdo/:invalid-index returns a 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response returns a 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo/ED000018",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo",
+										"ED000018"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog/:index-number returns 200 and a valid dog",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let cdoPostIndex = pm.environment.get(\"cdoPostIndex\");",
+											"",
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns a dog\", function () {",
+											"    const dog = pm.response.json().dog;",
+											"    pm.expect(dog.id).to.be.a('number')",
+											"    pm.expect(dog.indexNumber).to.eq(pm.collectionVariables.get('index-number'))",
+											"    pm.expect(dog.name).to.be.a('string')",
+											"    pm.expect(dog.breed).to.be.oneOf(['XL Bully', 'Pit Bull Terrier','Japanese Tosa','Dogo Argentino','Fila Brasileiro'])",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog/{{index-number}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog",
+										"{{index-number}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog/:invalid-index-number returns a 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is not found\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog/ED000018",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog",
+										"ED000018"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog-owner/:index-number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns the owner\", function () {",
+											"    const owner = pm.response.json().owner;",
+											"    pm.expect(owner.personReference).to.be.a('string')",
+											"    pm.collectionVariables.set('reference', owner.personReference)",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog-owner/{{index-number}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog-owner",
+										"{{index-number}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog-owner/:invalid-index-number returns a 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is not found\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog-owner/ED000018",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog-owner",
+										"ED000018"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog returns 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns a dog\", function () {",
+											"    const dog = pm.response.json();",
+											"    pm.expect(dog.index_number).to.eq(pm.collectionVariables.get('index-number'))",
+											"    pm.expect(dog.name).to.eq('Rex alive')",
+											"    pm.expect(dog.status.status).to.equal('Interim exempt')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"dogId\": \"{{index-number}}\",\n    \"indexNumber\": \"{{index-number}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/person/:reference should get person data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns the owner\", function () {",
+											"    const owner = pm.response.json();",
+											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('reference'))",
+											"    pm.expect(owner.firstName).to.be.a('string')",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/person/{{reference}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"person",
+										"{{reference}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/person/:invalid-reference should return a 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"personReference\": \"invalid\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"dateOfBirth\": \"{{$isoTimestamp}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"{{$randomCity}}\",\n    \"postcode\": \"SN1 1AA\",\n    \"country\": \"England\"\n  },\n  \"email\": \"{{$randomExampleEmail}}\",\n  \"primaryTelephone\": \"{{$randomPhoneNumber}}\",\n  \"secondaryTelephone\": \"{{$randomPhoneNumber}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/person",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/person/:reference should update person",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"const isEdited = (str) => str.split(' ')[1] === 'EDITED'",
+											"",
+											"pm.test(\"response returns the owner\", function () {",
+											"    const owner = pm.response.json();",
+											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('reference'))",
+											"    pm.expect(isEdited(owner.firstName)).to.be.true",
+											"    pm.expect(isEdited(owner.lastName)).to.be.true",
+											"    pm.expect(owner.address.addressLine1).to.contain('EDITED')",
+											"    pm.expect(owner.address.country).to.eq('England')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"personReference\": \"{{reference}}\",\n  \"firstName\": \"{{$randomFirstName}} EDITED\",\n  \"lastName\": \"{{$randomLastName}} EDITED\",\n  \"dateOfBirth\": \"1998-05-10T00:00:00.000Z\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}} EDITED\",\n    \"town\": \"City of London\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/person",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activity should submit an activity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response a list of dog activities\", function () {",
+											"    const activity = pm.response.json()",
+											"    pm.expect(activity.result).to.eq('ok')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"activity\":\"1\",\n  \"activityType\":\"sent\",\n  \"pk\":\"{{reference}}\",\n  \"source\":\"owner\",\n  \"activityDate\":\"2024-02-29T09:30:13.587Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/activity",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"activity"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/exemption returns 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns a dog\", function () {",
+											"    const exemption = pm.response.json();",
+											"    pm.expect(exemption.dog_id).to.eq(parseInt(pm.collectionVariables.get('index-number').replace('ED','')))",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"exemptionOrder\": 2023,\n  \"indexNumber\": \"{{index-number}}\",\n  \"cdoIssued\": \"2020-01-01\",\n  \"cdoExpiry\": \"2020-02-01\",\n  \"policeForce\": \"Avon and Somerset Constabulary\",\n  \"legislationOfficer\": \"Test Officer\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Dogs Trust\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/exemption",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"exemption"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "System can import",
+			"item": [
+				{
+					"name": "/dog imports a valid dog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.have.body(\"ok\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dog\": {\n      \"dog_breed_id\":1,\n      \"dog_reference\": \"{{$guid}}\",\n      \"status_id\": 1,\n      \"name\": \"{{$randomFirstName}}\",\n      \"birth_date\": \"{{$isoTimestamp}}\",\n      \"death_date\": \"{{$isoTimestamp}}\",\n      \"tattoo\":\"tattoo\",\n      \"colour\": \"colour\",\n      \"sex\": \"Male\",\n      \"exported_date\": \"{{$isoTimestamp}}\",\n      \"stolen_date\": \"{{$isoTimestamp}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/dog",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"dog"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "/activities/sent/dog should return list of dog activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response a list of dog activities\", function () {",
+									"    const activities = pm.response.json().activities;",
+									"    pm.expect(activities.length > 1).to.be.true;",
+									"    pm.expect(activities[0].label).to.be.a('string')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/sent/dog",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"sent",
+								"dog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities/received/dog should return list of dog activities Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response a list of dog activities\", function () {",
+									"    const activities = pm.response.json().activities;",
+									"    pm.expect(activities.length > 1).to.be.true;",
+									"    pm.expect(activities[0].label).to.be.a('string')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/received/dog",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"received",
+								"dog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities/sent/owner should return list of owner activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response a list of owner activities\", function () {",
+									"    const activities = pm.response.json().activities;",
+									"    pm.expect(activities.length > 0).to.be.true;",
+									"    pm.expect(activities[0].label).to.be.a('string')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/sent/owner",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"sent",
+								"owner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities/received/owner should return an empty list of owner received activities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response a list of owner activities\", function () {",
+									"    const activities = pm.response.json().activities;",
+									"    pm.expect(activities).to.be.a('Array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/received/owner",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"received",
+								"owner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activity/:activity-id should return an activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response a list of dog activities\", function () {",
+									"    const activity = pm.response.json().activity;",
+									"    pm.expect(activity.label).to.be.a('string')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activity/1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activity",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "countries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"response returns list of countries\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.countries).to.have.lengthOf(3)",
+							"    pm.expect(jsonData.countries).to.deep.eq(['England', 'Scotland', 'Wales'])",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/countries",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "courts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"response returns list of countries\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.courts.length > 100).to.be.true",
+							"    pm.expect(jsonData.courts[0].id).to.be.a('number')",
+							"    pm.expect(jsonData.courts[0].name).to.be.a('string')",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/courts",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"courts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "healthy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.have.body(\"ok\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/healthy",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"healthy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "healthz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.have.body(\"ok\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/healthz",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"healthz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "counties",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response returns a list of counties including City of London\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.counties.length > 50).to.be.true;",
+							"    pm.expect(jsonData.counties.some(county => county === 'City of London')).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/counties",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"counties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "police-forces",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response returns a list of Police Forces including Metropolitan Police Service\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.policeForces.length > 50).to.be.true;",
+							"    pm.expect(jsonData.policeForces[0].id).to.eq(1)",
+							"    pm.expect(jsonData.policeForces.some(policeForce => policeForce.name === 'Metropolitan Police Service')).to.be.true;",
+							"});",
+							"",
+							"let value = null",
+							"",
+							"const myFunction = () => {",
+							"    value++",
+							"}",
+							"",
+							"myFunction()"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/police-forces",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"police-forces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insurance/companies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response returns a list of Insurance Companies inc Dogs Trust\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData.companies.length > 0).to.be.true;",
+							"    pm.expect(jsonData.companies[0].id).to.eq(1)",
+							"    pm.expect(jsonData.companies.map(company => company.name)).to.contain('Dogs Trust')",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"insurance",
+						"companies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "dog-breeds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response returns a list of Dog breeds in XL Bully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    const jsonData = pm.response.json();",
+							"    const breeds = jsonData.breeds",
+							"    pm.expect(breeds.length > 4).to.be.true;",
+							"    pm.expect(breeds.some(breed => breed.breed === 'XL Bully')).to.be.true;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{DDI_API_BASE_URL}}/dog-breeds",
+					"host": [
+						"{{DDI_API_BASE_URL}}"
+					],
+					"path": [
+						"dog-breeds"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "dogId1",
+			"value": ""
+		},
+		{
+			"key": "index-number",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "reference",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
