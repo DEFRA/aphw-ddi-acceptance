@@ -1,37 +1,14 @@
-# FFC Template Node
+# DDI Acceptance Tests
 
-Template to support rapid delivery of microservices for FFC Platform. It contains the configuration needed to deploy a simple Hapi Node server to the Azure Kubernetes Platform.
+Repository containing UI and API Acceptance tests for the DDI service
 
-## Usage
+## API tests
 
-Create a new repository from this template and run `./rename.js` specifying the new name of the project and the description to use e.g.
-```
-./rename.js ffc-demo-web "Web frontend for demo workstream"
-```
+### Prerequisites
 
-The script will update the following:
+You just need [Node.js](https://nodejs.org/en/) installed, ideally an LTS version.
 
-* `package.json`: update `name`, `description`, `homepage`
-* `docker-compose.yaml`: update the service name, `image` and `container_name`
-* `docker-compose.test.yaml`: update the service name, `image` and `container_name`
-* `docker-compose.override.yaml`: update the service name, `image` and `container_name`
-* Rename `helm/ffc-template-node`
-* `helm/ffc-template-node/Chart.yaml`: update `description` and `name`
-* `helm/ffc-template-node/values.yaml`: update  `name`, `namespace`, `workstream`, `image`, `containerConfigMap.name`
-* `helm/ffc-template-node/templates/_container.yaml`: update the template name
-* `helm/ffc-template-node/templates/cluster-ip-service.yaml`: update the template name and list parameter of include
-* `helm/ffc-template-node/templates/config-map.yaml`: update the template name and list parameter of include
-* `helm/ffc-template-node/templates/deployment.yaml`: update the template name, list parameter of deployment and container includes
-
-### Notes on automated rename
-
-* The Helm chart deployment values in `helm/ffc-template-node/values.yaml` may need updating depending on the resource needs of your microservice
-* The rename is a one-way operation i.e. currently it doesn't allow the name being changed from to be specified
-* There is some validation on the input to try and ensure the rename is successful, however, it is unlikely to stand up to malicious entry
-* Once the rename has been performed the script can be removed from the repo
-* Should the rename go awry the changes can be reverted via `git clean -df && git checkout -- .`
-
-## Prerequisites
+You'll also need the [Postman App](https://www.postman.com/downloads/) installed. It's used to create maintain the [collection](https://learning.postman.com/docs/sending-requests/intro-to-collections/) of requests and associated tests we use. See [aphw-ddi-api.postman_collection.json](test/api/aphw-ddi-api.postman_collection.json).
 
 - Docker
 - Docker Compose
@@ -40,13 +17,58 @@ Optional:
 - Kubernetes
 - Helm
 
-## Running the application
+### Installation
+
+First clone the repository and then drop into your new local repo
+
+```bash
+git clone https://github.com/DEFRA/aphw-ddi-acceptance.git && cd aphw-ddi-acceptance
+```
+
+Next download and install the dependencies
+
+```bash
+npm install
+```
+
+
+### Configuration
+
+> Important! Do not add environment files to source control
+
+We have 6 environments where the DDI could be running; local, development, test, integration, pre-production, and production.
+
+For each environment you wish to test you'll need to create an [environment file](https://learning.postman.com/docs/sending-requests/managing-environments/) in  `environments/`. An [example](/environments/example.postman_environment.json) with dummy data is provided as a reference.
+
+For example, if you wanted to start testing the **development** environment the steps would be
+
+- duplicate [example.postman_environment.json](/environments/example.postman_environment.json)
+- rename to something meaningful; `dev.postman_environment.json`
+- update the `name` attribute to something meaningful: `"name": "DDI DEV acceptance tests",`
+- update the `value` attribute for each of the properties (`baseUrl`, `tokenUrl`, `adminUser` etc) to match the environment
+
+Git is setup to ignore everything bar the example environment file. Even so, double check your environment file has not been comitted before pushing it to GitHub.
+
+### Execution
+
+Running the tests involves firing all the requests in the [aphw-ddi-api.postman_collection.json](test/api/aphw-ddi-api.postman_collection.json) combined with the values taken from the selected environment file. For example, if you wanted to test the **development** environment and had created the environment file `dev.postman_environment.json` you would call
+Ensure the API is running prior to running the tests.
+
+```bash
+npm test:api -- -e dev
+```
+
+The app will automatically look for a `*.postman_environment.json` with the matching prefix.
+
+## UI Acceptance Tests
+
+### Running the application
 
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
 
 - A Helm chart is provided for production deployments to Kubernetes.
 
-### Build container image
+#### Build container image
 
 Container images are built using Docker Compose, with the same images used to run the service with either Docker Compose or Kubernetes.
 
@@ -64,7 +86,7 @@ through the Docker Compose
 docker-compose build
 ```
 
-### Start
+#### Start
 
 Use Docker Compose to run service locally.
 

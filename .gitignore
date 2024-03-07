@@ -2,5 +2,12 @@ test-output
 node_modules
 helm/**/*.lock
 *.tgz
+
+# IDE
 .vscode
+.idea
+
+# Environment variables
 .env
+test/api/environments/**
+!test/api/environments/example.postman_environment.json
