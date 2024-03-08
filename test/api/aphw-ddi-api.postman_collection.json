@@ -27,7 +27,7 @@
 											"",
 											"pm.test(\"response returns an owner\", function () {",
 											"    const owner = pm.response.json().owner;",
-											"    pm.expect(owner).to.deep.equal({",
+											"    pm.expect(owner).to.deep.include({",
 											"        \"firstName\": `Homer${cdoPostIndex}`,",
 											"        \"lastName\": `Simpson${cdoPostIndex}`,",
 											"        \"birthDate\": \"1998-05-10\",",
@@ -39,6 +39,7 @@
 											"            \"country\": \"England\"",
 											"        }",
 											"    })",
+											"    pm.expect(owner.personReference).to.be.a('string')",
 											"});",
 											"",
 											"pm.test(\"response returns enforcement details\", function () {",
@@ -403,6 +404,7 @@
 											"    const owner = pm.response.json().owner;",
 											"    pm.expect(owner.personReference).to.be.a('string')",
 											"    pm.collectionVariables.set('reference', owner.personReference)",
+											"    pm.collectionVariables.set('owner', JSON.stringify(owner))",
 											"});"
 										],
 										"type": "text/javascript"
@@ -629,6 +631,76 @@
 									],
 									"path": [
 										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/cdo submits a valid CDO with an existing owner",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let cdoPostIndex = pm.environment.get(\"cdoPostIndex\");",
+											"",
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns an owner\", function () {",
+											"    const owner = pm.response.json().owner;",
+											"    const request = JSON.parse(pm.request.body.raw)",
+											"    pm.expect(owner.personReference).to.eq(request.owner.personReference)",
+											"",
+											"    ",
+											"    pm.expect(owner.firstName).to.be.a('string')",
+											"    pm.expect(owner.lastName).to.be.a('string')",
+											"    pm.expect(owner.address.addressLine1).to.be.a('string')",
+											"    pm.expect(owner.address.country).to.eq('Wales')",
+											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('reference'))",
+											"});",
+											"",
+											"cdoPostIndex++",
+											"pm.environment.set(\"cdoPostIndex\", cdoPostIndex);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    },\n    \"personReference\": \"{{reference}}\"\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo"
 									]
 								}
 							},
@@ -1429,6 +1501,10 @@
 			"key": "reference",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "owner",
+			"value": ""
 		}
 	]
 }
