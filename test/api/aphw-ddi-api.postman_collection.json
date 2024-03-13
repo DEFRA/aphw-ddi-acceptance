@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4956cc3d-fd78-49d3-a94c-ef25f07fd959",
+		"_postman_id": "f88bec6a-54f4-4409-8ffe-b6bc91b4c7c6",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -1177,6 +1177,157 @@
 							"path": [
 								"activity",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Person",
+			"item": [
+				{
+					"name": "/persons returns an array of persons",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"returns a persons array\", function () {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.persons).to.be.a('array')",
+									"    pm.expect(response.persons.length < 100).to.be.true",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/persons?firstName=Dan&lastName=Jones&dateOfBirth=2000-01-01",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "Dan"
+								},
+								{
+									"key": "lastName",
+									"value": "Jones"
+								},
+								{
+									"key": "dateOfBirth",
+									"value": "2000-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/persons returns an array of persons given lowercase search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"returns a persons array\", function () {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.persons).to.be.a('array')",
+									"    pm.expect(response.persons.length < 100).to.be.true",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/persons?firstName=dan&lastName=jones&dateOfBirth=2000-01-01",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "firstName",
+									"value": "dan"
+								},
+								{
+									"key": "lastName",
+									"value": "jones"
+								},
+								{
+									"key": "dateOfBirth",
+									"value": "2000-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/persons returns an array of persons Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"returns a persons array\", function () {",
+									"    const response = pm.response.json()",
+									"    pm.expect(response.persons).to.be.a('array')",
+									"    pm.expect(response.persons.length < 100).to.be.true",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/persons",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"persons"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
