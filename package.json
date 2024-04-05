@@ -1,6 +1,6 @@
 {
   "name": "aphw-ddi-acceptance",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "API and UI acceptance tests for aphw-ddi",
   "homepage": "https://github.com/DEFRA/aphw-ddi-acceptance",
   "main": "app/index.js",
@@ -8,7 +8,8 @@
     "pretest": "npm run test:lint",
     "test": "jest --runInBand --forceExit",
     "test:api": "node test/api/index.js",
-    "test:api:dev": "node test/api/index.js --environment=dev",
+    "test:api:dev": "node test/api/index.js --environment=api",
+    "test:events:dev": "node test/api/index.js --environment=events",
     "test:watch": "jest --coverage=false --onlyChanged --watch --runInBand",
     "test:lint": "standard",
     "test:debug": "node --inspect-brk=0.0.0.0 ./node_modules/jest/bin/jest.js --coverage=false --onlyChanged --watch --runInBand --no-cache",
