@@ -1,0 +1,503 @@
+{
+	"info": {
+		"_postman_id": "cba237dc-f7e9-4b51-841c-05af015fa26a",
+		"name": "aphw-ddi-events",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12107479"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Setup Data",
+					"item": [
+						{
+							"name": "setup 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eventsApiEndpoint}}/users",
+									"host": [
+										"{{eventsApiEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "setup 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eventsApiEndpoint}}/users",
+									"host": [
+										"{{eventsApiEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "setup 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eventsApiEndpoint}}/users",
+									"host": [
+										"{{eventsApiEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users - should return a list of users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response returns the edited user\", function () {",
+									"    const users = pm.response.json();",
+									"    pm.expect(users.users.length > 2).to.be.true",
+									"    pm.expect(users.users[0].username).to.be.a('string')",
+									"    pm.expect(users.users[0].pseudonym).to.be.a('string')",
+									"    pm.expect(users.users[0].rowKey).to.be.a('string')",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should create a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response returns the edited user\", function () {",
+									"    const user = pm.response.json();",
+									"    const request = JSON.parse(pm.request.body.raw)",
+									"    pm.expect(user.username).to.eq(request.username)",
+									"    pm.collectionVariables.set(\"eventUsername\", user.username);",
+									"    pm.expect(user.pseudonym).to.eq(request.pseudonym)",
+									"    pm.expect(user.rowKey).to.be.a('string')",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should fail given username already exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should return 400 if no pseudonym is sent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"Frederick.Wiegand38\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should return 400 if no username is sent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"pseudonym\": \"Mayra\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - deletes a user which is present",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users/{{eventUsername}}",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users",
+								"{{eventUsername}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - returns a 404 given username does not exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users/username-which-does-not-exist",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users",
+								"username-which-does-not-exist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - returns a 404 given username is missing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "eventsApiEndpoint",
+			"value": "http://localhost:3005",
+			"type": "string"
+		},
+		{
+			"key": "eventUsername",
+			"value": "Frederick.Wiegand38"
+		}
+	]
+}

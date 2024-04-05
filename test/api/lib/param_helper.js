@@ -52,8 +52,11 @@ const params = (program) => {
  */
 const collectionFile = (environment) => {
   let collectionFile = 'aphw-ddi-api.postman_collection.json'
-  if (environment === 'example') {
+
+  if (environment === 'api') {
     collectionFile = 'aphw-ddi-api.postman_collection.json'
+  } else if (environment === 'events') {
+    collectionFile = 'aphw-ddi-events.postman_collection.json'
   }
 
   return require(`../${collectionFile}`)
@@ -64,7 +67,7 @@ const collectionFile = (environment) => {
  *
  * We ask users to specify an environment on the command line. This function then searches the `environment/` folder for
  * a file which has a filename with a matching prefix. For example, if the environment specified is `dev` then this
- * function expects to find `environments/dev.postman_environment.json` and return it.
+ * function expects to find `environments/api.postman_environment.json` and return it.
  *
  * @param {string} environment Name of the environment we are running against
  * @returns {string} the contents of the matching '[environment].postman_environment.json' file
