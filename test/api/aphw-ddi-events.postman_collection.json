@@ -361,15 +361,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users/{{eventUsername}}",
 							"host": [
@@ -402,15 +393,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users/username-which-does-not-exist",
 							"host": [
@@ -443,15 +425,6 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users",
 							"host": [
