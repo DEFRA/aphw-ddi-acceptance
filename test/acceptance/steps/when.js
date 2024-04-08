@@ -15,10 +15,6 @@ import selectOptionByIndex from '../support/action/selectOptionByIndex'
 import setCookie from '../support/action/setCookie'
 import setInputField from '../support/action/setInputField'
 import setPromptText from '../support/action/setPromptText'
-import Propertytype from '../pageobjects/ffc-demo-property-type'
-import ClaimName from '../pageobjects/ffc-demo-claimname'
-import PropertyAccessible from '../pageobjects/ffc-demo-property-accessible'
-import PropertyMineType from '../pageobjects/ffc-demo-mine-type'
 import selectRadioOption from '../support/action/selectRadioOption'
 
 const { When } = require('cucumber')
