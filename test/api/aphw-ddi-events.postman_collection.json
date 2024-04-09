@@ -224,46 +224,6 @@
 					"response": []
 				},
 				{
-					"name": "users - should fail given username already exists",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "OPTIONS",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{eventsApiEndpoint}}/users",
-							"host": [
-								"{{eventsApiEndpoint}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "users - should fail given pseudonym already exists",
 					"event": [
 						{
@@ -272,46 +232,8 @@
 								"exec": [
 									"pm.test(\"response is ok\", function () {",
 									"    pm.response.to.have.status(409);",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "OPTIONS",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{eventPseudonym}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{eventsApiEndpoint}}/users",
-							"host": [
-								"{{eventsApiEndpoint}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "users - should fail given pseudonym already exists",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(409);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.eq('Pseudonym already exists.')",
 									"});"
 								],
 								"type": "text/javascript",
@@ -352,6 +274,8 @@
 								"exec": [
 									"pm.test(\"response is ok\", function () {",
 									"    pm.response.to.have.status(409);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.eq('Username already exists.')",
 									"});"
 								],
 								"type": "text/javascript",
@@ -365,6 +289,48 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should fail given both username and pseudonym already exist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.eq('Username already exists. Pseudonym already exists.')",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{eventPseudonym}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
