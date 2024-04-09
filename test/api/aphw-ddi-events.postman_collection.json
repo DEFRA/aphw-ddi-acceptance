@@ -30,7 +30,18 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
@@ -70,7 +81,18 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
@@ -81,12 +103,22 @@
 									}
 								},
 								"url": {
-									"raw": "{{eventsApiEndpoint}}/users",
+									"raw": "{{eventsApiEndpoint}}/users?ddi-username=internal-user&ddi-displayname=User, Internal",
 									"host": [
 										"{{eventsApiEndpoint}}"
 									],
 									"path": [
 										"users"
+									],
+									"query": [
+										{
+											"key": "ddi-username",
+											"value": "internal-user"
+										},
+										{
+											"key": "ddi-displayname",
+											"value": "User, Internal"
+										}
 									]
 								}
 							},
@@ -110,7 +142,18 @@
 							],
 							"request": {
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
@@ -160,7 +203,18 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users",
 							"host": [
@@ -201,7 +255,18 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
@@ -233,7 +298,8 @@
 									"pm.test(\"response is ok\", function () {",
 									"    pm.response.to.have.status(409);",
 									"    const response = pm.response.json();",
-									"    pm.expect(response.error).to.eq('Pseudonym already exists.')",
+									"    pm.expect(response.error).not.to.contain('username')",
+									"    pm.expect(response.error).to.contain('pseudonym')",
 									"});"
 								],
 								"type": "text/javascript",
@@ -243,7 +309,18 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{eventPseudonym}}\"\n}",
@@ -275,7 +352,8 @@
 									"pm.test(\"response is ok\", function () {",
 									"    pm.response.to.have.status(409);",
 									"    const response = pm.response.json();",
-									"    pm.expect(response.error).to.eq('Username already exists.')",
+									"    pm.expect(response.error).to.contain('username')",
+									"    pm.expect(response.error).not.to.contain('pseudonym')",
 									"});"
 								],
 								"type": "text/javascript",
@@ -285,7 +363,18 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
@@ -317,7 +406,8 @@
 									"pm.test(\"response is ok\", function () {",
 									"    pm.response.to.have.status(409);",
 									"    const response = pm.response.json();",
-									"    pm.expect(response.error).to.eq('Username already exists. Pseudonym already exists.')",
+									"    pm.expect(response.error).to.contain('username')",
+									"    pm.expect(response.error).to.contain('pseudonym')",
 									"});"
 								],
 								"type": "text/javascript",
@@ -327,7 +417,18 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{eventPseudonym}}\"\n}",
@@ -367,7 +468,18 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"Frederick.Wiegand38\"\n}",
@@ -407,7 +519,18 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"pseudonym\": \"Mayra\"\n}",
@@ -447,7 +570,18 @@
 					],
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users/{{eventUsername}}",
 							"host": [
@@ -479,7 +613,18 @@
 					],
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users/username-which-does-not-exist",
 							"host": [
@@ -511,7 +656,18 @@
 					],
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{eventsApiEndpoint}}/users",
 							"host": [
