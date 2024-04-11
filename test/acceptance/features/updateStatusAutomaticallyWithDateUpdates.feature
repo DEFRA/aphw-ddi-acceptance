@@ -51,3 +51,18 @@ Feature: Update status manually
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[12]" contains the text "Exempt"
+
+    Scenario: Add dog date of death to dog in Exempt status(update Exempt to Inactive) 
+        Given I open the url "/"
+        When I click on the link "Search dog index"
+        And I set "Bruce" to the inputfield "#searchTerms"
+        And I press "Enter"
+        And I click on the link containing "ED30"
+        And I click on the element "(//a[contains(text(),'Edit details')])[1]"
+        And I set "15" to the inputfield "#dateOfDeath-day"
+        And I set "03" to the inputfield "#dateOfDeath-month"
+        And I set "2024" to the inputfield "#dateOfDeath-year"
+        And I click on the element "button=Save details" 
+        Then I expect that element "h1" contains the text "Dog ED30"
+        And I expect that element "(//dd)[13]" contains the text "Inactive"
+        
