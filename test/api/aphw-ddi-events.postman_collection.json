@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "81139bce-b73a-4953-8102-513e89ddc1aa",
+		"_postman_id": "cc391026-cef7-445b-ac69-63c9c2714601",
 		"name": "aphw-ddi-events",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -157,6 +157,108 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"username\": \"{{$randomUserName}}\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eventsApiEndpoint}}/users",
+									"host": [
+										"{{eventsApiEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "setup - UPPER lower",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Bob.Fitzgerald@example.com\",\n    \"pseudonym\": \"Bobb Fitzgerald\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{eventsApiEndpoint}}/users",
+									"host": [
+										"{{eventsApiEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "setup - lower UPPER",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"c3po@droid.space\",\n    \"pseudonym\": \"ceethreepio\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -397,6 +499,114 @@
 					"response": []
 				},
 				{
+					"name": "users - should fail given username already exists but in different case",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.contain('username')",
+									"    pm.expect(response.error).not.to.contain('pseudonym')",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"bob.fitzgerald@example.com\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should fail given username already exists but in different case 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.contain('username')",
+									"    pm.expect(response.error).not.to.contain('pseudonym')",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"C3PO@droid.space\",\n    \"pseudonym\": \"{{$randomFirstName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "users - should fail given both username and pseudonym already exist",
 					"event": [
 						{
@@ -432,6 +642,60 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"{{eventUsername}}\",\n    \"pseudonym\": \"{{eventPseudonym}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - should fail given both username and pseudonym already exist but diff case",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(409);",
+									"    const response = pm.response.json();",
+									"    pm.expect(response.error).to.contain('username')",
+									"    pm.expect(response.error).to.contain('pseudonym')",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"C3po@droid.space\",\n    \"pseudonym\": \"bobb Fitzgerald\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -675,6 +939,97 @@
 							],
 							"path": [
 								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clean up",
+			"item": [
+				{
+					"name": "users - deletes a user which is present",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users/Bob.Fitzgerald@example.com",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users",
+								"Bob.Fitzgerald@example.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users - deletes a user which is present 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{eventsApiEndpoint}}/users/c3po@droid.space",
+							"host": [
+								"{{eventsApiEndpoint}}"
+							],
+							"path": [
+								"users",
+								"c3po@droid.space"
 							]
 						}
 					},
