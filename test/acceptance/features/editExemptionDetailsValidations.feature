@@ -138,8 +138,4 @@ Feature: Edit exemption details
         And I set "12" to the inputfield "#insuranceRenewal-month"
         And I set "2026" to the inputfield "#insuranceRenewal-year"
         And I click on the element "button=Save details"
-        Then I expect that element "form" not contains the text "Select an insurance company"
-
-
-
-         
+        Then I expect that element "form" not contains the text "Select an insurance company"         

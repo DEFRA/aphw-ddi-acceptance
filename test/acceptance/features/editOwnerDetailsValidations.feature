@@ -57,7 +57,7 @@ Feature: Edit owner details
     Scenario: Dog Owner must be 16years old
         When I set "15" to the inputfield "#dateOfBirth-day"
         And I set "10" to the inputfield "#dateOfBirth-month"
-        And I set "2008" to the inputfield "#dateOfBirth-year"
+        And I set "2010" to the inputfield "#dateOfBirth-year"
         And I click on the element "button=Save details"
         Then I expect that element "form" contains the text "The dog owner must be aged 16 or over"
 
@@ -103,21 +103,4 @@ Feature: Edit owner details
        When I set "01604+456856" to the inputfield "#primaryTelephone"
        And I set "075668£$%746" to the inputfield "#secondaryTelephone"
        And I click on the element "button=Save details"
-       Then I expect that element "form" contains the text "Enter a real telephone number"
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-        
+       Then I expect that element "form" contains the text "Enter a real telephone number"        
