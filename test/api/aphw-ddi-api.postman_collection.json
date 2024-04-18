@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "2e37fcec-0274-4611-82f2-d72e53b9d9ae",
-		"name": "aphw-ddi-api",
+		"_postman_id": "016e7c96-163d-4a41-b407-e6eda7567fdb",
+		"name": "aphw-ddi-api Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
 	},
@@ -1923,6 +1923,162 @@
 			]
 		},
 		{
+			"name": "Dog",
+			"item": [
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Setup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"dog details\", function () {",
+											"    const dogs = pm.response.json().dogs;",
+											"    const dog = dogs[0]",
+											"    pm.collectionVariables.set(\"dogIndexToDelete\",  dog.indexNumber);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog invalid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response returns 404 given invalid dog index number requested\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog/ED9999999999",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog",
+										"ED9999999999"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response returns a 204 and empty body given\", function () {",
+											"    pm.response.to.have.status(204);",
+											"    const body = pm.response.body",
+											"    pm.expect(body).to.eq(undefined)",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog/{{dogIndexToDelete}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog",
+										"{{dogIndexToDelete}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "countries",
 			"event": [
 				{
@@ -2254,6 +2410,11 @@
 		},
 		{
 			"key": "ownerWithoutBirthDateRef",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "dogIndexToDelete",
 			"value": "",
 			"type": "string"
 		}
