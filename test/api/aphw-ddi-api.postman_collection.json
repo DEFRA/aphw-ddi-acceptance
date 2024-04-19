@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2e37fcec-0274-4611-82f2-d72e53b9d9ae",
+		"_postman_id": "016e7c96-163d-4a41-b407-e6eda7567fdb",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -1923,6 +1923,524 @@
 			]
 		},
 		{
+			"name": "Dog",
+			"item": [
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Setup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"dog details\", function () {",
+											"    const dogs = pm.response.json().dogs;",
+											"    const dog = dogs[0]",
+											"    pm.collectionVariables.set(\"dogIndexToDelete\",  dog.indexNumber);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog invalid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response returns 404 given invalid dog index number requested\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog/ED9999999999",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog",
+										"ED9999999999"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/dog",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response returns a 204 and empty body given\", function () {",
+											"    pm.response.to.have.status(204);",
+											"    const body = pm.response.body",
+											"    pm.expect(body).to.eq(undefined)",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user",
+										"type": "text"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog/{{dogIndexToDelete}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog",
+										"{{dogIndexToDelete}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Courts",
+			"item": [
+				{
+					"name": "courts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"response returns list of courts\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.courts.length > 100).to.be.true",
+									"    pm.expect(jsonData.courts[0].id).to.be.a('number')",
+									"    pm.expect(jsonData.courts[0].name).to.be.a('string')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created court\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('Reading County Court and Family Court')",
+									"    pm.collectionVariables.set('courtId', jsonData.id)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Reading County Court and Family Court\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts duplicates should fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Reading County Court and Family Court\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts duplicates should fail case insensitive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Reading County Court and family court\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts/:court-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts/{{courtId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts",
+								"{{courtId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts/:invalid-court-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts/-1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts Deleted courts should be recreated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created court\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('Reading County Court and Family Court')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Reading County Court and Family Court\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts/:court-id Teardown",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts/{{courtId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts",
+								"{{courtId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "countries",
 			"event": [
 				{
@@ -1953,43 +2471,6 @@
 					],
 					"path": [
 						"countries"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "courts",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"response is ok\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"response returns list of countries\", function () {",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.courts.length > 100).to.be.true",
-							"    pm.expect(jsonData.courts[0].id).to.be.a('number')",
-							"    pm.expect(jsonData.courts[0].name).to.be.a('string')",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{DDI_API_BASE_URL}}/courts",
-					"host": [
-						"{{DDI_API_BASE_URL}}"
-					],
-					"path": [
-						"courts"
 					]
 				}
 			},
@@ -2254,6 +2735,16 @@
 		},
 		{
 			"key": "ownerWithoutBirthDateRef",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "dogIndexToDelete",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "courtId",
 			"value": "",
 			"type": "string"
 		}
