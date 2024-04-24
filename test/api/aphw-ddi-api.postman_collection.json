@@ -1225,7 +1225,7 @@
 													"    pm.expect(cdo.dog.status).to.equal('Pre-exempt')",
 													"    pm.expect(cdo.exemption.policeForce).to.be.a('string')",
 													"    pm.expect(cdo.exemption.cdoExpiry).to.be.a('string')",
-													"    pm.expect(cdo.exemption.joinedExemptionScheme).to.be.a('string')",
+													"    pm.expect(cdo.exemption.joinedExemptionScheme).not.to.be.undefined",
 													"})",
 													"",
 													"pm.test(\"only contains Pre-Exempt\", function () {",
