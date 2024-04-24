@@ -1224,7 +1224,7 @@
 									"response": []
 								},
 								{
-									"name": "/cdos - with Pre-Exempt status Copy",
+									"name": "/cdos - with array of statuses",
 									"event": [
 										{
 											"listen": "test",
