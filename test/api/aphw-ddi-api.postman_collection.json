@@ -1235,6 +1235,10 @@
 													"}",
 													"const cdos = pm.response.json().cdos;",
 													"",
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})",
+													"",
 													"pm.test(\"only contains Pre-Exempt and Interim exempt\", function () {",
 													"    pm.expect(cdos.every(isPreExemptOrInterimExempt)).to.be.true;",
 													"})"
@@ -1263,6 +1267,146 @@
 												{
 													"key": "status",
 													"value": "InterimExempt"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdos - with sorted ASC InterimExempt",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const isInterimExempt = cdo => {",
+													"    return cdo.dog.status === 'Interim exempt'",
+													"}",
+													"",
+													"const isInAscendingOrder = () => { ",
+													"    const currentCdo = { value: new Date(0) }",
+													"",
+													"    return (cdo) => {",
+													"        const joinedExemptionScheme = new Date(cdo.exemption.joinedExemptionScheme)",
+													"        const isInOrder = joinedExemptionScheme >= currentCdo.value",
+													"        if (!isInOrder) {",
+													"            console.error(currentCdo.value)",
+													"            console.error(cdo.exemption.joinedExemptionScheme, currentCdo.value)",
+													"        }",
+													"        currentCdo.value = joinedExemptionScheme",
+													"        return isInOrder",
+													"    }",
+													"}",
+													"",
+													"const cdos = pm.response.json().cdos;",
+													"",
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})",
+													"",
+													"pm.test(\"results are in descending order by joinedExemptionScheme\", function () {",
+													"    pm.expect(cdos.every(isInAscendingOrder())).to.be.true;",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos?status=InterimExempt&sortKey=joinedExemptionScheme&sortOrder=ASC",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "InterimExempt"
+												},
+												{
+													"key": "sortKey",
+													"value": "joinedExemptionScheme"
+												},
+												{
+													"key": "sortOrder",
+													"value": "ASC"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdos - with sorted DESC InterimExempt Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const isInterimExempt = cdo => {",
+													"    return cdo.dog.status === 'Interim exempt'",
+													"}",
+													"",
+													"const isInDescendingOrder = () => { ",
+													"    const currentCdo = { value: new Date('9999-12-31') }",
+													"",
+													"    return (cdo) => {",
+													"        const joinedExemptionScheme = new Date(cdo.exemption.joinedExemptionScheme)",
+													"        const isInOrder = joinedExemptionScheme <= currentCdo.value",
+													"        if (!isInOrder) {",
+													"            console.error(currentCdo.value)",
+													"            console.error(cdo.exemption.joinedExemptionScheme, currentCdo.value)",
+													"        }",
+													"        currentCdo.value = joinedExemptionScheme",
+													"        return isInOrder",
+													"    }",
+													"}",
+													"",
+													"const cdos = pm.response.json().cdos;",
+													"",
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})",
+													"",
+													"pm.test(\"results are in descending order by joinedExemptionScheme\", function () {",
+													"    pm.expect(cdos.every(isInDescendingOrder())).to.be.true;",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos?status=InterimExempt&sortKey=joinedExemptionScheme&sortOrder=DESC",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "InterimExempt"
+												},
+												{
+													"key": "sortKey",
+													"value": "joinedExemptionScheme"
+												},
+												{
+													"key": "sortOrder",
+													"value": "DESC"
 												}
 											]
 										}
