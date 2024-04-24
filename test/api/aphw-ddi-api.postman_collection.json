@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "016e7c96-163d-4a41-b407-e6eda7567fdb",
+		"_postman_id": "ba9c42da-72f7-440e-bbd4-0290262e05fd",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -108,7 +108,7 @@
 							"response": []
 						},
 						{
-							"name": "/cdo submits a valid CDO with country",
+							"name": "/cdo submits a valid CDO with different country",
 							"event": [
 								{
 									"listen": "test",
@@ -122,39 +122,12 @@
 											"",
 											"pm.test(\"response returns an owner\", function () {",
 											"    const owner = pm.response.json().owner;",
-											"    pm.expect(owner.firstName).to.be.a('string')",
-											"    pm.expect(owner.lastName).to.be.a('string')",
-											"    pm.expect(owner.address.addressLine1).to.be.a('string')",
-											"    pm.expect(owner.address.country).to.eq('Wales')",
-											"});",
-											"",
-											"pm.test(\"response returns enforcement details\", function () {",
-											"    const enforcementDetails = pm.response.json().enforcementDetails;",
-											"    pm.expect(enforcementDetails.policeForce).to.be.a('string')",
-											"    pm.expect(enforcementDetails.court).to.be.a('string')",
-											"    pm.expect(enforcementDetails.legislationOfficer).to.equal('Sidney Lewis')",
-											"});",
-											"",
-											"pm.test(\"dog details\", function () {",
-											"    const dogs = pm.response.json().dogs;",
-											"    const dog = dogs[0]",
-											"    pm.expect(dogs).to.have.length(1)",
-											"    pm.expect(dog.indexNumber.startsWith('ED3')).to.be.true",
-											"    pm.expect(dog.name).to.eq(`Rex${cdoPostIndex}`)",
-											"    pm.expect(dog.status).to.eq('Interim exempt')",
-											"    pm.expect(dog.breed).to.eq('XL Bully')",
-											"    pm.expect(dog.cdoIssued).to.eq('2023-10-10')",
-											"    pm.expect(dog.cdoExpiry).to.eq('2023-12-10')",
-											"    pm.expect(dog.interimExemption).to.eq('2023-12-10')",
-											"    pm.collectionVariables.set(\"index-number\",  dog.indexNumber);",
-											"});",
-											"",
-											"cdoPostIndex++",
-											"pm.environment.set(\"cdoPostIndex\", cdoPostIndex);",
-											"",
-											""
+											"    pm.expect(owner.address.country).to.equal('Wales')",
+											"    pm.collectionVariables.set('welshCdo', owner.personReference)",
+											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -174,7 +147,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -659,7 +632,7 @@
 											"    pm.expect(owner.lastName).to.be.a('string')",
 											"    pm.expect(owner.address.addressLine1).to.be.a('string')",
 											"    pm.expect(owner.address.country).to.eq('Wales')",
-											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('reference'))",
+											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('welshCdo'))",
 											"});",
 											"",
 											"cdoPostIndex++",
@@ -667,7 +640,8 @@
 											"",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -687,7 +661,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    },\n    \"personReference\": \"{{reference}}\"\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"England\"\n    },\n    \"personReference\": \"{{welshCdo}}\"\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -729,7 +703,7 @@
 											"    pm.expect(owner.lastName).to.be.a('string')",
 											"    pm.expect(owner.address.addressLine1).to.be.a('string')",
 											"    pm.expect(owner.address.country).to.eq('Wales')",
-											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('reference'))",
+											"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('welshCdo'))",
 											"});",
 											"",
 											"cdoPostIndex++",
@@ -737,7 +711,8 @@
 											"",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -757,7 +732,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"Wales\"\n    },\n    \"personReference\": \"{{reference}}\"\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+									"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"{{$isoTimestamp}}\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"City of London\",\n      \"postcode\": \"S1 1AA\",\n      \"country\": \"England\"\n    },\n    \"personReference\": \"{{welshCdo}}\"\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Rex{{cdoPostIndex}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -946,6 +921,442 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Summary Cdos",
+					"item": [
+						{
+							"name": "1-Setup",
+							"item": [
+								{
+									"name": "Add Pre-Exempt Scott Pilgrim",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"owner\": {\n        \"firstName\": \"Scott\",\n        \"lastName\": \"Pilgrim\",\n        \"personReference\": null,\n        \"address\": {\n            \"addressLine1\": \"SHEAF STREET\",\n            \"town\": \"SHEFFIELD\",\n            \"postcode\": \"S1 2BP\",\n            \"country\": \"England\"\n        }\n    },\n    \"enforcementDetails\": {\n        \"court\": null,\n        \"policeForce\": \"5\",\n        \"legislationOfficer\": \"\"\n    },\n    \"dogs\": [\n        {\n            \"breed\": \"Pit Bull Terrier\",\n            \"name\": \"\",\n            \"applicationType\": \"cdo\",\n            \"cdoIssued\": \"2024-01-01T00:00:00.000Z\",\n            \"cdoExpiry\": \"2024-04-19T00:00:00.000Z\",\n            \"interimExemption\": null\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add  Pre-Exempt Ramona Flowers",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"owner\": {\n        \"firstName\": \"Ramona\",\n        \"lastName\": \"Flowers\",\n        \"personReference\": null,\n        \"address\": {\n            \"addressLine1\": \"FLAT 33, HOMEFERN HOUSE, COBBS PLACE\",\n            \"town\": \"MARGATE\",\n            \"postcode\": \"CT9 1JF\",\n            \"country\": \"England\"\n        }\n    },\n    \"enforcementDetails\": {\n        \"court\": null,\n        \"policeForce\": \"24\",\n        \"legislationOfficer\": \"\"\n    },\n    \"dogs\": [\n        {\n            \"breed\": \"Japanese Tosa\",\n            \"name\": \"\",\n            \"applicationType\": \"cdo\",\n            \"cdoIssued\": \"2024-01-01\",\n            \"cdoExpiry\": \"2024-04-21\",\n            \"interimExemption\": null\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Pre-Exempt Che Adams",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"owner\": {\n        \"firstName\": \"Che\",\n        \"lastName\": \"Adams\",\n        \"personReference\": null,\n        \"address\": {\n            \"addressLine1\": \" 12A, MORANT ROAD\",\n            \"town\": \"RINGWOOD\",\n            \"postcode\": \"BH24 1SX\",\n            \"country\": \"England\"\n        }\n    },\n    \"enforcementDetails\": {\n        \"court\": null,\n        \"policeForce\": \"21\",\n        \"legislationOfficer\": \"\"\n    },\n    \"dogs\": [\n        {\n            \"breed\": \"Japanese Tosa\",\n            \"name\": \"\",\n            \"applicationType\": \"cdo\",\n            \"cdoIssued\": \"2024-01-01\",\n            \"cdoExpiry\": \"2024-05-31\",\n            \"interimExemption\": null\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Interim exempt Ricardo Scimeca",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"owner\": {\n        \"firstName\": \"Ricardo\",\n        \"lastName\": \"Scimeca\",\n        \"personReference\": null,\n        \"address\": {\n            \"addressLine1\": \"FLAT 1, FERRYMANS QUAY\",\n            \"town\": \"WILLIAM MORRIS WAY\",\n            \"postcode\": \"SW6 2UT\",\n            \"country\": \"England\"\n        }\n    },\n    \"enforcementDetails\": {\n        \"court\": null,\n        \"policeForce\": \"30\",\n        \"legislationOfficer\": \"\"\n    },\n    \"dogs\": [\n        {\n            \"breed\": \"Japanese Tosa\",\n            \"name\": \"\",\n            \"applicationType\": \"interim-exemption\",\n            \"cdoIssued\": null,\n            \"cdoExpiry\": null,\n            \"interimExemption\": \"2024-04-22\"\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "2-Tests",
+							"item": [
+								{
+									"name": "/cdos - with Pre-Exempt status",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"/* ",
+													"    Response has the following structure",
+													"    {",
+													"        \"cdos\": [",
+													"            {",
+													"                \"person\": {",
+													"                    \"id\": 19,",
+													"                    \"firstName\": \"Scott\",",
+													"                    \"lastName\": \"Pilgrim\",",
+													"                    \"personReference\": \"P-DCAC-AE23\"",
+													"                },",
+													"                \"dog\": {",
+													"                    \"id\": 300024,",
+													"                    \"status\": \"Pre-exempt\",",
+													"                    \"dogReference\": \"ED300024\"",
+													"                },",
+													"                \"exemption\": {",
+													"                    \"policeForce\": \"Cheshire Constabulary\",",
+													"                    \"cdoExpiry\": \"2024-04-19\",",
+													"                    \"joinedExemptionScheme\":  \"2024-04-19\"",
+													"                }",
+													"            }",
+													"        ]",
+													"    }",
+													"*/",
+													"const isPreExempt = cdo => {",
+													"    return cdo.dog.status === 'Pre-exempt'",
+													"}",
+													"",
+													"const cdos = pm.response.json().cdos;",
+													"",
+													"",
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const [cdo] = cdos",
+													"    pm.expect(cdo.person.id).to.be.a('number')",
+													"    pm.expect(cdo.person.firstName).to.be.a('string')",
+													"    pm.expect(cdo.person.lastName).to.be.a('string')",
+													"    pm.expect(cdo.person.personReference).to.be.a('string')",
+													"    pm.expect(cdo.person.id).to.be.a('number')",
+													"    pm.expect(cdo.dog.id).to.be.a('number')",
+													"    pm.expect(cdo.dog.status).to.equal('Pre-exempt')",
+													"    pm.expect(cdo.exemption.policeForce).to.be.a('string')",
+													"    pm.expect(cdo.exemption.cdoExpiry).to.be.a('string')",
+													"    pm.expect(cdo.exemption.joinedExemptionScheme).not.to.be.undefined",
+													"})",
+													"",
+													"pm.test(\"only contains Pre-Exempt\", function () {",
+													"    pm.expect(cdos.every(isPreExempt)).to.be.true;",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "PreExempt"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdos - with array of statuses",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const isPreExemptOrInterimExempt = cdo => {",
+													"    return cdo.dog.status === 'Pre-exempt' || cdo.dog.status === 'Interim exempt'",
+													"}",
+													"const cdos = pm.response.json().cdos;",
+													"",
+													"pm.test(\"only contains Pre-Exempt and Interim exempt\", function () {",
+													"    pm.expect(cdos.every(isPreExemptOrInterimExempt)).to.be.true;",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&status=InterimExempt",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "PreExempt"
+												},
+												{
+													"key": "status",
+													"value": "InterimExempt"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdos - due in 30 days",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const isPreExemptAndInThirtyDays = cdo => {",
+													"    return ['Scott', 'Ramona'].includes(cdo.person.firstName) &&",
+													"        ['Pilgrim', 'Flowers'].includes(cdo.person.lastName)",
+													"}",
+													"",
+													"const cdos = pm.response.json().cdos;",
+													"",
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})",
+													"",
+													"pm.test(\"only contains Pre-Exempt\", function () {",
+													"    pm.expect(cdos.every(isPreExemptAndInThirtyDays)).to.be.true;",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&withinDays=30",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "PreExempt"
+												},
+												{
+													"key": "withinDays",
+													"value": "30"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdos - invalid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(400);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "3-Teardown",
+							"item": []
 						}
 					]
 				}
@@ -2179,15 +2590,57 @@
 					"response": []
 				},
 				{
-					"name": "/courts duplicates should fail",
+					"name": "/courts/:invalid-court-id",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(201);",
+									"    pm.response.to.have.status(404);",
 									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/courts/-1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"courts",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/courts duplicates should fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -2225,8 +2678,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(201);",
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
 									"});"
 								],
 								"type": "text/javascript",
@@ -2298,38 +2751,6 @@
 							"path": [
 								"courts",
 								"{{courtId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/courts/:invalid-court-id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{DDI_API_BASE_URL}}/courts/-1",
-							"host": [
-								"{{DDI_API_BASE_URL}}"
-							],
-							"path": [
-								"courts",
-								"-1"
 							]
 						}
 					},
@@ -2746,6 +3167,16 @@
 		{
 			"key": "courtId",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cdosToDelete",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "welshCdo",
+			"value": "P-F2AC-29E3",
 			"type": "string"
 		}
 	]
