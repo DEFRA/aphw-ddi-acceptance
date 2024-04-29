@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ba9c42da-72f7-440e-bbd4-0290262e05fd",
+		"_postman_id": "e8c094da-72fe-41d7-8e10-8acfdddf5a23",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -1139,6 +1139,201 @@
 						{
 							"name": "2-Tests",
 							"item": [
+								{
+									"name": "Sorting",
+									"item": [
+										{
+											"name": "/cdos - sort by Police Force ASC",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const isInAscendingOrder = () => { ",
+															"    const currentPoliceForce = { value: '' }",
+															"",
+															"    return (cdo) => {",
+															"        const policeForce = cdo.exemption.policeForce",
+															"        const isInOrder = policeForce.localeCompare(currentPoliceForce) >= 0",
+															"        if (!isInOrder) {",
+															"            console.error(currentPoliceForce.value)",
+															"            console.error(policeForce, currentPoliceForce.value)",
+															"        }",
+															"        currentPoliceForce.value = policeForce",
+															"        return isInOrder",
+															"    }",
+															"}",
+															"",
+															"const cdos = pm.response.json().cdos;",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"})",
+															"",
+															"pm.test(\"results are in descending order by joinedExemptionScheme\", function () {",
+															"    pm.expect(cdos.every(isInAscendingOrder())).to.be.true;",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&sortKey=policeForce",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdos"
+													],
+													"query": [
+														{
+															"key": "status",
+															"value": "PreExempt"
+														},
+														{
+															"key": "sortKey",
+															"value": "policeForce"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/cdos - sort by Lastname ASC",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const isInAscendingOrder = () => { ",
+															"    const currentOwner = { value: '' }",
+															"",
+															"    return (cdo) => {",
+															"        const owner = cdo.person.lastName + ' ' + cdo.person.firstName",
+															"        const isInOrder = owner.localeCompare(currentOwner) >= 0",
+															"        if (!isInOrder) {",
+															"            console.error(currentOwner.value)",
+															"            console.error(owner, currentOwner.value)",
+															"        }",
+															"        currentOwner.value = owner",
+															"        return isInOrder",
+															"    }",
+															"}",
+															"",
+															"const cdos = pm.response.json().cdos;",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"})",
+															"",
+															"pm.test(\"results are in descending order by joinedExemptionScheme\", function () {",
+															"    pm.expect(cdos.every(isInAscendingOrder())).to.be.true;",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&sortKey=owner",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdos"
+													],
+													"query": [
+														{
+															"key": "status",
+															"value": "PreExempt"
+														},
+														{
+															"key": "sortKey",
+															"value": "owner"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/cdos - sort by IndexNumber DESC",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const isInAscendingOrder = () => { ",
+															"    const currentDogId = { value: 99999999 }",
+															"",
+															"    return (cdo) => {",
+															"        const dogId = cdo.dog.id",
+															"        const isInOrder = dogId <= currentDogId.value",
+															"        if (!isInOrder) {",
+															"            console.error(currentDogId.value)",
+															"            console.error(cdo.dog.id, currentDogId.value)",
+															"        }",
+															"        currentDogId.value = dogId",
+															"        return isInOrder",
+															"    }",
+															"}",
+															"",
+															"const cdos = pm.response.json().cdos;",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"})",
+															"",
+															"pm.test(\"results are in descending order by joinedExemptionScheme\", function () {",
+															"    pm.expect(cdos.every(isInAscendingOrder())).to.be.true;",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&sortKey=indexNumber&sortOrder=DESC",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdos"
+													],
+													"query": [
+														{
+															"key": "status",
+															"value": "PreExempt"
+														},
+														{
+															"key": "sortKey",
+															"value": "indexNumber"
+														},
+														{
+															"key": "sortOrder",
+															"value": "DESC"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
 								{
 									"name": "/cdos - with Pre-Exempt status",
 									"event": [
