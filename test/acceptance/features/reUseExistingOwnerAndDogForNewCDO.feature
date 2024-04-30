@@ -11,13 +11,11 @@ Feature: Reuse existing owner and dog for new application
    Scenario: Select existing owner address and Confirm existing dog details
       When I select the radio option with the value "0" from the radio group "address"
       And I click on the element "button=Continue"
-      Then I expect that element "h1" contains the text "Confirm dog details"
-      And I expect that element "(//dd)[1]" contains the text "XL Bully"
-      And I expect that element "(//dd)[2]" contains the text "Fido"
-      And I expect that element "(//dd)[3]" contains the text "345677654312333"
-   
-   Scenario: Confirm existing dog details
-      When I click on the element "button=Confirm details"
+      Then I expect that element "h1" contains the text "Select the dog for John Smith"
+         
+   Scenario: Select existing dog details
+      When I select the radio option with the value "0" from the radio group "dog"
+      And I click on the element "button=Continue"
       Then I expect that element "h1" contains the text "Application type"
 
    Scenario: Select CDO and confirm all details

@@ -266,8 +266,4 @@ Feature: Create new record validations
         And I click on the element "button=Confirm address"
         And I set "345671111111111" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "h1" contains the text "There’s an existing dog record with microchip number 345671111111111"
-        
-
-
-
+        Then I expect that element "h1" contains the text "Microchip number 345671111111111 is in use on a current dog record with a different owner"

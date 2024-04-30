@@ -7,9 +7,9 @@ Feature: Update status manually
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the element "(//a[contains(text(),'Edit details')])[2]"
-        And I set "11" to the inputfield "#removedFromCdoProcess-day"
-        And I set "03" to the inputfield "#removedFromCdoProcess-month"
-        And I set "2024" to the inputfield "#removedFromCdoProcess-year"
+        And I set "11" to the inputfield "#nonComplianceLetterSent-day"
+        And I set "03" to the inputfield "#nonComplianceLetterSent-month"
+        And I set "2024" to the inputfield "#nonComplianceLetterSent-year"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[8]" contains the text "Failed"
@@ -65,4 +65,3 @@ Feature: Update status manually
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[13]" contains the text "Inactive"
-        
