@@ -32,7 +32,7 @@ Feature: Edit exemption details
         And I set "2024" to the inputfield "#cdoIssued-year"
         And I set "22" to the inputfield "#cdoExpiry-day"
         And I set "07" to the inputfield "#cdoExpiry-month"
-        And I set "2024" to the inputfield "#cdoExpiry-year"
+        And I set "2025" to the inputfield "#cdoExpiry-year"
         And I click on the element "button=Save details"
         Then I expect that element "form" contains the text "Enter a date that is today or in the past" 
 
@@ -45,7 +45,7 @@ Feature: Edit exemption details
         And I set "2024" to the inputfield "#cdoExpiry-year"
         And I set "20" to the inputfield "#applicationFeePaid-day"
         And I set "04" to the inputfield "#applicationFeePaid-month"
-        And I set "2024" to the inputfield "#applicationFeePaid-year"
+        And I set "2025" to the inputfield "#applicationFeePaid-year"
         And I click on the element "button=Save details"
         Then I expect that element "form" contains the text "Enter a date that is today or in the past"
 
@@ -55,7 +55,7 @@ Feature: Edit exemption details
         And I set "2024" to the inputfield "#applicationFeePaid-year"
         And I set "20" to the inputfield "#neuteringConfirmation-day"
         And I set "05" to the inputfield "#neuteringConfirmation-month"
-        And I set "2024" to the inputfield "#neuteringConfirmation-year"
+        And I set "2025" to the inputfield "#neuteringConfirmation-year"
         And I click on the element "button=Save details"
         Then I expect that element "form" contains the text "Enter a date that is today or in the past"
 
@@ -83,9 +83,9 @@ Feature: Edit exemption details
         When I set "09" to the inputfield "#joinedExemptionScheme-day"
         And I set "03" to the inputfield "#joinedExemptionScheme-month"
         And I set "2024" to the inputfield "#joinedExemptionScheme-year"
-        And I set "09" to the inputfield "#removedFromCdoProcess-day"
-        And I set "3" to the inputfield "#removedFromCdoProcess-month"
-        And I set "24" to the inputfield "#removedFromCdoProcess-year"
+        And I set "09" to the inputfield "#nonComplianceLetterSent-day"
+        And I set "3" to the inputfield "#nonComplianceLetterSent-month"
+        And I set "24" to the inputfield "#nonComplianceLetterSent-year"
         And I click on the element "button=Save details"
         Then I expect that element "form" contains the text "Enter a 4-digit year"
 
