@@ -78,12 +78,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "af8c36fe-42f8-4398-999a-e8e15e5ed506"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "9038ec55-1ee0-496d-b1bc-6a36f5408eab"
 									}
 								],
 								"body": {
@@ -137,12 +139,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "5f2541e1-5c2b-4193-aef5-a0be9827dec7"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "7a4ac284-a656-4f6f-a9d9-746bfaec1875"
 									}
 								],
 								"body": {
@@ -205,12 +209,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "6169a309-d61d-481f-8eff-4f223a49aac6"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "025b1d7b-46c9-4f4a-8bab-4c7028e6a6d9"
 									}
 								],
 								"url": {
@@ -247,12 +253,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "226d891a-dde5-4870-807e-9a6ec5af2566"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "6bca522a-02c3-4d69-a1a3-1313c5f97452"
 									}
 								],
 								"url": {
@@ -299,12 +307,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "629aa7ec-a46b-47d8-965d-48f24203b7d5"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "8e631f82-012f-4a26-8132-d03cd42daebb"
 									}
 								],
 								"url": {
@@ -341,12 +351,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "0f11f716-a616-45c2-b769-f25eb2950f99"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "ae6da238-d05e-432f-be56-29b90bdaae16"
 									}
 								],
 								"url": {
@@ -390,12 +402,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "73d9e6a1-1d58-4d14-b890-d87dbad1ae28"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "49b3340a-4879-42f4-b5d7-392a00ba343d"
 									}
 								],
 								"url": {
@@ -432,12 +446,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "4cde75dc-d3c8-4083-b42f-b63f66a72358"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "28ee16f7-3f0e-4c3e-9deb-e4c1ef7cd203"
 									}
 								],
 								"url": {
@@ -481,12 +497,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "9b0b6d29-ff17-44f7-a111-b86c783c883c"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "86bc5288-9993-4024-94a2-0eb156a120fe"
 									}
 								],
 								"body": {
@@ -538,12 +556,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "a1c8e0c4-b2be-4b24-bae8-97c945b11f02"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "865ddac6-1b54-413b-a16b-8068c26e05fd"
 									}
 								],
 								"url": {
@@ -580,12 +600,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "451e9411-350d-4270-bac6-aad4472fbf25"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "4ac035d3-78ac-4be8-933a-7785f2990d8d"
 									}
 								],
 								"body": {
@@ -651,12 +673,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "29c1f852-95b1-4f53-bac9-9c8b41130866"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "49fc0968-820e-49fd-8056-240efaacc273"
 									}
 								],
 								"body": {
@@ -722,12 +746,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "8488a960-6a4a-44fc-9825-1cca43948ff2"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "3237319d-6ee4-4d0d-aa91-8b581da77c4e"
 									}
 								],
 								"body": {
@@ -783,12 +809,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "ff82e404-9afe-4983-a5b2-822ab892c8e4"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "488950dc-7639-45d9-8d9d-16f363a398bd"
 									}
 								],
 								"body": {
@@ -838,12 +866,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "f4febbe0-6217-4592-9148-c26dbec18533"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "566a4e2e-3c48-41d9-830f-b2f1b29c97c8"
 									}
 								],
 								"body": {
@@ -893,12 +923,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "a6dc5401-c430-4423-92fc-e9c4a68ba26c"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "2eb6ce37-a710-4aca-8c19-c1c8db2711be"
 									}
 								],
 								"body": {
@@ -952,12 +984,14 @@
 											{
 												"key": "ddi-username",
 												"value": "internal-user",
-												"type": "text"
+												"type": "text",
+												"uuid": "31fbcb7a-c397-4033-8922-0c0737bb1146"
 											},
 											{
 												"key": "ddi-displayname",
 												"value": "User, Internal",
-												"type": "text"
+												"type": "text",
+												"uuid": "059b5c4e-0de9-4e5d-9995-5d145093774f"
 											}
 										],
 										"body": {
@@ -1003,12 +1037,14 @@
 											{
 												"key": "ddi-username",
 												"value": "internal-user",
-												"type": "text"
+												"type": "text",
+												"uuid": "c67ed589-629b-49d8-8b5f-00beff18cc78"
 											},
 											{
 												"key": "ddi-displayname",
 												"value": "User, Internal",
-												"type": "text"
+												"type": "text",
+												"uuid": "bc083c9d-702f-4b62-92b4-b80f2a8f7819"
 											}
 										],
 										"body": {
@@ -1054,12 +1090,14 @@
 											{
 												"key": "ddi-username",
 												"value": "internal-user",
-												"type": "text"
+												"type": "text",
+												"uuid": "942399a5-682b-4d83-a3de-5c6155ff46a1"
 											},
 											{
 												"key": "ddi-displayname",
 												"value": "User, Internal",
-												"type": "text"
+												"type": "text",
+												"uuid": "038671ed-456b-492a-831d-d1d4d43c3c39"
 											}
 										],
 										"body": {
@@ -1105,12 +1143,14 @@
 											{
 												"key": "ddi-username",
 												"value": "internal-user",
-												"type": "text"
+												"type": "text",
+												"uuid": "d19dbc7c-3c70-4070-882b-40c2a3acc0bc"
 											},
 											{
 												"key": "ddi-displayname",
 												"value": "User, Internal",
-												"type": "text"
+												"type": "text",
+												"uuid": "9393acb7-d119-4c11-bea5-9df0d21b420e"
 											}
 										],
 										"body": {
@@ -1726,12 +1766,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "e034ba11-206e-44a1-800c-6a728dea117f"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "0527def5-6b4c-45a3-9ecd-f94257807ad6"
 							}
 						],
 						"body": {
@@ -1787,12 +1829,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "ab963598-c9af-469f-8c6d-f32bdcaffa8a"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "af9834df-b86d-418a-b03f-50c1a4b4d36e"
 							}
 						],
 						"url": {
@@ -1836,12 +1880,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "32e94d87-ccef-4893-86b5-879e923e79b1"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "78475bc7-234d-4e7f-95ff-031cd697d3ee"
 							}
 						],
 						"url": {
@@ -1885,12 +1931,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "9c1d37c6-ee12-4f8f-8fbe-a7ed7466ddc9"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "ad1a72e5-bdde-4f54-b240-210f6a61944f"
 							}
 						],
 						"url": {
@@ -1933,12 +1981,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "6a311703-5ef5-4cde-9770-76dceeba331b"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "c80bdbad-237f-49e9-8189-ecf5917fcb40"
 							}
 						],
 						"url": {
@@ -1981,12 +2031,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "c3f2af27-9f70-4fb3-bfc4-d4437031c2ac"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "00b758ea-ba07-4823-bc3f-5289a4dbcf8a"
 							}
 						],
 						"url": {
@@ -2044,12 +2096,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "702502e0-f1f2-4a69-9907-3541459ab2df"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "c3ea7de2-8d1d-431d-bd55-e098640b000b"
 									}
 								],
 								"body": {
@@ -2104,12 +2158,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "048f0dda-d051-4c57-b784-2624f549faa0"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "b4187830-4134-49ac-b6cd-3406d73986cd"
 									}
 								],
 								"body": {
@@ -2164,12 +2220,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "24fc54c1-3f4e-4a7c-934b-c6230c73c969"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "b7f1ed1e-0877-40ce-a9f5-73a327c3870c"
 									}
 								],
 								"body": {
@@ -2307,12 +2365,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "a7e43c41-f2de-4ddf-88f2-3f0d36572f26"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "552d738e-75a0-4f93-8330-1b8b33bfc775"
 									}
 								],
 								"body": {
@@ -2365,12 +2425,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "cdc6e80d-f825-4e69-aa29-590e50a0ded4"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "7dee578a-bfc2-4aa7-8e45-ce285fc5b475"
 									}
 								],
 								"body": {
@@ -2707,12 +2769,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "b3ae8be5-2ba8-450b-a84e-ce622bb4c54c"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "c20a3011-f3d9-4bed-a66b-b7585a6031cc"
 									}
 								],
 								"body": {
@@ -2758,12 +2822,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "6151420a-ec9e-4f7b-b5ba-ddccc33539b2"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "a52bc1e8-1980-4f34-a6a2-55940437f4cb"
 									}
 								],
 								"url": {
@@ -2803,12 +2869,14 @@
 									{
 										"key": "ddi-username",
 										"value": "internal-user",
-										"type": "text"
+										"type": "text",
+										"uuid": "11a1a952-69f7-42a9-8ab9-7274b8d2a002"
 									},
 									{
 										"key": "ddi-displayname",
 										"value": "User, Internal",
-										"type": "text"
+										"type": "text",
+										"uuid": "f93f93b7-416e-46a9-b950-07ca0cdf31a0"
 									}
 								],
 								"url": {
@@ -2899,12 +2967,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "33761101-52be-4ffa-b8ae-85ac067005fc"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "ddd11292-65eb-4a29-ad00-fb09bfe23065"
 							}
 						],
 						"body": {
@@ -3074,12 +3144,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "b8a15594-bac1-4bd6-a3ce-f26118c09ab7"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "673bb73c-63c1-4fc8-af23-9d9721f766ae"
 							}
 						],
 						"url": {
@@ -3124,12 +3196,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "b1f89747-4a86-4e14-8bfe-b071c6b5d6c7"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "2feb0224-e693-46cc-95ad-de1b2449ffcc"
 							}
 						],
 						"body": {
@@ -3177,12 +3251,14 @@
 							{
 								"key": "ddi-username",
 								"value": "internal-user",
-								"type": "text"
+								"type": "text",
+								"uuid": "5439285b-6203-4b73-878f-91f27e78f4bb"
 							},
 							{
 								"key": "ddi-displayname",
 								"value": "User, Internal",
-								"type": "text"
+								"type": "text",
+								"uuid": "be3f8300-f201-48c8-a186-63e4d7149d0a"
 							}
 						],
 						"url": {
@@ -3193,6 +3269,378 @@
 							"path": [
 								"courts",
 								"{{courtId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Police",
+			"item": [
+				{
+					"name": "/police-forces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"response returns list of police forces\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.policeForces.length > 50).to.be.true",
+									"    pm.expect(jsonData.policeForces[0].id).to.be.a('number')",
+									"    pm.expect(jsonData.policeForces[0].name).to.be.a('string')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created Police Force\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('The Shire Shirriffs Constabulary')",
+									"    pm.collectionVariables.set('policeId', jsonData.id)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"uuid": "aae72a63-cccf-4308-a0ae-f189793399c0"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"uuid": "bb178a08-508b-4f79-b580-7f83b022f7eb"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire Shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces/:invalid-court-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces/-1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces duplicates should fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire Shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces duplicates should fail case insensitive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces/:police-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"uuid": "cc2da141-f06f-4f30-9b1f-bdfa1ab4bd12"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"uuid": "4034bc7c-a05d-44e8-b646-06975dcce8ef"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces/{{policeId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces",
+								"{{policeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces Deleted police forces should be recreated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created police force\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('The Shire Shirriffs Constabulary')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"uuid": "f1248cae-aeaf-4f30-85f7-16bc57b97542"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"uuid": "14ba8ff5-a273-4322-b0a6-ed6ed5370b37"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire Shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces/:police-id Teardown",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"uuid": "55049e93-95bf-4c86-9cff-69c78c4157e6"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"uuid": "3ecd5c7e-b5a9-450a-8f0f-48fccd90b2f4"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces/{{policeId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces",
+								"{{policeId}}"
 							]
 						}
 					},
@@ -3327,48 +3775,6 @@
 					],
 					"path": [
 						"counties"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "police-forces",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"response returns a list of Police Forces including Metropolitan Police Service\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.policeForces.length > 50).to.be.true;",
-							"    pm.expect(jsonData.policeForces[0].id).to.eq(1)",
-							"    pm.expect(jsonData.policeForces.some(policeForce => policeForce.name === 'Metropolitan Police Service')).to.be.true;",
-							"});",
-							"",
-							"let value = null",
-							"",
-							"const myFunction = () => {",
-							"    value++",
-							"}",
-							"",
-							"myFunction()"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{DDI_API_BASE_URL}}/police-forces",
-					"host": [
-						"{{DDI_API_BASE_URL}}"
-					],
-					"path": [
-						"police-forces"
 					]
 				}
 			},
@@ -3516,6 +3922,11 @@
 		{
 			"key": "welshCdo",
 			"value": "P-F2AC-29E3",
+			"type": "string"
+		},
+		{
+			"key": "policeId",
+			"value": "",
 			"type": "string"
 		}
 	]
