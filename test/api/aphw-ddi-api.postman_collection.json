@@ -13,6 +13,497 @@
 					"name": "User can add a Cdo and view Cdo, Dog and Owner",
 					"item": [
 						{
+							"name": "A change from interim exempt without cdo expiry should have default expiry",
+							"item": [
+								{
+									"name": "/cdo create interim exempt",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"setup id details\", function () {",
+													"    const dogs = pm.response.json().dogs;",
+													"    const dog = dogs[0]",
+													"    pm.collectionVariables.set(\"dogIndexNumberChange\",  dog.indexNumber);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"owner\": {\n    \"firstName\": \"Super\",\n    \"lastName\": \"Mario\",\n    \"personReference\": null,\n    \"address\": {\n      \"addressLine1\": \"802 SLOANE AVENUE\",\n      \"town\": \"LONDON\",\n      \"postcode\": \"SW3 3ER\",\n      \"country\": \"England\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": null,\n    \"policeForce\": \"30\",\n    \"legislationOfficer\": \"\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Francis\",\n      \"applicationType\": \"interim-exemption\",\n      \"cdoIssued\": null,\n      \"cdoExpiry\": null,\n      \"interimExemption\": \"2024-05-08T00:00:00.000Z\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/exemption should add default expiry date",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"response returns a dog\", function () {",
+													"    const exemption = pm.response.json();",
+													"    pm.expect(exemption.cdo_expiry).not.to.be.null",
+													"    pm.expect(exemption.cdo_expiry).contains('2024-07-01')",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"indexNumber\": \"{{dogIndexNumberChange}}\",\n    \"cdoIssued\": \"2024-05-01T00:00:00.000Z\",\n    \"cdoExpiry\": null,\n    \"court\": \"\",\n    \"policeForce\": \"Metropolitan Police Service\",\n    \"legislationOfficer\": \"\",\n    \"joinedExemptionScheme\": \"2024-05-08T00:00:00.000Z\",\n    \"exemptionOrder\": 2015\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/exemption",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"exemption"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Deleted Court still shows on CDO",
+							"item": [
+								{
+									"name": "Setup - add court for test",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"response returns the created court\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    pm.collectionVariables.set('courtToDeleteId', jsonData.id)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"City of Gotham State District Courthouse\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/courts",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"courts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Setup - add police force",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"response returns the created Police Force\", function () {",
+													"    const jsonData = pm.response.json();",
+													"    pm.collectionVariables.set('policeToBeDeleted', jsonData.id)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Gotham City Police Department\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/police-forces",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"police-forces"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdo create interim exempt",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"setup id details\", function () {",
+													"    const dogs = pm.response.json().dogs;",
+													"    const dog = dogs[0]",
+													"    pm.collectionVariables.set(\"dogIndexNumberWithDeletedCourt\",  dog.indexNumber);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"owner\": {\n    \"firstName\": \"Bruce\",\n    \"lastName\": \"Wayne\",\n    \"personReference\": null,\n    \"address\": {\n      \"addressLine1\": \"802 SLOANE AVENUE\",\n      \"town\": \"Metropolis\",\n      \"postcode\": \"SW3 3ER\",\n      \"country\": \"England\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"{{courtToDeleteId}}\",\n    \"policeForce\": \"{{policeToBeDeleted}}\",\n    \"legislationOfficer\": \"\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Ace the Bat-Hound\",\n      \"applicationType\": \"interim-exemption\",\n      \"cdoIssued\": null,\n      \"cdoExpiry\": null,\n      \"interimExemption\": \"2024-05-08T00:00:00.000Z\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/courts/:court-id Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/courts/{{courtToDeleteId}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"courts",
+												"{{courtToDeleteId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/police-forces/:police-id Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(204);",
+													"    const body = pm.response.body",
+													"    pm.expect(body).to.eq(undefined)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/police-forces/{{policeToBeDeleted}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"police-forces",
+												"{{policeToBeDeleted}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdo/:index-number returns a 200 and valid cdo Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"response returns an exemption\", function () {",
+													"    const exemption = pm.response.json().cdo.exemption;",
+													"    pm.expect(exemption.court).to.eq(\"City of Gotham State District Courthouse\")",
+													"    pm.expect(exemption.policeForce).to.eq(\"Gotham City Police Department\")",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{dogIndexNumberWithDeletedCourt}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{dogIndexNumberWithDeletedCourt}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdos - with Pre-Exempt status Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const hasSoftDeletePoliceForce = cdo => {",
+													"    return cdo.exemption.policeForce === 'Gotham City Police Department'",
+													"}",
+													"",
+													"const cdos = pm.response.json().cdos;",
+													"",
+													"",
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})",
+													"",
+													"pm.test(\"has soft delete policeForce\", function () {",
+													"    pm.expect(cdos.some(hasSoftDeletePoliceForce)).to.be.true;",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdos?status=InterimExempt",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdos"
+											],
+											"query": [
+												{
+													"key": "status",
+													"value": "InterimExempt"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											"console.log(pm.collectionVariables.get('courtToDeleteId'))"
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
 							"name": "/cdo submits a valid CDO",
 							"event": [
 								{
@@ -1154,7 +1645,7 @@
 															"",
 															"    return (cdo) => {",
 															"        const policeForce = cdo.exemption.policeForce",
-															"        const isInOrder = policeForce.localeCompare(currentPoliceForce) >= 0",
+															"        const isInOrder = policeForce.localeCompare(currentPoliceForce.value) >= 0",
 															"        if (!isInOrder) {",
 															"            console.error(currentPoliceForce.value)",
 															"            console.error(policeForce, currentPoliceForce.value)",
@@ -1216,7 +1707,7 @@
 															"",
 															"    return (cdo) => {",
 															"        const owner = cdo.person.lastName + ' ' + cdo.person.firstName",
-															"        const isInOrder = owner.localeCompare(currentOwner) >= 0",
+															"        const isInOrder = owner.localeCompare(currentOwner.value) >= 0",
 															"        if (!isInOrder) {",
 															"            console.error(currentOwner.value)",
 															"            console.error(owner, currentOwner.value)",
@@ -1615,9 +2106,10 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const thirtyDays = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)",
+													"",
 													"const isPreExemptAndInThirtyDays = cdo => {",
-													"    return ['Scott', 'Ramona'].includes(cdo.person.firstName) &&",
-													"        ['Pilgrim', 'Flowers'].includes(cdo.person.lastName)",
+													"        return new Date(cdo.exemption.cdoExpiry) <= thirtyDays",
 													"}",
 													"",
 													"const cdos = pm.response.json().cdos;",
@@ -3201,6 +3693,370 @@
 			]
 		},
 		{
+			"name": "Police",
+			"item": [
+				{
+					"name": "/police-forces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"response returns list of police forces\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.policeForces.length > 50).to.be.true",
+									"    pm.expect(jsonData.policeForces[0].id).to.be.a('number')",
+									"    pm.expect(jsonData.policeForces[0].name).to.be.a('string')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created Police Force\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('The Shire Shirriffs Constabulary')",
+									"    pm.collectionVariables.set('policeId', jsonData.id)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire Shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces/:invalid-court-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces/-1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces duplicates should fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire Shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces duplicates should fail case insensitive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces/:police-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces/{{policeId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces",
+								"{{policeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces Deleted police forces should be recreated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created police force\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('The Shire Shirriffs Constabulary')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"The Shire Shirriffs Constabulary\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/police-forces/:police-id Teardown",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/police-forces/{{policeId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"police-forces",
+								"{{policeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "countries",
 			"event": [
 				{
@@ -3327,48 +4183,6 @@
 					],
 					"path": [
 						"counties"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "police-forces",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"response returns a list of Police Forces including Metropolitan Police Service\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.policeForces.length > 50).to.be.true;",
-							"    pm.expect(jsonData.policeForces[0].id).to.eq(1)",
-							"    pm.expect(jsonData.policeForces.some(policeForce => policeForce.name === 'Metropolitan Police Service')).to.be.true;",
-							"});",
-							"",
-							"let value = null",
-							"",
-							"const myFunction = () => {",
-							"    value++",
-							"}",
-							"",
-							"myFunction()"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{DDI_API_BASE_URL}}/police-forces",
-					"host": [
-						"{{DDI_API_BASE_URL}}"
-					],
-					"path": [
-						"police-forces"
 					]
 				}
 			},
@@ -3517,6 +4331,29 @@
 			"key": "welshCdo",
 			"value": "P-F2AC-29E3",
 			"type": "string"
+		},
+		{
+			"key": "policeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "dogIndexNumberChange",
+			"value": ""
+		},
+		{
+			"key": "courtToDeleteId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "dogIndexNumberWithDeletedCourt",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "policeToBeDeleted",
+			"value": ""
 		}
 	]
 }
