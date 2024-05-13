@@ -356,7 +356,7 @@
 									"response": []
 								},
 								{
-									"name": "/exemption returns 200 Copy",
+									"name": "/exemption returns 200",
 									"event": [
 										{
 											"listen": "test",
@@ -368,7 +368,7 @@
 													"",
 													"pm.test(\"response returns a dog\", function () {",
 													"    const exemption = pm.response.json();",
-													"    pm.expect(exemption.dog_id).to.eq(parseInt(pm.collectionVariables.get('index-number').replace('ED','')))",
+													"    pm.expect(exemption.dog_id).to.eq(parseInt(pm.collectionVariables.get('dogIndexNumberWithDeletedCourt').replace('ED','')))",
 													"});"
 												],
 												"type": "text/javascript",
@@ -451,7 +451,7 @@
 									"response": []
 								},
 								{
-									"name": "/police-forces/:police-id Copy",
+									"name": "/police-forces/:police-id",
 									"event": [
 										{
 											"listen": "test",
@@ -538,7 +538,7 @@
 									"response": []
 								},
 								{
-									"name": "/cdo/:index-number returns a 200 and valid cdo Copy",
+									"name": "/cdo/:index-number returns a 200 and valid cdo",
 									"event": [
 										{
 											"listen": "test",
@@ -586,7 +586,7 @@
 									"response": []
 								},
 								{
-									"name": "/cdos - with Pre-Exempt status Copy",
+									"name": "/cdos - with Pre-Exempt status",
 									"event": [
 										{
 											"listen": "test",
@@ -2144,7 +2144,7 @@
 									"response": []
 								},
 								{
-									"name": "/cdos - with sorted DESC InterimExempt Copy",
+									"name": "/cdos - with sorted DESC InterimExempt",
 									"event": [
 										{
 											"listen": "test",
