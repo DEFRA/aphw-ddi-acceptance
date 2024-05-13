@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "5e45eb9e-2dde-4e95-bded-f2b78abb4073",
+		"_postman_id": "23b7e475-46f0-4700-b572-e2e5c8a75b66",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -2595,6 +2595,306 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/activities should create activity dog sent",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created Activity\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.label).to.eq('Activity 1')",
+									"    pm.collectionVariables.set('activityId', jsonData.id)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"label\": \"Activity 1\",\n    \"activitySource\": \"dog\",\n    \"activityType\": \"sent\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities should fail with duplicate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"label\": \"Activity 1\",\n    \"activitySource\": \"dog\",\n    \"activityType\": \"sent\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities should delete activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/{{activityId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities should create activity owner receive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created Activity\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.label).to.eq('Activity 2')",
+									"    pm.collectionVariables.set('activityId', jsonData.id)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"label\": \"Activity 2\",\n    \"activitySource\": \"owner\",\n    \"activityType\": \"received\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities should delete owner activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/{{activityId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"{{activityId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/activities should fail delete as not exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user",
+								"type": "text"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/activities/-1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"activities",
+								"-1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -4775,6 +5075,10 @@
 			"key": "insuranceIdToDelete",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "activityId",
+			"value": ""
 		}
 	]
 }
