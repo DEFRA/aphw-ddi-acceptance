@@ -243,6 +243,62 @@
 									"response": []
 								},
 								{
+									"name": "Setup - add insurance company",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"save Insurance Company id\", function () {",
+													"    const jsonData = pm.response.json();",
+													"       pm.collectionVariables.set('insuranceIdToDelete', jsonData.id)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Gotham City Pets R Us\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"insurance",
+												"companies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "/cdo create interim exempt",
 									"event": [
 										{
@@ -294,6 +350,60 @@
 											],
 											"path": [
 												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/exemption returns 200 Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"response returns a dog\", function () {",
+													"    const exemption = pm.response.json();",
+													"    pm.expect(exemption.dog_id).to.eq(parseInt(pm.collectionVariables.get('index-number').replace('ED','')))",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"exemptionOrder\": 2023,\n  \"indexNumber\": \"{{dogIndexNumberWithDeletedCourt}}\",\n  \"cdoIssued\": null,\n  \"cdoExpiry\": null,\n  \"policeForce\": \"Gotham City Police Department\",\n  \"legislationOfficer\": \"Commissioner James Gordon\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Gotham City Pets R Us\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/exemption",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"exemption"
 											]
 										}
 									},
@@ -378,6 +488,50 @@
 											"path": [
 												"police-forces",
 												"{{policeToBeDeleted}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/insurance/companies Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(204);",
+													"    const body = pm.response.body",
+													"    pm.expect(body).to.eq(undefined)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/insurance/companies/{{insuranceIdToDelete}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"insurance",
+												"companies",
+												"{{insuranceIdToDelete}}"
 											]
 										}
 									},
@@ -4614,6 +4768,11 @@
 		},
 		{
 			"key": "insuranceId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "insuranceIdToDelete",
 			"value": "",
 			"type": "string"
 		}
