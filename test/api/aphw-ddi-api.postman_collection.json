@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e8c094da-72fe-41d7-8e10-8acfdddf5a23",
+		"_postman_id": "5e45eb9e-2dde-4e95-bded-f2b78abb4073",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -243,6 +243,62 @@
 									"response": []
 								},
 								{
+									"name": "Setup - add insurance company",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"pm.test(\"save Insurance Company id\", function () {",
+													"    const jsonData = pm.response.json();",
+													"       pm.collectionVariables.set('insuranceIdToDelete', jsonData.id)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Gotham City Pets R Us\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"insurance",
+												"companies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "/cdo create interim exempt",
 									"event": [
 										{
@@ -300,6 +356,60 @@
 									"response": []
 								},
 								{
+									"name": "/exemption returns 200",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"response returns a dog\", function () {",
+													"    const exemption = pm.response.json();",
+													"    pm.expect(exemption.dog_id).to.eq(parseInt(pm.collectionVariables.get('dogIndexNumberWithDeletedCourt').replace('ED','')))",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"exemptionOrder\": 2023,\n  \"indexNumber\": \"{{dogIndexNumberWithDeletedCourt}}\",\n  \"cdoIssued\": null,\n  \"cdoExpiry\": null,\n  \"policeForce\": \"Gotham City Police Department\",\n  \"legislationOfficer\": \"Commissioner James Gordon\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Gotham City Pets R Us\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/exemption",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"exemption"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "/courts/:court-id Copy",
 									"event": [
 										{
@@ -341,7 +451,7 @@
 									"response": []
 								},
 								{
-									"name": "/police-forces/:police-id Copy",
+									"name": "/police-forces/:police-id",
 									"event": [
 										{
 											"listen": "test",
@@ -384,7 +494,51 @@
 									"response": []
 								},
 								{
-									"name": "/cdo/:index-number returns a 200 and valid cdo Copy",
+									"name": "/insurance/companies Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(204);",
+													"    const body = pm.response.body",
+													"    pm.expect(body).to.eq(undefined)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/insurance/companies/{{insuranceIdToDelete}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"insurance",
+												"companies",
+												"{{insuranceIdToDelete}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/cdo/:index-number returns a 200 and valid cdo",
 									"event": [
 										{
 											"listen": "test",
@@ -432,7 +586,7 @@
 									"response": []
 								},
 								{
-									"name": "/cdos - with Pre-Exempt status Copy",
+									"name": "/cdos - with Pre-Exempt status",
 									"event": [
 										{
 											"listen": "test",
@@ -568,13 +722,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -627,13 +779,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -695,13 +845,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -737,13 +885,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -789,13 +935,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -831,13 +975,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -880,13 +1022,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -922,13 +1062,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -971,13 +1109,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1028,13 +1164,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -1070,13 +1204,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1141,13 +1273,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1212,13 +1342,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1273,13 +1401,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1328,13 +1454,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1383,13 +1507,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -1442,13 +1564,11 @@
 										"header": [
 											{
 												"key": "ddi-username",
-												"value": "internal-user",
-												"type": "text"
+												"value": "internal-user"
 											},
 											{
 												"key": "ddi-displayname",
-												"value": "User, Internal",
-												"type": "text"
+												"value": "User, Internal"
 											}
 										],
 										"body": {
@@ -1493,13 +1613,11 @@
 										"header": [
 											{
 												"key": "ddi-username",
-												"value": "internal-user",
-												"type": "text"
+												"value": "internal-user"
 											},
 											{
 												"key": "ddi-displayname",
-												"value": "User, Internal",
-												"type": "text"
+												"value": "User, Internal"
 											}
 										],
 										"body": {
@@ -1544,13 +1662,11 @@
 										"header": [
 											{
 												"key": "ddi-username",
-												"value": "internal-user",
-												"type": "text"
+												"value": "internal-user"
 											},
 											{
 												"key": "ddi-displayname",
-												"value": "User, Internal",
-												"type": "text"
+												"value": "User, Internal"
 											}
 										],
 										"body": {
@@ -1595,13 +1711,11 @@
 										"header": [
 											{
 												"key": "ddi-username",
-												"value": "internal-user",
-												"type": "text"
+												"value": "internal-user"
 											},
 											{
 												"key": "ddi-displayname",
-												"value": "User, Internal",
-												"type": "text"
+												"value": "User, Internal"
 											}
 										],
 										"body": {
@@ -2030,7 +2144,7 @@
 									"response": []
 								},
 								{
-									"name": "/cdos - with sorted DESC InterimExempt Copy",
+									"name": "/cdos - with sorted DESC InterimExempt",
 									"event": [
 										{
 											"listen": "test",
@@ -2217,13 +2331,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"body": {
@@ -2278,13 +2390,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2327,13 +2437,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2376,13 +2484,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2424,13 +2530,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2472,13 +2576,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2535,13 +2637,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -2595,13 +2695,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -2655,13 +2753,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -2798,13 +2894,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -2856,13 +2950,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -3198,13 +3290,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"body": {
@@ -3249,13 +3339,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -3294,13 +3382,11 @@
 								"header": [
 									{
 										"key": "ddi-username",
-										"value": "internal-user",
-										"type": "text"
+										"value": "internal-user"
 									},
 									{
 										"key": "ddi-displayname",
-										"value": "User, Internal",
-										"type": "text"
+										"value": "User, Internal"
 									}
 								],
 								"url": {
@@ -3390,13 +3476,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"body": {
@@ -3565,13 +3649,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -3615,13 +3697,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"body": {
@@ -3668,13 +3748,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -4057,6 +4135,375 @@
 			]
 		},
 		{
+			"name": "Insurance",
+			"item": [
+				{
+					"name": "insurance/companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response returns a list of Insurance Companies inc Dogs Trust\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.companies.length > 0).to.be.true;",
+									"    pm.expect(jsonData.companies[0].id).to.eq(1)",
+									"    pm.expect(jsonData.companies.map(company => company.name)).to.contain('Dogs Trust')",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created Insurance Company\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('Lloyds of London')",
+									"    pm.collectionVariables.set('insuranceId', jsonData.id)",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lloyds of London\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies/-1",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies duplicates should fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lloyds of London\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies duplicates should fail case insensitive",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response should fail\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"lloyds of London\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies/{{insuranceId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies",
+								"{{insuranceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies Deleted insurance companies should be recreated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"response returns the created insurance company\", function () {",
+									"    const jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.be.a('number')",
+									"    pm.expect(jsonData.name).to.eq('Lloyds of London')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lloyds of London\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/insurance/companies Teardown",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(204);",
+									"    const body = pm.response.body",
+									"    pm.expect(body).to.eq(undefined)",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "ddi-username",
+								"value": "internal-user"
+							},
+							{
+								"key": "ddi-displayname",
+								"value": "User, Internal"
+							}
+						],
+						"url": {
+							"raw": "{{DDI_API_BASE_URL}}/insurance/companies/{{insuranceId}}",
+							"host": [
+								"{{DDI_API_BASE_URL}}"
+							],
+							"path": [
+								"insurance",
+								"companies",
+								"{{insuranceId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "countries",
 			"event": [
 				{
@@ -4183,42 +4630,6 @@
 					],
 					"path": [
 						"counties"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "insurance/companies",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"response returns a list of Insurance Companies inc Dogs Trust\", function () {",
-							"    pm.response.to.have.status(200);",
-							"    const jsonData = pm.response.json();",
-							"    pm.expect(jsonData.companies.length > 0).to.be.true;",
-							"    pm.expect(jsonData.companies[0].id).to.eq(1)",
-							"    pm.expect(jsonData.companies.map(company => company.name)).to.contain('Dogs Trust')",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
-					"host": [
-						"{{DDI_API_BASE_URL}}"
-					],
-					"path": [
-						"insurance",
-						"companies"
 					]
 				}
 			},
@@ -4354,6 +4765,16 @@
 		{
 			"key": "policeToBeDeleted",
 			"value": ""
+		},
+		{
+			"key": "insuranceId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "insuranceIdToDelete",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
