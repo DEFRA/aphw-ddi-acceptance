@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "23b7e475-46f0-4700-b572-e2e5c8a75b66",
+		"_postman_id": "77be270b-3465-4d80-9e13-4c7061bbce91",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23938788"
+		"_exporter_id": "12107479"
 	},
 	"item": [
 		{
@@ -1759,7 +1759,8 @@
 															"",
 															"    return (cdo) => {",
 															"        const policeForce = cdo.exemption.policeForce",
-															"        const isInOrder = policeForce.localeCompare(currentPoliceForce.value) >= 0",
+															"        let comparison = policeForce === null ? 1 : policeForce.localeCompare(currentPoliceForce.value)",
+															"        const isInOrder = comparison >= 0",
 															"        if (!isInOrder) {",
 															"            console.error(currentPoliceForce.value)",
 															"            console.error(policeForce, currentPoliceForce.value)",
@@ -2624,13 +2625,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"body": {
@@ -2675,13 +2674,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"body": {
@@ -2728,13 +2725,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2778,13 +2773,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"body": {
@@ -2831,13 +2824,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -2874,13 +2865,11 @@
 						"header": [
 							{
 								"key": "ddi-username",
-								"value": "internal-user",
-								"type": "text"
+								"value": "internal-user"
 							},
 							{
 								"key": "ddi-displayname",
-								"value": "User, Internal",
-								"type": "text"
+								"value": "User, Internal"
 							}
 						],
 						"url": {
@@ -3710,6 +3699,150 @@
 			"name": "Courts",
 			"item": [
 				{
+					"name": "should GET courts in alpha order",
+					"item": [
+						{
+							"name": "Setup Court - Z",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Zulu Magistrates Court\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/courts",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"courts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Setup Courts - A",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"A Magistrate Court\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/courts",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"courts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/courts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"response returns list of courts in alpha sort order\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const policeForces = jsonData.courts",
+											"    pm.expect(policeForces.length > 50).to.be.true",
+											"    pm.expect(policeForces[0].id).to.be.a('number')",
+											"    pm.expect(policeForces[0].name).to.equal('A Magistrate Court')",
+											"    pm.expect(policeForces[policeForces.length - 1].name).to.equal('Zulu Magistrates Court')",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/courts",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"courts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "courts",
 					"event": [
 						{
@@ -4074,42 +4207,148 @@
 			"name": "Police",
 			"item": [
 				{
-					"name": "/police-forces",
-					"event": [
+					"name": "should GET police forces in alpha order",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"pm.test(\"response returns list of police forces\", function () {",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData.policeForces.length > 50).to.be.true",
-									"    pm.expect(jsonData.policeForces[0].id).to.be.a('number')",
-									"    pm.expect(jsonData.policeForces[0].name).to.be.a('string')",
-									"});",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{DDI_API_BASE_URL}}/police-forces",
-							"host": [
-								"{{DDI_API_BASE_URL}}"
+							"name": "Setup Police Forces - Z",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"path": [
-								"police-forces"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Zulu Police Force\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/police-forces",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"police-forces"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Setup Police Forces - A",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Alpha Police Force\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/police-forces",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"police-forces"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/police-forces",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"response returns list of police forces in alpha sort order\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const policeForces = jsonData.policeForces",
+											"    pm.expect(policeForces.length > 50).to.be.true",
+											"    pm.expect(policeForces[0].id).to.be.a('number')",
+											"    pm.expect(policeForces[0].name).to.equal('Alpha Police Force')",
+											"    pm.expect(policeForces[policeForces.length - 1].name).to.equal('Zulu Police Force')",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/police-forces",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"police-forces"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "/police-forces",
@@ -4438,40 +4677,250 @@
 			"name": "Insurance",
 			"item": [
 				{
-					"name": "insurance/companies",
-					"event": [
+					"name": "should GET insurance companies in alpha order Copy",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"response returns a list of Insurance Companies inc Dogs Trust\", function () {",
-									"    pm.response.to.have.status(200);",
-									"    const jsonData = pm.response.json();",
-									"    pm.expect(jsonData.companies.length > 0).to.be.true;",
-									"    pm.expect(jsonData.companies[0].id).to.eq(1)",
-									"    pm.expect(jsonData.companies.map(company => company.name)).to.contain('Dogs Trust')",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
-							"host": [
-								"{{DDI_API_BASE_URL}}"
+							"name": "Setup Insurance Companies - Z",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"path": [
-								"insurance",
-								"companies"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Zurich\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"insurance",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Setup Insurance Companies - A",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Allianz\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"insurance",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Setup Insurance Companies - N",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Norfolk Mutual\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"insurance",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/insurance",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"response returns list of insurance companies in alpha sort order\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const insuranceCompany = jsonData.companies",
+											"    pm.expect(insuranceCompany[0].id).to.be.a('number')",
+											"    pm.expect(insuranceCompany[0].name).to.equal('Allianz')",
+											"    pm.expect(insuranceCompany[insuranceCompany.length - 1].name).to.equal('Zurich')",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/insurance/companies",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"insurance",
+										"companies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/insurance sort by updatedAt",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"response returns list of insurance companies in alpha sort order\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    const insuranceCompany = jsonData.companies",
+											"    pm.expect(insuranceCompany[0].name).to.equal('Norfolk Mutual')",
+											"    pm.expect(insuranceCompany[insuranceCompany.length - 1].name).to.equal('Dogs Trust')",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/insurance/companies?sortKey=updatedAt&sortOrder=DESC",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"insurance",
+										"companies"
+									],
+									"query": [
+										{
+											"key": "sortKey",
+											"value": "updatedAt"
+										},
+										{
+											"key": "sortOrder",
+											"value": "DESC"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "/insurance/companies",
