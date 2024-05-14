@@ -12,7 +12,7 @@ Feature: Update status manually
         And I set "2024" to the inputfield "#nonComplianceLetterSent-year"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[8]" contains the text "Failed"
+        And I expect that element "(//dd)[14]" contains the text "Failed"
 
       Scenario: Add CDO issued, CDO expiry and court to dog in interim exempt status(update status from interim exempt to pre-exempt) 
         Given I open the url "/"
@@ -32,7 +32,7 @@ Feature: Update status manually
         And I click on the element "#legislationOfficer"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[9]" contains the text "Pre-exempt"
+        And I expect that element "(//dd)[14]" contains the text "Pre-exempt"
 
      Scenario: Add First certificate issued and Insurance renewal date to dog in pre-exempt status(update pre-exempt to Exempt) 
         Given I open the url "/"
@@ -50,7 +50,7 @@ Feature: Update status manually
         And I select the option with the value "Dogs Trust" for element "#insuranceCompany"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[12]" contains the text "Exempt"
+        And I expect that element "(//dd)[15]" contains the text "Exempt"
 
     Scenario: Add dog date of death to dog in Exempt status(update Exempt to Inactive) 
         Given I open the url "/"
@@ -64,4 +64,4 @@ Feature: Update status manually
         And I set "2024" to the inputfield "#dateOfDeath-year"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[13]" contains the text "Inactive"
+        And I expect that element "(//dd)[16]" contains the text "Inactive"
