@@ -26,7 +26,7 @@ Feature: Update status manually
         And I click on the element "button=Change status"
         And I click on the link containing "Go to the dog record for Dog"
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[8]" contains the text "Exempt"
+        And I expect that element "(//dd)[14]" contains the text "Exempt"
 
     Scenario: Change status from dog details page
         When I click on the link containing "Change status"
@@ -34,8 +34,4 @@ Feature: Update status manually
         And I click on the element "button=Change status"
         And I click on the link containing "Go to the dog record for Dog"
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[8]" contains the text "Pre-exempt"
-
-
-
-
+        And I expect that element "(//dd)[14]" contains the text "Pre-exempt"
