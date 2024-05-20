@@ -3709,8 +3709,28 @@
 													"listen": "prerequest",
 													"script": {
 														"exec": [
+															"const min = 100000000000000",
+															"const max = 999999999999999",
+															"const multiplier = max - min + 1",
+															"",
+															"const generateRandomNumberBetween = (min, max) => {",
+															"    const random = Math.random()",
+															"    const calc = Math.floor(random * multiplier)",
+															"",
+															"    return calc + min",
+															"}",
+															"",
+															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+															"    microchipNumber1: generateMicrochipNumber().toString(),",
+															"    microchipNumber2: generateMicrochipNumber().toString(),",
+															"    dogs: []",
+															"}))",
+															"",
 															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
-															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)"
+															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
+															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
 														],
 														"type": "text/javascript",
 														"packages": {}
@@ -3844,7 +3864,53 @@
 												}
 											},
 											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													"const min = 100000000000000",
+													"const max = 999999999999999",
+													"const multiplier = max - min + 1",
+													"",
+													"const generateRandomNumberBetween = (min, max) => {",
+													"    const random = Math.random()",
+													"    const calc = Math.floor(random * multiplier)",
+													"",
+													"    return calc + min",
+													"}",
+													"",
+													"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+													"",
+													"if (!pm.collectionVariables.has('duplicateMicrochip')){",
+													"    pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+													"        microchipNumber1: generateMicrochipNumber().toString(),",
+													"        microchipNumber2: generateMicrochipNumber().toString(),",
+													"        dogs: []",
+													"    }))",
+													"}"
+												]
+											}
 										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Test",
+									"item": [
 										{
 											"name": "/dog with new microchip",
 											"event": [
@@ -4037,47 +4103,6 @@
 											},
 											"response": []
 										}
-									],
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"type": "text/javascript",
-												"packages": {},
-												"exec": [
-													"const min = 100000000000000",
-													"const max = 999999999999999",
-													"const multiplier = max - min + 1",
-													"",
-													"const generateRandomNumberBetween = (min, max) => {",
-													"    const random = Math.random()",
-													"    const calc = Math.floor(random * multiplier)",
-													"",
-													"    return calc + min",
-													"}",
-													"",
-													"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
-													"",
-													"if (!pm.collectionVariables.has('duplicateMicrochip')){",
-													"    pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
-													"        microchipNumber1: generateMicrochipNumber().toString(),",
-													"        microchipNumber2: generateMicrochipNumber().toString(),",
-													"        dogs: []",
-													"    }))",
-													"}"
-												]
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"type": "text/javascript",
-												"packages": {},
-												"exec": [
-													""
-												]
-											}
-										}
 									]
 								}
 							]
@@ -4106,7 +4131,7 @@
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json()",
-													"    pushTearDown('courtTeardown', jsonData.id)",
+													"    pushTearDown('courtsTeardown', jsonData.id) ",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4163,7 +4188,7 @@
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json()",
-													"    pushTearDown('courtTeardown', jsonData.id)",
+													"    pushTearDown('courtsTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4465,7 +4490,7 @@
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('House of Lords')",
 													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('courtsCollisionId1'))",
-													"    pushTearDown('courtTeardown', jsonData.id)",
+													"    pushTearDown('courtsTeardown', jsonData.id)",
 													"});",
 													""
 												],
@@ -6671,46 +6696,46 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
-					"const getDeleteRequest = (url) => {",
-					"    return {",
-					"        url,",
-					"        method: 'DELETE',",
-					"        header: {",
-					"            'ddi-username': 'internal-user',",
-					"            'ddi-displayname':'User, Internal'",
-					"        }",
-					"    };",
-					"}",
+					"// const getDeleteRequest = (url) => {",
+					"//     return {",
+					"//         url,",
+					"//         method: 'DELETE',",
+					"//         header: {",
+					"//             'ddi-username': 'internal-user',",
+					"//             'ddi-displayname':'User, Internal'",
+					"//         }",
+					"//     };",
+					"// }",
 					"",
-					"(async () => {",
-					"    const insuranceTeardown = JSON.parse(pm.collectionVariables.get('insuranceTeardown'))",
-					"    const policeTeardown = JSON.parse(pm.collectionVariables.get('policeTeardown'))",
-					"    const baseURL = pm.environment.get('DDI_API_BASE_URL')",
+					"// (async () => {",
+					"//     const insuranceTeardown = JSON.parse(pm.collectionVariables.get('insuranceTeardown'))",
+					"//     const policeTeardown = JSON.parse(pm.collectionVariables.get('policeTeardown'))",
+					"//     const baseURL = pm.environment.get('DDI_API_BASE_URL')",
 					"",
-					"    for (const insuranceId of insuranceTeardown) {",
-					"        pm.sendRequest(getDeleteRequest(`${baseURL}/insurance/companies/${insuranceId}`), function (err, response) {",
-					"                if (err) {",
-					"                    console.log(`Insurance Id DELETE failed - ${insuranceId}`, err)",
-					"                }",
-					"        });",
-					"    }",
+					"//     for (const insuranceId of insuranceTeardown) {",
+					"//         pm.sendRequest(getDeleteRequest(`${baseURL}/insurance/companies/${insuranceId}`), function (err, response) {",
+					"//                 if (err) {",
+					"//                     console.log(`Insurance Id DELETE failed - ${insuranceId}`, err)",
+					"//                 }",
+					"//         });",
+					"//     }",
 					"",
-					"    for (const policeId of policeTeardown) {",
-					"        pm.sendRequest(getDeleteRequest(`${baseURL}/police-forces/${policeId}`), function (err, response) {",
-					"                if (err) {",
-					"                    console.log(`Police Id DELETE failed - ${policeId}`, err)",
-					"                }",
-					"        });",
-					"    }",
+					"//     for (const policeId of policeTeardown) {",
+					"//         pm.sendRequest(getDeleteRequest(`${baseURL}/police-forces/${policeId}`), function (err, response) {",
+					"//                 if (err) {",
+					"//                     console.log(`Police Id DELETE failed - ${policeId}`, err)",
+					"//                 }",
+					"//         });",
+					"//     }",
 					"    ",
-					"    for (const courtId of courtTeardown) {",
-					"        pm.sendRequest(getDeleteRequest(`${baseURL}/courts/${courtId}`), function (err, response) {",
-					"                if (err) {",
-					"                    console.log(`Court Id DELETE failed - ${courtId}`, err)",
-					"                }",
-					"        });",
-					"    }",
-					"})()"
+					"//     for (const courtId of courtTeardown) {",
+					"//         pm.sendRequest(getDeleteRequest(`${baseURL}/courts/${courtId}`), function (err, response) {",
+					"//                 if (err) {",
+					"//                     console.log(`Court Id DELETE failed - ${courtId}`, err)",
+					"//                 }",
+					"//         });",
+					"//     }",
+					"// })()"
 				]
 			}
 		}
