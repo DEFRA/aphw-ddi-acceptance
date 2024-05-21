@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "55f8c89e-a9d4-48f2-9ec5-07680ce625d5",
+		"_postman_id": "2c9e4ed9-1f74-4103-b144-a05545097aa5",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -3695,6 +3695,417 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Duplicate Microchip",
+							"item": [
+								{
+									"name": "Setup",
+									"item": [
+										{
+											"name": "Create Dog 1 with microchip",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const min = 100000000000000",
+															"const max = 999999999999999",
+															"const multiplier = max - min + 1",
+															"",
+															"const generateRandomNumberBetween = (min, max) => {",
+															"    const random = Math.random()",
+															"    const calc = Math.floor(random * multiplier)",
+															"",
+															"    return calc + min",
+															"}",
+															"",
+															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+															"    microchipNumber1: generateMicrochipNumber().toString(),",
+															"    microchipNumber2: generateMicrochipNumber().toString(),",
+															"    dogs: []",
+															"}))",
+															"",
+															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
+															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const duplicateMicrochip = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"",
+															"pm.test(\"dog details\", function () {",
+															"    const [dog] = pm.response.json().dogs;",
+															"    duplicateMicrochip.dogs.push(dog)",
+															"});",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify(duplicateMicrochip))",
+															"",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\",\n      \"microchipNumber\": \"{{microchipNumber1}}\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create Dog 2 with no microchip",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const duplicateMicrochip = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"",
+															"pm.test(\"dog details\", function () {",
+															"    const [dog] = pm.response.json().dogs;",
+															"    duplicateMicrochip.dogs.push(dog)",
+															"});",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify(duplicateMicrochip))",
+															"",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													"const min = 100000000000000",
+													"const max = 999999999999999",
+													"const multiplier = max - min + 1",
+													"",
+													"const generateRandomNumberBetween = (min, max) => {",
+													"    const random = Math.random()",
+													"    const calc = Math.floor(random * multiplier)",
+													"",
+													"    return calc + min",
+													"}",
+													"",
+													"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+													"",
+													"if (!pm.collectionVariables.has('duplicateMicrochip')){",
+													"    pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+													"        microchipNumber1: generateMicrochipNumber().toString(),",
+													"        microchipNumber2: generateMicrochipNumber().toString(),",
+													"        dogs: []",
+													"    }))",
+													"}"
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Test",
+									"item": [
+										{
+											"name": "/dog with new microchip",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const duplicateMicrochip = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber2', duplicateMicrochip.microchipNumber2)",
+															"pm.variables.set('dogUpdateIndexNumber', duplicateMicrochip.dogs[1].indexNumber)",
+															"pm.variables.set('dogId', duplicateMicrochip.dogs[1].indexNumber.replace('ED',''))"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"dogId\": \"{{dogId}}\",\n    \"indexNumber\": \"{{dogUpdateIndexNumber}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\",\n    \"microchipNumber\": \"{{microchipNumber2}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/dog with same microchip should not fail",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const duplicateMicrochip = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber2', duplicateMicrochip.microchipNumber2)",
+															"pm.variables.set('dogUpdateIndexNumber', duplicateMicrochip.dogs[1].indexNumber)",
+															"pm.variables.set('dogId', duplicateMicrochip.dogs[1].indexNumber.replace('ED',''))",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"dogId\": \"{{dogId}}\",\n    \"indexNumber\": \"{{dogUpdateIndexNumber}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\",\n    \"microchipNumber\": \"{{microchipNumber2}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/dog with duplicate microchip should fail",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(409);",
+															"    const jsonData = pm.response.json();",
+															"    pm.expect(jsonData.microchipNumbers).to.deep.eq([pm.variables.get('microchipNumber1')])",
+															"    pm.collectionVariables.unset('duplicateMicrochip')",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const duplicateMicrochip = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"",
+															"pm.variables.set('dogUpdateIndexNumber', duplicateMicrochip.dogs[1].indexNumber)",
+															"pm.variables.set('microchipNumber1', duplicateMicrochip.microchipNumber1)",
+															"pm.variables.set('dogId', duplicateMicrochip.dogs[1].indexNumber.replace('ED',''))",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"dogId\": \"{{dogId}}\",\n    \"indexNumber\": \"{{dogUpdateIndexNumber}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\",\n    \"microchipNumber\": \"{{microchipNumber1}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
 						}
 					]
 				},
@@ -3711,8 +4122,17 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
+													"    pm.collectionVariables.set('courtsTeardown', '[]')",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('courtsTeardown', jsonData.id) ",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3760,8 +4180,16 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('courtsTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4052,14 +4480,18 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const teardownValues = JSON.parse(pm.collectionVariables.get('courtsTeardown'))",
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
 													"",
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('House of Lords')",
 													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('courtsCollisionId1'))",
-													"    ",
+													"    pushTearDown('courtsTeardown', jsonData.id)",
 													"});",
 													""
 												],
@@ -4477,8 +4909,17 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
+													"    pm.collectionVariables.set('policeTeardown', '[]')",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('policeTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4526,8 +4967,16 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('policeTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -5203,8 +5652,17 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
+													"    pm.collectionVariables.set('insuranceTeardown', '[]')",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('insuranceTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -5253,8 +5711,16 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('insuranceTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -5303,8 +5769,16 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const pushTearDown = (key, value) => {",
+													"  const teardownValues = JSON.parse(pm.collectionVariables.get(key))",
+													"  teardownValues.push(value)",
+													"  pm.collectionVariables.set(key, JSON.stringify(teardownValues))",
+													"}",
+													"",
 													"pm.test(\"response is ok\", function () {",
 													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json()",
+													"    pushTearDown('insuranceTeardown', jsonData.id)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -6225,41 +6699,46 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
-					"(async () => {",
-					"    const insuranceTeardown = JSON.parse(pm.collectionVariables.get('insuranceTeardown'))",
-					"    const policeTeardown = JSON.parse(pm.collectionVariables.get('policeTeardown'))",
-					"    const baseURL = pm.environment.get('DDI_API_BASE_URL')",
+					"// const getDeleteRequest = (url) => {",
+					"//     return {",
+					"//         url,",
+					"//         method: 'DELETE',",
+					"//         header: {",
+					"//             'ddi-username': 'internal-user',",
+					"//             'ddi-displayname':'User, Internal'",
+					"//         }",
+					"//     };",
+					"// }",
 					"",
-					"    for (const insuranceId of insuranceTeardown) {",
-					"        try {",
-					"            await fetch(`${baseURL}/insurance/companies/${insuranceId}`, {",
-					"                method: 'DELETE'",
-					"            })",
-					"        } catch (e) {",
-					"            console.log(`Insurance Id DELETE failed - ${insuranceId}`, e)",
-					"        }",
-					"    }",
+					"// (async () => {",
+					"//     const insuranceTeardown = JSON.parse(pm.collectionVariables.get('insuranceTeardown'))",
+					"//     const policeTeardown = JSON.parse(pm.collectionVariables.get('policeTeardown'))",
+					"//     const baseURL = pm.environment.get('DDI_API_BASE_URL')",
 					"",
-					"    for (const policeId of policeTeardown) {",
-					"        try {",
-					"            await fetch(`${baseURL}/police-forces/${policeId}`, {",
-					"                method: 'DELETE'",
-					"            })",
-					"        } catch (e) {",
-					"            console.log(`Police Id DELETE failed - ${policeId}`, e)",
-					"        }",
-					"    }",
+					"//     for (const insuranceId of insuranceTeardown) {",
+					"//         pm.sendRequest(getDeleteRequest(`${baseURL}/insurance/companies/${insuranceId}`), function (err, response) {",
+					"//                 if (err) {",
+					"//                     console.log(`Insurance Id DELETE failed - ${insuranceId}`, err)",
+					"//                 }",
+					"//         });",
+					"//     }",
 					"",
-					"    for (const courtId of courtTeardown) {",
-					"        try {",
-					"            await fetch(`${baseURL}/courts/${courtId}`, {",
-					"                method: 'DELETE'",
-					"            })",
-					"        } catch (e) {",
-					"            console.log(`Court Id DELETE failed - ${courtId}`, e)",
-					"        }",
-					"    }",
-					"})()"
+					"//     for (const policeId of policeTeardown) {",
+					"//         pm.sendRequest(getDeleteRequest(`${baseURL}/police-forces/${policeId}`), function (err, response) {",
+					"//                 if (err) {",
+					"//                     console.log(`Police Id DELETE failed - ${policeId}`, err)",
+					"//                 }",
+					"//         });",
+					"//     }",
+					"    ",
+					"//     for (const courtId of courtTeardown) {",
+					"//         pm.sendRequest(getDeleteRequest(`${baseURL}/courts/${courtId}`), function (err, response) {",
+					"//                 if (err) {",
+					"//                     console.log(`Court Id DELETE failed - ${courtId}`, err)",
+					"//                 }",
+					"//         });",
+					"//     }",
+					"// })()"
 				]
 			}
 		}

@@ -1,6 +1,6 @@
 {
   "name": "aphw-ddi-acceptance",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "API and UI acceptance tests for aphw-ddi",
   "homepage": "https://github.com/DEFRA/aphw-ddi-acceptance",
   "main": "app/index.js",
