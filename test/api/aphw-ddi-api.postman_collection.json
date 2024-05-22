@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "2c9e4ed9-1f74-4103-b144-a05545097aa5",
+		"_postman_id": "55f8c89e-a9d4-48f2-9ec5-07680ce625d5",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23938788"
+		"_exporter_id": "12107479"
 	},
 	"item": [
 		{
@@ -1046,6 +1046,59 @@
 									"response": []
 								},
 								{
+									"name": "/dog-owner/:index-number with include dogs should return dogs",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"response returns the owner\", function () {",
+													"    const owner = pm.response.json().owner;",
+													"    pm.expect(owner.personReference).to.be.a('string')",
+													"    pm.expect(owner.dogs.length).to.be.at.least(1)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dog-owner/{{index-number}}?includeDogs=true",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dog-owner",
+												"{{index-number}}"
+											],
+											"query": [
+												{
+													"key": "includeDogs",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "/dog-owner/:invalid-index-number returns a 404",
 									"event": [
 										{
@@ -1182,6 +1235,60 @@
 											"path": [
 												"person",
 												"{{reference}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/person/:reference includeDogs=true should get person data with dogs",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"response returns the owner\", function () {",
+													"    const owner = pm.response.json();",
+													"    pm.expect(owner.personReference).to.eq(pm.collectionVariables.get('reference'))",
+													"    pm.expect(owner.firstName).to.be.a('string')",
+													"    pm.expect(owner.dogs.length).to.be.above(0)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person/{{reference}}?includeDogs=true",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person",
+												"{{reference}}"
+											],
+											"query": [
+												{
+													"key": "includeDogs",
+													"value": "true"
+												}
 											]
 										}
 									},
@@ -4129,7 +4236,6 @@
 													"}",
 													"",
 													"pm.test(\"response is ok\", function () {",
-													"    pm.collectionVariables.set('courtsTeardown', '[]')",
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json()",
 													"    pushTearDown('courtsTeardown', jsonData.id) ",
@@ -4270,6 +4376,28 @@
 										}
 									},
 									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											"pm.collectionVariables.set('courtsTeardown', '[]')"
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											""
+										]
+									}
 								}
 							]
 						},
@@ -4916,7 +5044,6 @@
 													"}",
 													"",
 													"pm.test(\"response is ok\", function () {",
-													"    pm.collectionVariables.set('policeTeardown', '[]')",
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json()",
 													"    pushTearDown('policeTeardown', jsonData.id)",
@@ -5637,6 +5764,28 @@
 							},
 							"response": []
 						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"pm.collectionVariables.set('policeTeardown', '[]')"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
 					]
 				},
 				{
@@ -5659,7 +5808,6 @@
 													"}",
 													"",
 													"pm.test(\"response is ok\", function () {",
-													"    pm.collectionVariables.set('insuranceTeardown', '[]')",
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json()",
 													"    pushTearDown('insuranceTeardown', jsonData.id)",
@@ -6510,6 +6658,28 @@
 								}
 							},
 							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"pm.collectionVariables.set('insuranceTeardown', '[]')"
+								]
+							}
 						}
 					]
 				},
