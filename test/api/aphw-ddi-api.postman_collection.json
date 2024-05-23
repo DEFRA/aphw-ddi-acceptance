@@ -3763,6 +3763,21 @@
 											"listen": "test",
 											"script": {
 												"exec": [
+													"const isInAscendingOrder = () => { ",
+													"    const currentOwner = { value: '' }",
+													"",
+													"    return (person) => {",
+													"        const owner = person.lastName + ' ' + person.firstName",
+													"        const isInOrder = owner.localeCompare(currentOwner.value) >= 0",
+													"        if (!isInOrder) {",
+													"            console.error(currentOwner.value)",
+													"            console.error(owner, currentOwner.value)",
+													"        }",
+													"        currentOwner.value = owner",
+													"        return isInOrder",
+													"    }",
+													"}",
+													"",
 													"pm.test(\"response returns a 200 and orphaned owners should be returned\", function () {",
 													"    pm.response.to.have.status(200);",
 													"    const response = pm.response.json()",
@@ -3773,6 +3788,7 @@
 													"    const resultPks = response.persons.map(person => person.personReference)",
 													"    pm.expect(orphanedOwnerPks.every(ownerPk => resultPks.includes(ownerPk))).to.be.true",
 													"    pm.expect(nonOrphanedOwnerPks.every(ownerPk => !resultPks.includes(ownerPk))).to.be.true",
+													"    pm.expect(response.persons.every(isInAscendingOrder())).to.be.true",
 													"});"
 												],
 												"type": "text/javascript",
@@ -3784,7 +3800,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{DDI_API_BASE_URL}}/persons?orphaned=true&limit=-1",
+											"raw": "{{DDI_API_BASE_URL}}/persons?orphaned=true&limit=-1&sortKey=owner&sortOrder=ASC",
 											"host": [
 												"{{DDI_API_BASE_URL}}"
 											],
@@ -3799,6 +3815,14 @@
 												{
 													"key": "limit",
 													"value": "-1"
+												},
+												{
+													"key": "sortKey",
+													"value": "owner"
+												},
+												{
+													"key": "sortOrder",
+													"value": "ASC"
 												}
 											]
 										}
