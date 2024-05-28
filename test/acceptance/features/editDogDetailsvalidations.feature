@@ -20,7 +20,7 @@ Feature: Edit dog details
         When I set "852685231167889111" to the inputfield "#microchipNumber"
         And I set "8526ertf6322$22" to the inputfield "#microchipNumber2"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "Microchip number must be no more than 15 characters"
+        Then I expect that element "form" contains the text "Microchip numbers must be 15 numbers long"
         Then I expect that element "form" contains the text "Microchip numbers can only contain numbers"
 
     Scenario: Invalid date of birth(future date)
