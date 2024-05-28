@@ -199,7 +199,7 @@ Feature: Create new record validations
         And I set "50" to the inputfield "#houseNumber"
         And I click on the element "button=Continue"
         And I click on the element "button=Confirm address"
-        And I set "345677 543 11" to the inputfield "#microchipNumber"
+        And I set "345677 543 1122" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
         Then I expect that element "form" contains the text "Microchip numbers can only contain numbers" 
 
@@ -229,7 +229,7 @@ Feature: Create new record validations
         And I click on the element "button=Confirm address"
         And I set "1569874569325489" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "Microchip number must be no more than 15 characters"
+        Then I expect that element "form" contains the text "Microchip numbers must be 15 numbers long"
 
     Scenario:  Reuse the same microchip number which already exists in the database
         Given I open the url "/"

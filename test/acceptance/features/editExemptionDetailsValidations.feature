@@ -29,7 +29,7 @@ Feature: Edit exemption details
         And I set "2024" to the inputfield "#certificateIssued-year"
         And I set "22" to the inputfield "#cdoIssued-day"
         And I set "05" to the inputfield "#cdoIssued-month"
-        And I set "2024" to the inputfield "#cdoIssued-year"
+        And I set "2025" to the inputfield "#cdoIssued-year"
         And I set "22" to the inputfield "#cdoExpiry-day"
         And I set "07" to the inputfield "#cdoExpiry-month"
         And I set "2025" to the inputfield "#cdoExpiry-year"

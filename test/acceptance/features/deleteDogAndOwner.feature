@@ -10,7 +10,7 @@ Scenario:  Creating a new dog and owner
         And I set "28" to the inputfield "#houseNumber"
         And I click on the element "button=Continue"
         And I click on the element "button=Confirm address"
-        And I set "3456711221111" to the inputfield "#microchipNumber"
+        And I set "345671122111122" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
         And I select the radio option with the value "XL Bully" from the radio group "breed"
         And I set "Bunny" to the inputfield "#name"
