@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "55f8c89e-a9d4-48f2-9ec5-07680ce625d5",
+		"_postman_id": "7364a58d-6fc4-4130-98de-abcb8bbea8de",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -5428,6 +5428,553 @@
 									]
 								}
 							]
+						},
+						{
+							"name": "Purge Old Dogs",
+							"item": [
+								{
+									"name": "Setup",
+									"item": [
+										{
+											"name": "Create Dog 1 with old cdo issued",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const min = 100000000000000",
+															"const max = 999999999999999",
+															"const multiplier = max - min + 1",
+															"",
+															"const generateRandomNumberBetween = (min, max) => {",
+															"    const random = Math.random()",
+															"    const calc = Math.floor(random * multiplier)",
+															"",
+															"    return calc + min",
+															"}",
+															"",
+															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+															"    microchipNumber1: generateMicrochipNumber().toString(),",
+															"    microchipNumber2: generateMicrochipNumber().toString(),",
+															"    dogs: []",
+															"}))",
+															"",
+															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
+															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"",
+															"pm.test(\"dog details\", function () {",
+															"    const [dog] = pm.response.json().dogs;",
+															"    pm.collectionVariables.set('oldDog1', dog.indexNumber)",
+															"});",
+															"",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2000-10-10\",\n      \"cdoExpiry\": \"2000-12-10\",\n      \"status\": \"Exempt\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create Dog 2 with current cdo issued for update later",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const min = 100000000000000",
+															"const max = 999999999999999",
+															"const multiplier = max - min + 1",
+															"",
+															"const generateRandomNumberBetween = (min, max) => {",
+															"    const random = Math.random()",
+															"    const calc = Math.floor(random * multiplier)",
+															"",
+															"    return calc + min",
+															"}",
+															"",
+															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+															"    microchipNumber1: generateMicrochipNumber().toString(),",
+															"    microchipNumber2: generateMicrochipNumber().toString(),",
+															"    dogs: []",
+															"}))",
+															"",
+															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
+															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"",
+															"",
+															"pm.test(\"dog details\", function () {",
+															"    const [dog] = pm.response.json().dogs;",
+															"    pm.collectionVariables.set('oldDog2', dog.indexNumber)",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": \"Anywhere Estate\",\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"status\": \"Exempt\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Dog 1 with status Exempt",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const min = 100000000000000",
+															"const max = 999999999999999",
+															"const multiplier = max - min + 1",
+															"",
+															"const generateRandomNumberBetween = (min, max) => {",
+															"    const random = Math.random()",
+															"    const calc = Math.floor(random * multiplier)",
+															"",
+															"    return calc + min",
+															"}",
+															"",
+															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+															"    microchipNumber1: generateMicrochipNumber().toString(),",
+															"    microchipNumber2: generateMicrochipNumber().toString(),",
+															"    dogs: []",
+															"}))",
+															"",
+															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
+															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"indexNumber\": \"{{oldDog1}}\",\n  \"breed\": \"XL Bully\",\n  \"name\": \"{{$randomFirstName}}\",\n  \"status\": \"Exempt\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update Dog 2 with old DOB and status Exempt",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const min = 100000000000000",
+															"const max = 999999999999999",
+															"const multiplier = max - min + 1",
+															"",
+															"const generateRandomNumberBetween = (min, max) => {",
+															"    const random = Math.random()",
+															"    const calc = Math.floor(random * multiplier)",
+															"",
+															"    return calc + min",
+															"}",
+															"",
+															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
+															"",
+															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
+															"    microchipNumber1: generateMicrochipNumber().toString(),",
+															"    microchipNumber2: generateMicrochipNumber().toString(),",
+															"    dogs: []",
+															"}))",
+															"",
+															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
+															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
+															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"indexNumber\": \"{{oldDog2}}\",\n  \"dateOfBirth\": \"2000-10-10\",\n  \"breed\": \"XL Bully\",\n  \"name\": \"{{$randomFirstName}}\",\n  \"status\": \"Exempt\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Test",
+									"item": [
+										{
+											"name": "/dogs for purging with default sort",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const oldDog1 = pm.collectionVariables.get('oldDog1')",
+															"const oldDog2 = pm.collectionVariables.get('oldDog2')",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"pm.test(\"response returns list of old dogs in sort order\", function () {",
+															"    const dogs = pm.response.json();",
+															"    pm.expect(dogs.length).to.equal(2)",
+															"    pm.expect(dogs[0].indexNumber).to.equal(oldDog1)",
+															"    pm.expect(dogs[1].indexNumber).to.equal(oldDog2)",
+															"});",
+															"",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dogs?forPurging=true",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dogs"
+													],
+													"query": [
+														{
+															"key": "forPurging",
+															"value": "true"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/dogs for purging with reverse sort",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const oldDog1 = pm.collectionVariables.get('oldDog1')",
+															"const oldDog2 = pm.collectionVariables.get('oldDog2')",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															"pm.test(\"response returns list of old dogs in sort order\", function () {",
+															"    const dogs = pm.response.json();",
+															"    pm.expect(dogs.length).to.equal(2)",
+															"    pm.expect(dogs[0].indexNumber).to.equal(oldDog2)",
+															"    pm.expect(dogs[1].indexNumber).to.equal(oldDog1)",
+															"});",
+															"",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dogs?forPurging=true&sortKey=indexNumber&sortOrder=DESC",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dogs"
+													],
+													"query": [
+														{
+															"key": "forPurging",
+															"value": "true"
+														},
+														{
+															"key": "sortKey",
+															"value": "indexNumber"
+														},
+														{
+															"key": "sortOrder",
+															"value": "DESC"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Cleanup",
+									"item": [
+										{
+											"name": "/dog delete old dog 1",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a 204 and empty body given\", function () {",
+															"    pm.response.to.have.status(204);",
+															"    const body = pm.response.body",
+															"    pm.expect(body).to.eq(undefined)",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog/{{oldDog1}}",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog",
+														"{{oldDog1}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/dog delete old dog 2",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a 204 and empty body given\", function () {",
+															"    pm.response.to.have.status(204);",
+															"    const body = pm.response.body",
+															"    pm.expect(body).to.eq(undefined)",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog/{{oldDog2}}",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog",
+														"{{oldDog2}}"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
 						}
 					]
 				},
@@ -8271,6 +8818,18 @@
 		},
 		{
 			"key": "dogDeleteIndexToDelete",
+			"value": ""
+		},
+		{
+			"key": "duplicateMicrochip",
+			"value": ""
+		},
+		{
+			"key": "oldDog1",
+			"value": ""
+		},
+		{
+			"key": "oldDog2",
 			"value": ""
 		}
 	]
