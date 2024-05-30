@@ -701,7 +701,7 @@
 													"    const dogs = pm.response.json().dogs;",
 													"    const dog = dogs[0]",
 													"    pm.expect(dogs).to.have.length(1)",
-													"    pm.expect(dog.indexNumber.startsWith('ED3')).to.be.true",
+													"    pm.expect(dog.indexNumber.startsWith('ED')).to.be.true",
 													"    pm.expect(dog.name).to.eq(`Rex${cdoPostIndex}`)",
 													"    pm.expect(dog.status).to.eq('Interim exempt')",
 													"    pm.expect(dog.breed).to.eq('XL Bully')",
@@ -716,7 +716,8 @@
 													"",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -1295,7 +1296,7 @@
 									"response": []
 								},
 								{
-									"name": "/person/:invalid-reference should return a 400",
+									"name": "/person with invalid-reference should return a 400",
 									"event": [
 										{
 											"listen": "test",
@@ -1481,7 +1482,7 @@
 									"response": []
 								},
 								{
-									"name": "/person/:reference should update person",
+									"name": "/person with valid reference should update person",
 									"event": [
 										{
 											"listen": "test",
@@ -3418,6 +3419,1220 @@
 							]
 						},
 						{
+							"name": "get and delete orphaned owners",
+							"item": [
+								{
+									"name": "Setup",
+									"item": [
+										{
+											"name": "Create orphaned owner 1",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    orphanedOwners.push({",
+															"        ownerPk: cdo.owner.personReference,",
+															"        dogPk: cdo.dogs[0].indexNumber",
+															"    })",
+															"    pm.collectionVariables.set('orphanedOwners', JSON.stringify(orphanedOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"pm.collectionVariables.set('orphanedOwners', '[]')"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create orphaned owner 2",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'));",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    orphanedOwners.push({",
+															"        ownerPk: cdo.owner.personReference,",
+															"        dogPk: cdo.dogs[0].indexNumber",
+															"    });",
+															"    pm.collectionVariables.set('orphanedOwners', JSON.stringify(orphanedOwners));",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create owner 3",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    orphanedOwners.push({",
+															"        ownerPk: cdo.owner.personReference,",
+															"        dogPk: cdo.dogs[0].indexNumber",
+															"    })",
+															"    pm.collectionVariables.set('orphanedOwners', JSON.stringify(orphanedOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "delete dog",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a 204 and empty body given\", function () {",
+															"    pm.response.to.have.status(204);",
+															"    const body = pm.response.body",
+															"    pm.expect(body).to.eq(undefined)",
+															"    const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+															"    orphanedOwners[0].orphaned = true",
+															"    pm.collectionVariables.set('orphanedOwners', JSON.stringify(orphanedOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+															"pm.variables.set('dogIndexToDelete', orphanedOwners[0].dogPk)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog/{{dogIndexToDelete}}",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog",
+														"{{dogIndexToDelete}}"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "delete dog 2",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a 204 and empty body given\", function () {",
+															"    pm.response.to.have.status(204);",
+															"    const body = pm.response.body",
+															"    pm.expect(body).to.eq(undefined)",
+															"    const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+															"    orphanedOwners[1].orphaned = true",
+															"    pm.collectionVariables.set('orphanedOwners', JSON.stringify(orphanedOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+															"pm.variables.set('dogIndexToDelete', orphanedOwners[1].dogPk)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog/{{dogIndexToDelete}}",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog",
+														"{{dogIndexToDelete}}"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "/persons?orphaned=true",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const isInAscendingOrder = () => { ",
+													"    const currentOwner = { value: '' }",
+													"",
+													"    return (person) => {",
+													"        const owner = person.lastName + ' ' + person.firstName",
+													"        const isInOrder = owner.localeCompare(currentOwner.value) >= 0",
+													"        if (!isInOrder) {",
+													"            console.error(currentOwner.value)",
+													"            console.error(owner, currentOwner.value)",
+													"        }",
+													"        currentOwner.value = owner",
+													"        return isInOrder",
+													"    }",
+													"}",
+													"",
+													"pm.test(\"response returns a 200 and orphaned owners should be returned\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const response = pm.response.json()",
+													"    pm.expect(response.persons.length >= 2).to.be.true",
+													"    const orphanedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwners'))",
+													"    const orphanedOwnerPks = orphanedOwners.filter(owner => owner.orphaned === true).map(owner => owner.ownerPk)",
+													"    const nonOrphanedOwnerPks = orphanedOwners.filter(owner => owner.orphaned !== true).map(owner => owner.ownerPk)",
+													"    const resultPks = response.persons.map(person => person.personReference)",
+													"    pm.expect(orphanedOwnerPks.every(ownerPk => resultPks.includes(ownerPk))).to.be.true",
+													"    pm.expect(nonOrphanedOwnerPks.every(ownerPk => !resultPks.includes(ownerPk))).to.be.true",
+													"    pm.expect(response.persons.every(isInAscendingOrder())).to.be.true",
+													"    pm.collectionVariables.set('orphanedOwnersToDelete', JSON.stringify(orphanedOwnerPks))",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/persons?orphaned=true&limit=-1&sortKey=owner&sortOrder=ASC",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"persons"
+											],
+											"query": [
+												{
+													"key": "orphaned",
+													"value": "true"
+												},
+												{
+													"key": "limit",
+													"value": "-1"
+												},
+												{
+													"key": "sortKey",
+													"value": "owner"
+												},
+												{
+													"key": "sortOrder",
+													"value": "ASC"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/persons:batch-delete success",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a 200 and orphaned owners should be returned\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const response = pm.response.json()",
+													"    const expectedDeletedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwnersToDelete'))",
+													"    pm.expect(response.count.failed).to.eq(0)",
+													"    pm.expect(response.count.success).to.eq(expectedDeletedOwners.length)",
+													"    pm.expect(response.deleted.failed).to.deep.eq([])",
+													"    pm.expect(response.deleted.success).to.deep.eq(expectedDeletedOwners)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"personReferences\": {{orphanedOwnersToDelete}}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/persons:batch-delete",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"persons:batch-delete"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/persons:batch-delete failure",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a 200 and orphaned owners should be returned\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const response = pm.response.json()",
+													"    const expectedDeletedOwners = JSON.parse(pm.collectionVariables.get('orphanedOwnersToDelete'))",
+													"    pm.expect(response.count.failed).to.eq(expectedDeletedOwners.length)",
+													"    pm.expect(response.count.success).to.eq(0)",
+													"    pm.expect(response.deleted.failed).to.deep.eq(expectedDeletedOwners)",
+													"    pm.expect(response.deleted.success).to.deep.eq([])",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"personReferences\": {{orphanedOwnersToDelete}}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/persons:batch-delete",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"persons:batch-delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Latest Address shown",
+							"item": [
+								{
+									"name": "Create owner",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const cdo = pm.response.json();",
+													"    pm.collectionVariables.set('latestAddressTestPerson1', cdo.owner.personReference)",
+													"    pm.collectionVariables.set('latestAddressTestAddress1', cdo.owner.address.addressLine1)",
+													"    pm.collectionVariables.set('latestAddressTestFirstName1', cdo.owner.firstName)",
+													"    pm.collectionVariables.set('latestAddressTestLastName1', cdo.owner.lastName)",
+													"    pm.collectionVariables.set('latestAddressTestDOB', cdo.owner.birthDate)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set('orphanedOwners', '[]')"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}} Test\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1995-04-11\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"Sheffield\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create owner 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const cdo = pm.response.json();",
+													"    pm.collectionVariables.set('latestAddressTestPerson2', cdo.owner.personReference)",
+													"    pm.collectionVariables.set('latestAddressTestAddress2', cdo.owner.address.addressLine1)",
+													"    pm.collectionVariables.set('latestAddressTestLastName2', cdo.owner.lastName)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set('orphanedOwners', '[]')"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{latestAddressTestFirstName1}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1995-04-11\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"Sheffield\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create owner 3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const cdo = pm.response.json();",
+													"    pm.collectionVariables.set('latestAddressTestPerson3', cdo.owner.personReference)",
+													"    pm.collectionVariables.set('latestAddressTestAddress3', cdo.owner.address.addressLine1)",
+													"    pm.collectionVariables.set('latestAddressTestLastName3', cdo.owner.lastName)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set('orphanedOwners', '[]')"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{latestAddressTestFirstName1}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1995-04-11\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"Sheffield\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/persons returns created address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"returns a persons array\", function () {",
+													"    const { persons } = pm.response.json()",
+													"    for (let i = 1; i < 4; i++) {",
+													"        const owner = persons.find(person => person.personReference === pm.collectionVariables.get(`latestAddressTestPerson${i}`))",
+													"        pm.expect(owner.address.addressLine1).to.eq(pm.collectionVariables.get(`latestAddressTestAddress${i}`))",
+													"    }",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/persons?firstName={{latestAddressTestFirstName1}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"persons"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": null,
+													"disabled": true
+												},
+												{
+													"key": "firstName",
+													"value": "{{latestAddressTestFirstName1}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update person 1 address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const owner = pm.response.json();",
+													"",
+													"    pm.collectionVariables.set('latestAddressTestAddressV21', owner.address.addressLine1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"personReference\": \"{{latestAddressTestPerson1}}\",\n  \"firstName\": \"{{latestAddressTestFirstName1}}\",\n  \"lastName\": \"{{latestAddressTestLastName1}}\",\n  \"dateOfBirth\": \"{{latestAddressTestDOB}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"Sheffield\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update person 2 address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const owner = pm.response.json();",
+													"",
+													"    pm.collectionVariables.set('latestAddressTestAddressV22', owner.address.addressLine1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"personReference\": \"{{latestAddressTestPerson2}}\",\n  \"firstName\": \"{{latestAddressTestFirstName1}}\",\n  \"lastName\": \"{{latestAddressTestLastName2}}\",\n  \"dateOfBirth\": \"{{latestAddressTestDOB}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"Sheffield\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update person 3 address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const owner = pm.response.json();",
+													"",
+													"    pm.collectionVariables.set('latestAddressTestAddressV23', owner.address.addressLine1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"personReference\": \"{{latestAddressTestPerson3}}\",\n  \"firstName\": \"{{latestAddressTestFirstName1}}\",\n  \"lastName\": \"{{latestAddressTestLastName3}}\",\n  \"dateOfBirth\": \"{{latestAddressTestDOB}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"Sheffield\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/persons returns update address",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"returns a persons array\", function () {",
+													"    const { persons } = pm.response.json()",
+													"    for (let i = 1; i < 4; i++) {",
+													"        const owner = persons.find(person => person.personReference === pm.collectionVariables.get(`latestAddressTestPerson${i}`))",
+													"        pm.expect(owner.address.addressLine1).to.eq(pm.collectionVariables.get(`latestAddressTestAddressV2${i}`))",
+													"    }",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/persons?firstName={{latestAddressTestFirstName1}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"persons"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": null,
+													"disabled": true
+												},
+												{
+													"key": "firstName",
+													"value": "{{latestAddressTestFirstName1}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update person 1 address Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const owner = pm.response.json();",
+													"",
+													"    pm.collectionVariables.set('latestAddressTestAddressV31', owner.address.addressLine1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"personReference\": \"{{latestAddressTestPerson1}}\",\n  \"firstName\": \"{{latestAddressTestFirstName1}}\",\n  \"lastName\": \"{{latestAddressTestLastName1}}\",\n  \"dateOfBirth\": \"{{latestAddressTestDOB}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"Sheffield\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update person 2 address Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const owner = pm.response.json();",
+													"",
+													"    pm.collectionVariables.set('latestAddressTestAddressV32', owner.address.addressLine1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"personReference\": \"{{latestAddressTestPerson2}}\",\n  \"firstName\": \"{{latestAddressTestFirstName1}}\",\n  \"lastName\": \"{{latestAddressTestLastName2}}\",\n  \"dateOfBirth\": \"{{latestAddressTestDOB}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"Sheffield\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update person 3 address Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const owner = pm.response.json();",
+													"",
+													"    pm.collectionVariables.set('latestAddressTestAddressV33', owner.address.addressLine1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"personReference\": \"{{latestAddressTestPerson3}}\",\n  \"firstName\": \"{{latestAddressTestFirstName1}}\",\n  \"lastName\": \"{{latestAddressTestLastName3}}\",\n  \"dateOfBirth\": \"{{latestAddressTestDOB}}\",\n  \"address\": {\n    \"addressLine1\": \"{{$randomStreetAddress}}\",\n    \"town\": \"Sheffield\",\n    \"postcode\": \"S1 1AA\",\n    \"country\": \"England\"\n  }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/person",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/persons returns update address 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"returns a persons array\", function () {",
+													"    const { persons } = pm.response.json()",
+													"    for (let i = 1; i < 4; i++) {",
+													"        const owner = persons.find(person => person.personReference === pm.collectionVariables.get(`latestAddressTestPerson${i}`))",
+													"        pm.expect(owner.address.addressLine1).to.eq(pm.collectionVariables.get(`latestAddressTestAddressV3${i}`))",
+													"    }",
+													"    pm.collectionVariables.unset('latestAddressTestPerson1')",
+													"    pm.collectionVariables.unset('latestAddressTestAddress1')",
+													"    pm.collectionVariables.unset('latestAddressTestFirstName1')",
+													"    pm.collectionVariables.unset('latestAddressTestLastName1')",
+													"    pm.collectionVariables.unset('latestAddressTestDOB')",
+													"    pm.collectionVariables.unset('latestAddressTestPerson2')",
+													"    pm.collectionVariables.unset('latestAddressTestAddress2')",
+													"    pm.collectionVariables.unset('latestAddressTestFirstName2')",
+													"    pm.collectionVariables.unset('latestAddressTestLastName2')",
+													"    pm.collectionVariables.unset('latestAddressTestDOB2')",
+													"    pm.collectionVariables.unset('latestAddressTestPerson3')",
+													"    pm.collectionVariables.unset('latestAddressTestAddress3')",
+													"    pm.collectionVariables.unset('latestAddressTestFirstName3')",
+													"    pm.collectionVariables.unset('latestAddressTestLastName3')",
+													"    pm.collectionVariables.unset('latestAddressTestDOB3')",
+													"    pm.collectionVariables.unset('latestAddressTestAddressV21')",
+													"    pm.collectionVariables.unset('latestAddressTestAddressV22')",
+													"    pm.collectionVariables.unset('latestAddressTestAddressV23')",
+													"    pm.collectionVariables.unset('latestAddressTestAddressV31')",
+													"    pm.collectionVariables.unset('latestAddressTestAddressV32')",
+													"    pm.collectionVariables.unset('latestAddressTestAddressV33')",
+													"",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/persons?firstName={{latestAddressTestFirstName1}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"persons"
+											],
+											"query": [
+												{
+													"key": "",
+													"value": null,
+													"disabled": true
+												},
+												{
+													"key": "firstName",
+													"value": "{{latestAddressTestFirstName1}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "/persons returns an array of persons Copy",
 							"event": [
 								{
@@ -3675,7 +4890,7 @@
 													"pm.test(\"dog details\", function () {",
 													"    const dogs = pm.response.json().dogs;",
 													"    const dog = dogs[0]",
-													"    pm.collectionVariables.set(\"dogIndexToDelete\",  dog.indexNumber);",
+													"    pm.collectionVariables.set(\"dogDeleteIndexToDelete\",  dog.indexNumber);",
 													"});",
 													""
 												],
@@ -3718,6 +4933,49 @@
 									"response": []
 								},
 								{
+									"name": "/dog",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a 204 and empty body given\", function () {",
+													"    pm.response.to.have.status(204);",
+													"    const body = pm.response.body",
+													"    pm.expect(body).to.eq(undefined)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dog/{{dogDeleteIndexToDelete}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dog",
+												"{{dogDeleteIndexToDelete}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "/dog invalid",
 									"event": [
 										{
@@ -3753,49 +5011,6 @@
 											"path": [
 												"dog",
 												"ED9999999999"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "/dog",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"response returns a 204 and empty body given\", function () {",
-													"    pm.response.to.have.status(204);",
-													"    const body = pm.response.body",
-													"    pm.expect(body).to.eq(undefined)",
-													"});"
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "ddi-username",
-												"value": "internal-user"
-											},
-											{
-												"key": "ddi-displayname",
-												"value": "User, Internal"
-											}
-										],
-										"url": {
-											"raw": "{{DDI_API_BASE_URL}}/dog/{{dogIndexToDelete}}",
-											"host": [
-												"{{DDI_API_BASE_URL}}"
-											],
-											"path": [
-												"dog",
-												"{{dogIndexToDelete}}"
 											]
 										}
 									},
@@ -4618,7 +5833,7 @@
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('House of Lords')",
-													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('courtsCollisionId1'))",
+													"    pm.expect(jsonData.id).to.eq(parseInt(pm.collectionVariables.get('courtsCollisionId1')))",
 													"    pushTearDown('courtsTeardown', jsonData.id)",
 													"});",
 													""
@@ -5399,7 +6614,7 @@
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('Belfast Town Police')",
-													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('policeCollisionId1'))",
+													"    pm.expect(jsonData.id).to.eq(parseInt(pm.collectionVariables.get('policeCollisionId1')))",
 													"});",
 													""
 												],
@@ -6277,7 +7492,7 @@
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('Axa Insurance')",
-													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('insuranceCollisionId1'))",
+													"    pm.expect(jsonData.id).to.eq(parseInt(pm.collectionVariables.get('insuranceCollisionId1')))",
 													"});",
 													""
 												],
@@ -7045,6 +8260,18 @@
 			"key": "policeCollisionId1",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "orphanedOwners",
+			"value": "[]"
+		},
+		{
+			"key": "orphanedOwnersToDelete",
+			"value": ""
+		},
+		{
+			"key": "dogDeleteIndexToDelete",
+			"value": ""
 		}
 	]
 }
