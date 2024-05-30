@@ -267,3 +267,17 @@ Feature: Create new record validations
         And I set "345671111111111" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
         Then I expect that element "h1" contains the text "Microchip number 345671111111111 is in use on a current dog record with a different owner"
+
+     Scenario:  Reuse the same microchip number which already exists for this owner
+        Given I open the url "/"
+        When I click on the link containing "Process new CDO or"
+        And I set "Nate" to the inputfield "#firstName"
+        And I set "Jones" to the inputfield "#lastName"
+        And I click on the element "button=Continue"
+        And I select the radio option with the value "0" from the radio group "address"
+        And I click on the element "button=Continue"
+        And I select the radio option with the value "-1" from the radio group "dog"
+        And I click on the element "button=Continue"
+        And I set "345671185225813" to the inputfield "#microchipNumber"
+        And I click on the element "button=Continue"
+        Then I expect that element "form" contains the text "This dog is already owned by this owner"    

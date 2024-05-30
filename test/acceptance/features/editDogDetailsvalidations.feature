@@ -23,6 +23,13 @@ Feature: Edit dog details
         Then I expect that element "form" contains the text "Microchip numbers must be 15 numbers long"
         Then I expect that element "form" contains the text "Microchip numbers can only contain numbers"
 
+    Scenario: Enter microchip number already exists in the database for another dog
+        When I set "345677654366666" to the inputfield "#microchipNumber"
+        And I set "345677654355555" to the inputfield "#microchipNumber2"
+        And I click on the element "button=Save details"
+        Then I expect that element "form" contains the text "The microchip number already exists"
+        And I expect that element "form" contains the text "The microchip number already exists"    
+
     Scenario: Invalid date of birth(future date)
         When I set "12345689652364" to the inputfield "#microchipNumber"
         And I set "1258964785694" to the inputfield "#microchipNumber2"
@@ -69,33 +76,3 @@ Feature: Edit dog details
         And I set "13" to the inputfield "#dateUntraceable-month"
         And I click on the element "button=Save details"
         Then I expect that element "form" contains the text "A date must include a day and year"
-
-        
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
