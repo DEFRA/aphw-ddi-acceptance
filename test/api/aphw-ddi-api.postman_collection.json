@@ -3790,6 +3790,7 @@
 													"    pm.expect(orphanedOwnerPks.every(ownerPk => resultPks.includes(ownerPk))).to.be.true",
 													"    pm.expect(nonOrphanedOwnerPks.every(ownerPk => !resultPks.includes(ownerPk))).to.be.true",
 													"    pm.expect(response.persons.every(isInAscendingOrder())).to.be.true",
+													"    pm.collectionVariables.set('orphanedOwnersToDelete', JSON.stringify(orphanedOwnerPks))",
 													"});"
 												],
 												"type": "text/javascript",
@@ -4889,7 +4890,7 @@
 													"pm.test(\"dog details\", function () {",
 													"    const dogs = pm.response.json().dogs;",
 													"    const dog = dogs[0]",
-													"    pm.collectionVariables.set(\"dogIndexToDelete\",  dog.indexNumber);",
+													"    pm.collectionVariables.set(\"dogDeleteIndexToDelete\",  dog.indexNumber);",
 													"});",
 													""
 												],
@@ -4932,6 +4933,49 @@
 									"response": []
 								},
 								{
+									"name": "/dog",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a 204 and empty body given\", function () {",
+													"    pm.response.to.have.status(204);",
+													"    const body = pm.response.body",
+													"    pm.expect(body).to.eq(undefined)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dog/{{dogDeleteIndexToDelete}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dog",
+												"{{dogDeleteIndexToDelete}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "/dog invalid",
 									"event": [
 										{
@@ -4967,49 +5011,6 @@
 											"path": [
 												"dog",
 												"ED9999999999"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "/dog",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"response returns a 204 and empty body given\", function () {",
-													"    pm.response.to.have.status(204);",
-													"    const body = pm.response.body",
-													"    pm.expect(body).to.eq(undefined)",
-													"});"
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "ddi-username",
-												"value": "internal-user"
-											},
-											{
-												"key": "ddi-displayname",
-												"value": "User, Internal"
-											}
-										],
-										"url": {
-											"raw": "{{DDI_API_BASE_URL}}/dog/{{dogIndexToDelete}}",
-											"host": [
-												"{{DDI_API_BASE_URL}}"
-											],
-											"path": [
-												"dog",
-												"{{dogIndexToDelete}}"
 											]
 										}
 									},
@@ -5832,7 +5833,7 @@
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('House of Lords')",
-													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('courtsCollisionId1'))",
+													"    pm.expect(jsonData.id).to.eq(parseInt(pm.collectionVariables.get('courtsCollisionId1')))",
 													"    pushTearDown('courtsTeardown', jsonData.id)",
 													"});",
 													""
@@ -6613,7 +6614,7 @@
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('Belfast Town Police')",
-													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('policeCollisionId1'))",
+													"    pm.expect(jsonData.id).to.eq(parseInt(pm.collectionVariables.get('policeCollisionId1')))",
 													"});",
 													""
 												],
@@ -7491,7 +7492,7 @@
 													"    pm.response.to.have.status(201);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.name).to.eq('Axa Insurance')",
-													"    pm.expect(jsonData.id).to.eq(pm.collectionVariables.get('insuranceCollisionId1'))",
+													"    pm.expect(jsonData.id).to.eq(parseInt(pm.collectionVariables.get('insuranceCollisionId1')))",
 													"});",
 													""
 												],
@@ -8266,6 +8267,10 @@
 		},
 		{
 			"key": "orphanedOwnersToDelete",
+			"value": ""
+		},
+		{
+			"key": "dogDeleteIndexToDelete",
 			"value": ""
 		}
 	]
