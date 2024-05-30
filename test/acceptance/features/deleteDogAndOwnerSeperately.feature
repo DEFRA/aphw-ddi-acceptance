@@ -1,4 +1,4 @@
-Feature: Delete dog and owner
+Feature: Delete dog and owner seperately
 
 Scenario:  Creating a new dog and owner
         Given I open the url "/"
@@ -37,9 +37,14 @@ Scenario:  Creating a new dog and owner
         And I expect that element "(//dd)[1]" contains the text "Bunny"
         And I expect that element "(//dd)[2]" contains the text "XL Bully"
 
-    Scenario: Delete dog
+    Scenario: Delete dog(last dog of the owner)
         When I click on the link containing "Delete dog record"
         And I select the radio option with the value "Y" from the radio group "confirm"
+        And I click on the element "button=Continue"
+        Then I expect that element "h1" contains the text "Delete the owner record"
+
+    Scenario: Delete dog only(Select No option to delete owner)
+        When I select the radio option with the value "N" from the radio group "confirmOwner"
         And I click on the element "button=Continue"
         Then I expect that element "h1" contains the text "Dog record deleted"
 
