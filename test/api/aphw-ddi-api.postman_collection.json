@@ -5891,6 +5891,334 @@
 									]
 								}
 							]
+						},
+						{
+							"name": "batch delete dogs",
+							"item": [
+								{
+									"name": "Setup",
+									"item": [
+										{
+											"name": "Create dog 1",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const batchDeleteDogs = JSON.parse(pm.collectionVariables.get('batchDeleteDogs'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    batchDeleteDogs.push(cdo.dogs[0].indexNumber)",
+															"    pm.collectionVariables.set('batchDeleteDogs', JSON.stringify(batchDeleteDogs))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"pm.collectionVariables.set('batchDeleteDogs', '[]')"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create dog 2",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const batchDeleteDogs = JSON.parse(pm.collectionVariables.get('batchDeleteDogs'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    batchDeleteDogs.push(cdo.dogs[0].indexNumber)",
+															"    pm.collectionVariables.set('batchDeleteDogs', JSON.stringify(batchDeleteDogs))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create dog 3",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const batchDeleteDogs = JSON.parse(pm.collectionVariables.get('batchDeleteDogs'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    batchDeleteDogs.push(cdo.dogs[0].indexNumber)",
+															"    pm.collectionVariables.set('batchDeleteDogs', JSON.stringify(batchDeleteDogs))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "/dogs:batch-delete success",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a 200 and dogs should be returned\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const response = pm.response.json()",
+													"    const expectedDeletedDogs = JSON.parse(pm.collectionVariables.get('batchDeleteDogs'))",
+													"    pm.expect(response.count.failed).to.eq(0)",
+													"    pm.expect(response.count.success).to.eq(expectedDeletedDogs.length)",
+													"    pm.expect(response.deleted.failed).to.deep.eq([])",
+													"    pm.expect(response.deleted.success).to.deep.eq(expectedDeletedDogs)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"dogPks\": {{batchDeleteDogs}}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dogs:batch-delete",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dogs:batch-delete"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/dogs:batch-delete failure",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a 200 and dogs should be returned\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const response = pm.response.json()",
+													"    const expectedDeletedDogs = JSON.parse(pm.collectionVariables.get('batchDeleteDogs'))",
+													"    pm.expect(response.count.success).to.eq(0)",
+													"    pm.expect(response.count.failed).to.eq(expectedDeletedDogs.length)",
+													"    pm.expect(response.deleted.success).to.deep.eq([])",
+													"    pm.expect(response.deleted.failed).to.deep.eq(expectedDeletedDogs)",
+													"    pm.collectionVariables.unset('batchDeleteDogs')",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"dogPks\": {{batchDeleteDogs}}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dogs:batch-delete",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dogs:batch-delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
