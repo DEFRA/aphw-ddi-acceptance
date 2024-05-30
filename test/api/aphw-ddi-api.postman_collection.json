@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7364a58d-6fc4-4130-98de-abcb8bbea8de",
+		"_postman_id": "e9ff6629-6b80-4666-821f-4b99c9990436",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23938788"
+		"_exporter_id": "12107479"
 	},
 	"item": [
 		{
@@ -5442,28 +5442,7 @@
 													"listen": "prerequest",
 													"script": {
 														"exec": [
-															"const min = 100000000000000",
-															"const max = 999999999999999",
-															"const multiplier = max - min + 1",
-															"",
-															"const generateRandomNumberBetween = (min, max) => {",
-															"    const random = Math.random()",
-															"    const calc = Math.floor(random * multiplier)",
-															"",
-															"    return calc + min",
-															"}",
-															"",
-															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
-															"",
-															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
-															"    microchipNumber1: generateMicrochipNumber().toString(),",
-															"    microchipNumber2: generateMicrochipNumber().toString(),",
-															"    dogs: []",
-															"}))",
-															"",
-															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
-															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
-															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+															""
 														],
 														"type": "text/javascript",
 														"packages": {}
@@ -5530,28 +5509,7 @@
 													"listen": "prerequest",
 													"script": {
 														"exec": [
-															"const min = 100000000000000",
-															"const max = 999999999999999",
-															"const multiplier = max - min + 1",
-															"",
-															"const generateRandomNumberBetween = (min, max) => {",
-															"    const random = Math.random()",
-															"    const calc = Math.floor(random * multiplier)",
-															"",
-															"    return calc + min",
-															"}",
-															"",
-															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
-															"",
-															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
-															"    microchipNumber1: generateMicrochipNumber().toString(),",
-															"    microchipNumber2: generateMicrochipNumber().toString(),",
-															"    dogs: []",
-															"}))",
-															"",
-															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
-															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
-															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+															""
 														],
 														"type": "text/javascript",
 														"packages": {}
@@ -5617,28 +5575,7 @@
 													"listen": "prerequest",
 													"script": {
 														"exec": [
-															"const min = 100000000000000",
-															"const max = 999999999999999",
-															"const multiplier = max - min + 1",
-															"",
-															"const generateRandomNumberBetween = (min, max) => {",
-															"    const random = Math.random()",
-															"    const calc = Math.floor(random * multiplier)",
-															"",
-															"    return calc + min",
-															"}",
-															"",
-															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
-															"",
-															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
-															"    microchipNumber1: generateMicrochipNumber().toString(),",
-															"    microchipNumber2: generateMicrochipNumber().toString(),",
-															"    dogs: []",
-															"}))",
-															"",
-															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
-															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
-															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+															""
 														],
 														"type": "text/javascript",
 														"packages": {}
@@ -5698,28 +5635,7 @@
 													"listen": "prerequest",
 													"script": {
 														"exec": [
-															"const min = 100000000000000",
-															"const max = 999999999999999",
-															"const multiplier = max - min + 1",
-															"",
-															"const generateRandomNumberBetween = (min, max) => {",
-															"    const random = Math.random()",
-															"    const calc = Math.floor(random * multiplier)",
-															"",
-															"    return calc + min",
-															"}",
-															"",
-															"const generateMicrochipNumber = () => generateRandomNumberBetween(min, max)",
-															"",
-															"pm.collectionVariables.set('duplicateMicrochip', JSON.stringify({",
-															"    microchipNumber1: generateMicrochipNumber().toString(),",
-															"    microchipNumber2: generateMicrochipNumber().toString(),",
-															"    dogs: []",
-															"}))",
-															"",
-															"const microchips = JSON.parse(pm.collectionVariables.get('duplicateMicrochip'))",
-															"pm.variables.set('microchipNumber1', microchips.microchipNumber1)",
-															"pm.variables.set('microchipNumber2', microchips.microchipNumber2)"
+															""
 														],
 														"type": "text/javascript",
 														"packages": {}
