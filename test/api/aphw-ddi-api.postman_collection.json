@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e9ff6629-6b80-4666-821f-4b99c9990436",
+		"_postman_id": "ecd20a2b-75a3-46c4-82f9-93e7aa94702c",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -5724,7 +5724,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{DDI_API_BASE_URL}}/dogs?forPurging=true",
+													"raw": "{{DDI_API_BASE_URL}}/dogs?forPurging=true&statuses=Exempt,Inactive,Withdrawn,Failed",
 													"host": [
 														"{{DDI_API_BASE_URL}}"
 													],
@@ -5735,6 +5735,10 @@
 														{
 															"key": "forPurging",
 															"value": "true"
+														},
+														{
+															"key": "statuses",
+															"value": "Exempt,Inactive,Withdrawn,Failed"
 														}
 													]
 												}
@@ -5772,7 +5776,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{DDI_API_BASE_URL}}/dogs?forPurging=true&sortKey=indexNumber&sortOrder=DESC",
+													"raw": "{{DDI_API_BASE_URL}}/dogs?forPurging=true&sortKey=indexNumber&sortOrder=DESC&statuses=Exempt,Inactive,Withdrawn,Failed",
 													"host": [
 														"{{DDI_API_BASE_URL}}"
 													],
@@ -5791,6 +5795,10 @@
 														{
 															"key": "sortOrder",
 															"value": "DESC"
+														},
+														{
+															"key": "statuses",
+															"value": "Exempt,Inactive,Withdrawn,Failed"
 														}
 													]
 												}
@@ -9074,6 +9082,10 @@
 		},
 		{
 			"key": "oldDog2",
+			"value": ""
+		},
+		{
+			"key": "batchDeleteDogs",
 			"value": ""
 		}
 	]
