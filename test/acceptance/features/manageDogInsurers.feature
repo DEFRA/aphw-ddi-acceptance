@@ -26,6 +26,4 @@ Feature: Manage Dog Insurers List
 
     Scenario: Remove dog insurer  
         When I click on the element "button=Remove"
-        Then I expect that element "table" not contains the text "AAA Insurance"             
-        
-        
+        Then I expect that element "table" not contains the text "AAA Insurance"       

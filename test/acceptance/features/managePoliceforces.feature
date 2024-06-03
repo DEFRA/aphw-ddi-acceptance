@@ -42,6 +42,4 @@ Feature: Manage police forces List
         And I click on the element "button=Remove police force"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "main" contains the text "Stony Stratford Police is removed from the Index."      
-        
-                    
+        Then I expect that element "main" contains the text "Stony Stratford Police is removed from the Index."
