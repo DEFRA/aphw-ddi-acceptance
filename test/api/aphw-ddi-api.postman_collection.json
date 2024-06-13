@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ecd20a2b-75a3-46c4-82f9-93e7aa94702c",
+		"_postman_id": "3e89ca00-f640-40ab-ad2d-945c464b7e1e",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23938788"
@@ -8698,6 +8698,53 @@
 					]
 				},
 				{
+					"name": "Statistics",
+					"item": [
+						{
+							"name": "counts-per-status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response returns a list of counts of each status\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    const counts = pm.response.json();",
+											"    pm.expect(counts.length > 1).to.be.true;",
+											"    pm.expect(counts.some(row => row.status.name === 'Pre-exempt')).to.be.true;",
+											"    pm.expect(counts[0].total > 15).to.be.true;",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/statistics?queryName=countsPerStatus",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"statistics"
+									],
+									"query": [
+										{
+											"key": "queryName",
+											"value": "countsPerStatus"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "countries",
 					"event": [
 						{
@@ -9073,19 +9120,11 @@
 			"value": ""
 		},
 		{
-			"key": "duplicateMicrochip",
-			"value": ""
-		},
-		{
 			"key": "oldDog1",
 			"value": ""
 		},
 		{
 			"key": "oldDog2",
-			"value": ""
-		},
-		{
-			"key": "batchDeleteDogs",
 			"value": ""
 		}
 	]
