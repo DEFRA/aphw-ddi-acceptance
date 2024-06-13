@@ -8712,6 +8712,7 @@
 											"    const counts = pm.response.json();",
 											"    pm.expect(counts.length > 1).to.be.true;",
 											"    pm.expect(counts.some(row => row.status.name === 'Pre-exempt')).to.be.true;",
+											"    pm.expect(counts[0].total > 15).to.be.true;",
 											"});",
 											""
 										],
