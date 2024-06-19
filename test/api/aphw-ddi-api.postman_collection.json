@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3e89ca00-f640-40ab-ad2d-945c464b7e1e",
+		"_postman_id": "e5fc651c-5c85-446d-bf50-89aa1a5daa08",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23938788"
+		"_exporter_id": "12107479"
 	},
 	"item": [
 		{
@@ -4823,50 +4823,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "/persons returns an array of persons Copy",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"response is ok\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"returns a persons array\", function () {",
-											"    const response = pm.response.json()",
-											"    pm.expect(response.persons).to.be.a('array')",
-											"    pm.expect(response.persons.length < 100).to.be.true",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{DDI_API_BASE_URL}}/persons",
-									"host": [
-										"{{DDI_API_BASE_URL}}"
-									],
-									"path": [
-										"persons"
-									],
-									"query": [
-										{
-											"key": "",
-											"value": null,
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -8745,6 +8701,398 @@
 					]
 				},
 				{
+					"name": "Jobs",
+					"item": [
+						{
+							"name": "Purge Soft Deleted Records",
+							"item": [
+								{
+									"name": "Setup Copy",
+									"item": [
+										{
+											"name": "Create dog 1",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.collectionVariables.set('purgeOwners', [])",
+															"pm.collectionVariables.set('purgeDogs', [])",
+															"const purgeDogs = []",
+															"const purgeOwners = []",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    purgeDogs.push(cdo.dogs[0].indexNumber)",
+															"    purgeOwners.push(cdo.owner.personReference)",
+															"    pm.collectionVariables.set('purgeDogs', JSON.stringify(purgeDogs))",
+															"    pm.collectionVariables.set('purgeOwners', JSON.stringify(purgeOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create dog 2",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const purgeDogs = JSON.parse(pm.collectionVariables.get('purgeDogs'))",
+															"const purgeOwners = JSON.parse(pm.collectionVariables.get('purgeOwners'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    purgeDogs.push(cdo.dogs[0].indexNumber)",
+															"    purgeOwners.push(cdo.owner.personReference)",
+															"    pm.collectionVariables.set('purgeDogs', JSON.stringify(purgeDogs))",
+															"    pm.collectionVariables.set('purgeOwners', JSON.stringify(purgeOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create dog 3",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const purgeDogs = JSON.parse(pm.collectionVariables.get('purgeDogs'))",
+															"const purgeOwners = JSON.parse(pm.collectionVariables.get('purgeOwners'))",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    purgeDogs.push(cdo.dogs[0].indexNumber)",
+															"    purgeOwners.push(cdo.owner.personReference)",
+															"    pm.collectionVariables.set('purgeDogs', JSON.stringify(purgeDogs))",
+															"    pm.collectionVariables.set('purgeOwners', JSON.stringify(purgeOwners))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/dogs:batch-delete success Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a 200 and dogs should be returned\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const result =  pm.response.json();",
+															"    pm.expect(result.count.success > 2).to.be.true;",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"dogPks\": {{purgeDogs}}\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dogs:batch-delete",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dogs:batch-delete"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/persons:batch-delete success Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a 200 and dogs should be returned\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const result =  pm.response.json();",
+															"    pm.expect(result.count.success > 2).to.be.true;",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"personReferences\": {{purgeOwners}}\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/persons:batch-delete",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"persons:batch-delete"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "purge soft deleted records",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a list of counts of each status\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const counts = pm.response.json();",
+													"    pm.expect(counts.count.success.total > 5).to.be.true;",
+													"    pm.expect(counts.count.success.dogs > 2).to.be.true;",
+													"    pm.expect(counts.count.success.owners > 2).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const dateToday = new Date()",
+													"dateToday.setMonth(dateToday.getMonth() + 3)",
+													"const in90Days = dateToday.toISOString().split('T')[0]",
+													"",
+													"pm.variables.set('in90Days', in90Days)"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/jobs/purge-soft-delete?today={{in90Days}}",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"jobs",
+												"purge-soft-delete"
+											],
+											"query": [
+												{
+													"key": "today",
+													"value": "{{in90Days}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
 					"name": "countries",
 					"event": [
 						{
@@ -9126,6 +9474,20 @@
 		{
 			"key": "oldDog2",
 			"value": ""
+		},
+		{
+			"key": "batchDeleteDogs",
+			"value": ""
+		},
+		{
+			"key": "purgeDogs",
+			"value": "[]",
+			"type": "string"
+		},
+		{
+			"key": "purgeOwners",
+			"value": "[]",
+			"type": "string"
 		}
 	]
 }
