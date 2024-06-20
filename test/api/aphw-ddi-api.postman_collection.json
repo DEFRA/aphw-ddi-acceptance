@@ -8780,6 +8780,66 @@
 											"response": []
 										},
 										{
+											"name": "/exemption returns 200 Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const [dogIdx] = JSON.parse(pm.collectionVariables.get('purgeDogs'))",
+															"pm.variables.set('dog-idx', dogIdx)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"exemptionOrder\": 2023,\n  \"indexNumber\": \"{{dog-idx}}\",\n  \"cdoIssued\": \"2020-01-01\",\n  \"cdoExpiry\": \"2020-02-01\",\n  \"policeForce\": \"Avon and Somerset Constabulary\",\n  \"legislationOfficer\": \"Test Officer\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Dogs Trust\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/exemption",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"exemption"
+													]
+												}
+											},
+											"response": []
+										},
+										{
 											"name": "Create dog 2",
 											"event": [
 												{
