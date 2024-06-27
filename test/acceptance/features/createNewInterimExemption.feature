@@ -15,7 +15,7 @@ Feature: Create new interim exemption
         And I set "CF14 9JF" to the inputfield "#postcode"
         And I set "94" to the inputfield "#houseNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "94 HEOL LLINOS"
+        Then I expect that element "form" contains the text "94 Heol Llinos"
 
     Scenario: Confirm address
         And I click on the element "button=Confirm address"

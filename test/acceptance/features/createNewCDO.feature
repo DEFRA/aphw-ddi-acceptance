@@ -12,7 +12,7 @@ Feature: Create new CDO
         When I set "LS20 8DA" to the inputfield "#postcode"
         And I set "12" to the inputfield "#houseNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "12 INGS LANE"
+        Then I expect that element "form" contains the text "12 Ings Lane"
 
     Scenario: Confirm address
         When I click on the element "button=Confirm address"
