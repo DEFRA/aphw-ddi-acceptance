@@ -2416,6 +2416,292 @@
 									"item": []
 								}
 							]
+						},
+						{
+							"name": "Manage CDO",
+							"item": [
+								{
+									"name": "Setup",
+									"item": [
+										{
+											"name": "Create dog 1 Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const manageCdo = {}",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    manageCdo.pk = cdo.dogs[0].indexNumber",
+															"    pm.collectionVariables.set('manageCdo', JSON.stringify(manageCdo))",
+															"    pm.collectionVariables.set('manageCdoPk', manageCdo.pk)",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"pm.collectionVariables.set('batchDeleteDogs', '[]')"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Manage CDO init",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(200);",
+													"})",
+													"",
+													"const cdo = pm.response.json();",
+													"",
+													"pm.test('should have tasks', () => {",
+													"  pm.expect(cdo).to.have.property('tasks');",
+													"})",
+													"pm.test('should have applicationPackSent', () => {",
+													"  pm.expect(cdo.tasks).to.have.property('applicationPackSent');",
+													"})",
+													"pm.test('should have insuranceDetailsRecorded', () => {",
+													"  pm.expect(cdo.tasks).to.have.property('insuranceDetailsRecorded');",
+													"})",
+													"pm.test('should have microchipNumberRecorded', () => {",
+													"  pm.expect(cdo.tasks).to.have.property('microchipNumberRecorded');",
+													"})",
+													"pm.test('should have applicationFeePaid', () => {",
+													"    pm.expect(cdo.tasks).to.have.property('applicationFeePaid');",
+													"})",
+													"pm.test('should have form2Sent', () => {",
+													"    pm.expect(cdo.tasks).to.have.property('form2Sent');",
+													"})",
+													"pm.test('should have verificationDateRecorded', () => {",
+													"    pm.expect(cdo.tasks).to.have.property('verificationDateRecorded');",
+													"})",
+													"pm.test('should have certificateIssued', () => {",
+													"    pm.expect(cdo.tasks).to.have.property('certificateIssued');",
+													"})",
+													"",
+													"pm.test('should initialise the Cdo Management tasks correctly', () => {",
+													"    pm.expect(cdo.tasks).to.deep.equal({",
+													"        applicationPackSent: {",
+													"            key: 'applicationPackSent',",
+													"            available: true,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        insuranceDetailsRecorded: {",
+													"            key: 'insuranceDetailsRecorded',",
+													"            available: false,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        microchipNumberRecorded: {",
+													"            key: 'microchipNumberRecorded',",
+													"            available: false,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        applicationFeePaid: {",
+													"            key: 'applicationFeePaid',",
+													"            available: false,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        form2Sent: {",
+													"            key: 'form2Sent',",
+													"            available: false,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        verificationDateRecorded: {",
+													"            key: 'verificationDateRecorded',",
+													"            available: false,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        certificateIssued: {",
+													"            key: 'certificateIssued',",
+													"            available: false,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        }",
+													"    })",
+													"})",
+													"",
+													"// pm.test('should return the cdo data for the task list', () => {",
+													"//     // pm.expect(cdo).to.have.all.keys('applicationPackSent', 'insuranceCompany', 'insuranceRenewalDate', 'microchipNumber', 'applicationFeePaid', 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued');",
+													"//     pm.expect(cdo).to.contain({",
+													"//         applicationPackSent: undefined,",
+													"//         insuranceCompany: undefined,",
+													"//         insuranceRenewalDate: undefined,",
+													"//         microchipNumber: undefined,",
+													"//         applicationFeePaid: undefined,",
+													"//         form2Sent: undefined,",
+													"//         neuteringConfirmation: undefined,",
+													"//         microchipVerification: undefined,",
+													"//         certificateIssued: undefined",
+													"//     })",
+													"// })"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Send Application Pack",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(204);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:sendApplicationPack",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:sendApplicationPack"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Send Application a second time",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(409);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:sendApplicationPack",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:sendApplicationPack"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
@@ -9667,6 +9953,16 @@
 		{
 			"key": "purgeOwners",
 			"value": "[]",
+			"type": "string"
+		},
+		{
+			"key": "manageCdo",
+			"value": "{}",
+			"type": "string"
+		},
+		{
+			"key": "manageCdoPk",
+			"value": "",
 			"type": "string"
 		}
 	]
