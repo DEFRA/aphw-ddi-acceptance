@@ -2781,8 +2781,8 @@
 													"pm.test('should return an insurance object', () => {",
 													"  pm.response.to.have.status(201);",
 													"  const payload = pm.response.json()",
-													"  expect(payload.insuranceCompany).to.eq('Dog\\'s Trust')",
-													"  expect(payload.insuranceRenewal).to.be.a('Date')",
+													"  pm.expect(payload.insuranceCompany).to.eq('Dogs Trust')",
+													"  pm.expect(payload.insuranceRenewal).to.be.a('string')",
 													"})"
 												],
 												"type": "text/javascript",
