@@ -2840,6 +2840,135 @@
 									"response": []
 								},
 								{
+									"name": "201 Record Microchip Number",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return an insurance object', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  pm.expect(payload.microchipNumber).to.eq(pm.variables.get('manageCdoMicrochip'))",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const microchipBase = Math.floor(Math.random() * 999999999999999)",
+													"pm.variables.set('manageCdoMicrochip',`${microchipBase}`.padEnd(15, '1'))"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"microchipNumber\": \"{{manageCdoMicrochip}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:recordMicrochipNumber",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:recordMicrochipNumber"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "409 Record Microchip Number",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return an insurance object', () => {",
+													"  pm.response.to.have.status(400);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"microchipNumber\": \"123456789a12345\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:recordMicrochipNumber",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:recordMicrochipNumber"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Manage CDO process",
 									"event": [
 										{
@@ -2854,10 +2983,11 @@
 													"",
 													"",
 													"pm.test('should return the cdo data for the task list', () => {",
-													"    // 'microchipNumber', 'applicationFeePaid', 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
+													"    // 'applicationFeePaid', 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
 													"    pm.expect(new Date(cdo.applicationPackSent)).to.be.a('Date')",
 													"    pm.expect(cdo.insuranceCompany).to.equal('Dogs Trust')",
 													"    pm.expect(new Date(cdo.insuranceRenewal)).to.be.a('Date')",
+													"    pm.expect(cdo.microchipNumber).to.be.a('string')",
 													"})",
 													"",
 													"pm.test('should show the Cdo Management tasks correctly', () => {",
@@ -2878,7 +3008,7 @@
 													"    pm.expect(cdo.tasks.microchipNumberRecorded).to.deep.contain({",
 													"        key: 'microchipNumberRecorded',",
 													"        available: true,",
-													"        completed: false,",
+													"        completed: true,",
 													"        readonly: false,",
 													"    })",
 													"    ",
