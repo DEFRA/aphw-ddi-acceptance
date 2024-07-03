@@ -2838,6 +2838,98 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Manage CDO process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(200);",
+													"})",
+													"",
+													"const cdo = pm.response.json();",
+													"",
+													"",
+													"pm.test('should return the cdo data for the task list', () => {",
+													"    // 'microchipNumber', 'applicationFeePaid', 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
+													"    pm.expect(new Date(cdo.applicationPackSent)).to.be.a('Date')",
+													"    pm.expect(cdo.insuranceCompany).to.equal('Dogs Trust')",
+													"    pm.expect(new Date(cdo.insuranceRenewal)).to.be.a('Date')",
+													"})",
+													"",
+													"pm.test('should show the Cdo Management tasks correctly', () => {",
+													"    pm.expect(cdo.tasks.applicationPackSent).to.deep.contain({",
+													"        \"key\": \"applicationPackSent\",",
+													"        \"available\": true,",
+													"        \"completed\": true,",
+													"        \"readonly\": true,",
+													"    })",
+													"",
+													"    pm.expect(cdo.tasks.insuranceDetailsRecorded).to.deep.contain({",
+													"        key: 'insuranceDetailsRecorded',",
+													"        available: true,",
+													"        completed: true,",
+													"        readonly: false,",
+													"    })",
+													"",
+													"    pm.expect(cdo.tasks.microchipNumberRecorded).to.deep.contain({",
+													"        key: 'microchipNumberRecorded',",
+													"        available: true,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"    ",
+													"    pm.expect(cdo.tasks.applicationFeePaid).to.deep.contain({",
+													"        key: 'applicationFeePaid',",
+													"        available: true,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"    pm.expect(cdo.tasks.form2Sent).to.deep.contain({",
+													"        key: 'form2Sent',",
+													"        available: true,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"    pm.expect(cdo.tasks.verificationDateRecorded).to.deep.contain({",
+													"        key: 'verificationDateRecorded',",
+													"        available: false,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"    pm.expect(cdo.tasks.certificateIssued).to.deep.contain({",
+													"        key: 'certificateIssued',",
+													"        available: false,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"})",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						}
