@@ -2684,7 +2684,7 @@
 									"response": []
 								},
 								{
-									"name": "200 Send Application Pack",
+									"name": "204 Send Application Pack",
 									"event": [
 										{
 											"listen": "test",
@@ -2846,7 +2846,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test('should return an insurance object', () => {",
+													"pm.test('should return microchip number', () => {",
 													"  pm.response.to.have.status(201);",
 													"  const payload = pm.response.json()",
 													"  pm.expect(payload.microchipNumber).to.eq(pm.variables.get('manageCdoMicrochip'))",
@@ -2912,7 +2912,7 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test('should return an insurance object', () => {",
+													"pm.test('should return bad request', () => {",
 													"  pm.response.to.have.status(400);",
 													"})"
 												],
@@ -2969,6 +2969,136 @@
 									"response": []
 								},
 								{
+									"name": "201 Record Application Fee Payment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return applicationFeePaid date', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  pm.expect(payload.applicationFeePaid).to.eq(\"2024-07-02T00:00:00.000Z\")",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"applicationFeePaid\": \"2024-07-02\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:recordApplicationFee",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:recordApplicationFee"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "400 Record Application Fee Payment - Invalid Date",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return applicationFeePaid date', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  pm.expect(payload.applicationFeePaid).to.eq(\"2024-07-02T00:00:00.000Z\")",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"applicationFeePaid\": \"9999-07-02\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:recordApplicationFee",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:recordApplicationFee"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Manage CDO process",
 									"event": [
 										{
@@ -2983,11 +3113,12 @@
 													"",
 													"",
 													"pm.test('should return the cdo data for the task list', () => {",
-													"    // 'applicationFeePaid', 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
+													"    // 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
 													"    pm.expect(new Date(cdo.applicationPackSent)).to.be.a('Date')",
 													"    pm.expect(cdo.insuranceCompany).to.equal('Dogs Trust')",
 													"    pm.expect(new Date(cdo.insuranceRenewal)).to.be.a('Date')",
 													"    pm.expect(cdo.microchipNumber).to.be.a('string')",
+													"    pm.expect(new Date(cdo.applicationFeePaid)).to.be.a('Date')",
 													"})",
 													"",
 													"pm.test('should show the Cdo Management tasks correctly', () => {",
@@ -3015,7 +3146,7 @@
 													"    pm.expect(cdo.tasks.applicationFeePaid).to.deep.contain({",
 													"        key: 'applicationFeePaid',",
 													"        available: true,",
-													"        completed: false,",
+													"        completed: true,",
 													"        readonly: false,",
 													"    })",
 													"    pm.expect(cdo.tasks.form2Sent).to.deep.contain({",
