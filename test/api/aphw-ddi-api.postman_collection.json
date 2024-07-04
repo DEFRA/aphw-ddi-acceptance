@@ -2470,7 +2470,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"interim-exemption\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -2644,22 +2644,7 @@
 													"            readonly: false,",
 													"        }",
 													"    })",
-													"})",
-													"",
-													"// pm.test('should return the cdo data for the task list', () => {",
-													"//     // pm.expect(cdo).to.have.all.keys('applicationPackSent', 'insuranceCompany', 'insuranceRenewalDate', 'microchipNumber', 'applicationFeePaid', 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued');",
-													"//     pm.expect(cdo).to.contain({",
-													"//         applicationPackSent: undefined,",
-													"//         insuranceCompany: undefined,",
-													"//         insuranceRenewalDate: undefined,",
-													"//         microchipNumber: undefined,",
-													"//         applicationFeePaid: undefined,",
-													"//         form2Sent: undefined,",
-													"//         neuteringConfirmation: undefined,",
-													"//         microchipVerification: undefined,",
-													"//         certificateIssued: undefined",
-													"//     })",
-													"// })"
+													"})"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -3041,9 +3026,7 @@
 											"script": {
 												"exec": [
 													"pm.test('should return applicationFeePaid date', () => {",
-													"  pm.response.to.have.status(201);",
-													"  const payload = pm.response.json()",
-													"  pm.expect(payload.applicationFeePaid).to.eq(\"2024-07-02T00:00:00.000Z\")",
+													"  pm.response.to.have.status(400);",
 													"})"
 												],
 												"type": "text/javascript",
@@ -3099,7 +3082,7 @@
 									"response": []
 								},
 								{
-									"name": "Manage CDO process",
+									"name": "200 Manage CDO - Application Fee Paid Complete",
 									"event": [
 										{
 											"listen": "test",
@@ -3111,9 +3094,7 @@
 													"",
 													"const cdo = pm.response.json();",
 													"",
-													"",
 													"pm.test('should return the cdo data for the task list', () => {",
-													"    // 'form2Sent', 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
 													"    pm.expect(new Date(cdo.applicationPackSent)).to.be.a('Date')",
 													"    pm.expect(cdo.insuranceCompany).to.equal('Dogs Trust')",
 													"    pm.expect(new Date(cdo.insuranceRenewal)).to.be.a('Date')",
@@ -3158,6 +3139,209 @@
 													"    pm.expect(cdo.tasks.verificationDateRecorded).to.deep.contain({",
 													"        key: 'verificationDateRecorded',",
 													"        available: false,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"    pm.expect(cdo.tasks.certificateIssued).to.deep.contain({",
+													"        key: 'certificateIssued',",
+													"        available: false,",
+													"        completed: false,",
+													"        readonly: false,",
+													"    })",
+													"})",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "204 Send Form 2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should send form 2', () => {",
+													"  pm.response.to.have.status(204);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:sendForm2",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:sendForm2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "409 Send Form 2 Duplicate",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should send form 2', () => {",
+													"  pm.response.to.have.status(409);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:sendForm2",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:sendForm2"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 Manage CDO form2Sent",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(200);",
+													"})",
+													"",
+													"const cdo = pm.response.json();",
+													"",
+													"",
+													"pm.test('should return the cdo data for the task list', () => {",
+													"    // 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
+													"    pm.expect(cdo.applicationPackSent).to.be.a('string')",
+													"    pm.expect(cdo.insuranceCompany).to.equal('Dogs Trust')",
+													"    pm.expect(cdo.insuranceRenewal).to.be.a('string')",
+													"    pm.expect(cdo.microchipNumber).to.be.a('string')",
+													"    pm.expect(cdo.applicationFeePaid).to.be.a('string')",
+													"    pm.expect(cdo.form2Sent).to.be.a('string')",
+													"})",
+													"",
+													"pm.test('should show the Cdo Management tasks correctly', () => {",
+													"    pm.expect(cdo.tasks.applicationPackSent).to.deep.contain({",
+													"        \"key\": \"applicationPackSent\",",
+													"        \"available\": true,",
+													"        \"completed\": true,",
+													"        \"readonly\": true,",
+													"    })",
+													"",
+													"    pm.expect(cdo.tasks.insuranceDetailsRecorded).to.deep.contain({",
+													"        key: 'insuranceDetailsRecorded',",
+													"        available: true,",
+													"        completed: true,",
+													"        readonly: false,",
+													"    })",
+													"",
+													"    pm.expect(cdo.tasks.microchipNumberRecorded).to.deep.contain({",
+													"        key: 'microchipNumberRecorded',",
+													"        available: true,",
+													"        completed: true,",
+													"        readonly: false,",
+													"    })",
+													"    ",
+													"    pm.expect(cdo.tasks.applicationFeePaid).to.deep.contain({",
+													"        key: 'applicationFeePaid',",
+													"        available: true,",
+													"        completed: true,",
+													"        readonly: false,",
+													"    })",
+													"    pm.expect(cdo.tasks.form2Sent).to.deep.contain({",
+													"        key: 'form2Sent',",
+													"        available: true,",
+													"        completed: true,",
+													"        readonly: true,",
+													"    })",
+													"    pm.expect(cdo.tasks.verificationDateRecorded).to.deep.contain({",
+													"        key: 'verificationDateRecorded',",
+													"        available: true,",
 													"        completed: false,",
 													"        readonly: false,",
 													"    })",
