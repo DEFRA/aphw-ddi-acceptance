@@ -9,6 +9,7 @@ Feature: Edit dog details
 
     Scenario: Select a dog
         When I click on the link containing "ED30"
+        And I click on the link "Dog record"
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[1]" contains the text "Bravo"
 

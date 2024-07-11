@@ -33,6 +33,7 @@ Scenario:  Creating a new dog and owner
         And I press "Enter"
         And I expect that element "html" contains the text "1 dog record"
         And I click on the link containing "ED30"
+        And I click on the link "Dog record"
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[1]" contains the text "Bunny"
         And I expect that element "(//dd)[2]" contains the text "XL Bully"

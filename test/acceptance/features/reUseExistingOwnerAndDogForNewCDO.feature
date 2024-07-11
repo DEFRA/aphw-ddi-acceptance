@@ -63,6 +63,7 @@ Feature: Reuse existing owner and dog for new application
       And I set "Fido" to the inputfield "#searchTerms"
       And I press "Enter"
       And I click on the link containing "ED30"
+      And I click on the link "Dog record"
       Then I expect that element "h1" contains the text "Dog ED30"
       And I expect that element "(//dd)[1]" contains the text "Fido"
       And I expect that element "(//dd)[2]" contains the text "XL Bully"
