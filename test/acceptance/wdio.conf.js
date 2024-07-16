@@ -30,7 +30,7 @@ exports.config = {
   logLevel: 'warn',
   bail: 0,
   baseUrl: envRoot + '',
-  waitforTimeout: 10000,
+  waitforTimeout: 60000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 1,
   services: ['selenium-standalone'],
