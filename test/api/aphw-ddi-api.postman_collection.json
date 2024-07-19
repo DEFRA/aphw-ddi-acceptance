@@ -930,7 +930,8 @@
 													"    pm.expect(dog.breed).to.be.oneOf(['XL Bully', 'Pit Bull Terrier','Japanese Tosa','Dogo Argentino','Fila Brasileiro'])",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -10397,6 +10398,166 @@
 					]
 				},
 				{
+					"name": "Breaches",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Add CDO",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response is ok\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const cdo = pm.response.json()",
+													"    const indexNumber = cdo.dogs[0].indexNumber",
+													"    pm.collectionVariables.set('breachCdo', indexNumber)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"owner\": {\n        \"firstName\": \"{{$randomFirstName}}\",\n        \"lastName\": \"{{$randomLastName}}\",\n        \"personReference\": null,\n        \"address\": {\n            \"addressLine1\": \"{{$randomStreetAddress}}\",\n            \"town\": \"{{$randomCity}}\",\n            \"postcode\": \"EC3N 2NU\",\n            \"country\": \"England\"\n        }\n    },\n    \"enforcementDetails\": {\n        \"court\": null,\n        \"policeForce\": \"5\",\n        \"legislationOfficer\": \"\"\n    },\n    \"dogs\": [\n        {\n            \"breed\": \"Pit Bull Terrier\",\n            \"name\": \"\",\n            \"applicationType\": \"cdo\",\n            \"cdoIssued\": \"2024-01-01T00:00:00.000Z\",\n            \"cdoExpiry\": \"2024-04-19T00:00:00.000Z\",\n            \"interimExemption\": null\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Breaches",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('should return 200 and list of breach types', () => {",
+											"    const { breachCategories } = pm.response.json()",
+											"    const breach = breachCategories[0]",
+											"    pm.expect(breach.id).to.be.a('number')",
+											"    pm.expect(breach.label).to.be.a('string')",
+											"    pm.expect(breach.short_name).to.be.a('string')",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/breaches/categories",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"breaches",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Set Dog breaches",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns an owner\", function () {",
+											"    const indexNumber = pm.collectionVariables.get('breachCdo')",
+											"    const dog = pm.response.json();",
+											"    pm.expect(dog.id).to.be.a('number')",
+											"    pm.expect(dog.indexNumber).to.eq(indexNumber)",
+											"    pm.expect(dog.breaches.includes(\"dog not covered by third party insurance\")).to.be.true",
+											"",
+											"    pm.expect(dog.breaches.includes(\"dog not kept on lead or muzzled\")).to.be.true",
+											"    pm.expect(dog.breaches.includes(\"dog kept in insecure place\")).to.be.true",
+											"    pm.expect(dog.breaches.length).to.eq(3)",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"indexNumber\": \"{{breachCdo}}\",\n    \"dogBreaches\": [\n        \"NOT_COVERED_BY_INSURANCE\",\n        \"NOT_ON_LEAD_OR_MUZZLED\",\n        \"INSECURE_PLACE\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/breaches/dog:setBreaches",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"breaches",
+										"dog:setBreaches"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "countries",
 					"event": [
 						{
@@ -10800,6 +10961,11 @@
 		},
 		{
 			"key": "manageCdoPk",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "breachCdo",
 			"value": "",
 			"type": "string"
 		}
