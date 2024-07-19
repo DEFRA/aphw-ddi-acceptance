@@ -10554,6 +10554,151 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "/cdo/:index-number returns a 200 and valid cdo Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns dog breaches\", function () {",
+											"    const dog = pm.response.json().cdo.dog;",
+											"    pm.expect(dog.breaches).to.be.an('array')",
+											"    pm.expect(dog.breaches).to.have.length(3)",
+											"    pm.expect(dog.breaches[0]).to.eq('dog not covered by third party insurance')",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo/{{breachCdo}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo",
+										"{{breachCdo}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change from In breach to Failed",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"dogId\": \"{{breachCdo}}\",\n    \"indexNumber\": \"{{breachCdo}}\",\n    \"breed\": \"Pit Bull Terrier\",\n    \"name\": \"\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2024-01-01T00:00:00.000Z\",\n    \"cdoExpiry\": \"2024-04-19T00:00:00.000Z\",\n    \"interimExemption\": null,\n    \"status\": \"Failed\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Failed CDO should not retain breaches",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns 0 dog breaches\", function () {",
+											"    const dog = pm.response.json().cdo.dog;",
+											"    pm.expect(dog.breaches).to.have.length(0)",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/cdo/{{breachCdo}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"cdo",
+										"{{breachCdo}}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
