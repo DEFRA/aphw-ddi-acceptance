@@ -10394,6 +10394,395 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Insurance Expired",
+							"item": [
+								{
+									"name": "Setup",
+									"item": [
+										{
+											"name": "Clear insurance expired examples",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response returns a list of counts of each status\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const dateToday = new Date()",
+															"dateToday.setMonth(dateToday.getMonth() + 3)",
+															"const in90Days = dateToday.toISOString().split('T')[0]",
+															"",
+															"pm.variables.set('in90Days', in90Days)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/jobs/expired-insurance",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"jobs",
+														"expired-insurance"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create dog 1",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    pm.collectionVariables.set('insuranceExpiredDog', cdo.dogs[0].indexNumber)",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1998-05-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"Insurance expired Dog\",\n      \"applicationType\": \"cdo\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Set dog with expired insurance and cert issued",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const [dogIdx] = JSON.parse(pm.collectionVariables.get('purgeDogs'))",
+															"pm.variables.set('dog-idx', dogIdx)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"exemptionOrder\": 2015,\n  \"indexNumber\": \"{{insuranceExpiredDog}}\",\n  \"cdoIssued\": \"2023-10-10\",\n  \"cdoExpiry\": \"2023-12-10\",\n  \"policeForce\": \"Avon and Somerset Constabulary\",\n  \"legislationOfficer\": \"Test Officer\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Dogs Trust\",\n    \"renewalDate\": \"2024-07-19\"\n  }\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/exemption",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"exemption"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Set Dog status to Exempt",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"dogId\": \"{{insuranceExpiredDog}}\",\n    \"indexNumber\": \"{{insuranceExpiredDog}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Insurance expired Dog\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Exempt\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"packages": {},
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "Set insurance expired",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a list of counts of each status\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const { response } = pm.response.json()",
+													"    const [,,,,,count] = response.split(' ')",
+													"    pm.expect(parseInt(count)).to.equal(1)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const dateToday = new Date()",
+													"dateToday.setMonth(dateToday.getMonth() + 3)",
+													"const in90Days = dateToday.toISOString().split('T')[0]",
+													"",
+													"pm.variables.set('in90Days', in90Days)"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/jobs/expired-insurance",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"jobs",
+												"expired-insurance"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Neutering Deadline",
+							"item": [
+								{
+									"name": "Set Neutering Deadline expired",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"response returns a list of counts of each status\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const { response } = pm.response.json()",
+													"    const [,,,,,count] = response.split(' ')",
+													"    pm.expect(parseInt(count)).to.not.eq(NaN)",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"const dateToday = new Date()",
+													"dateToday.setMonth(dateToday.getMonth() + 3)",
+													"const in90Days = dateToday.toISOString().split('T')[0]",
+													"",
+													"pm.variables.set('in90Days', in90Days)"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/jobs/neutering-deadline",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"jobs",
+												"neutering-deadline"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
@@ -11113,6 +11502,10 @@
 			"key": "breachCdo",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "insuranceExpiredDog",
+			"value": ""
 		}
 	]
 }
