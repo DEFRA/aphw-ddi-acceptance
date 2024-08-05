@@ -708,7 +708,11 @@
 													"    pm.expect(dog.cdoIssued).to.eq('2023-10-10')",
 													"    pm.expect(dog.cdoExpiry).to.eq('2023-12-10')",
 													"    pm.expect(dog.interimExemption).to.eq('2023-12-10')",
-													"    pm.collectionVariables.set(\"index-number\",  dog.indexNumber);",
+													"    const indexNumber = dog.indexNumber",
+													"    pm.collectionVariables.set(\"index-number\",  indexNumber);",
+													"    const dogId = parseInt(dog.indexNumber.replace('ED',''))",
+													"    pm.collectionVariables.set(\"dogId1\",  dogId);",
+													"    ",
 													"});",
 													"",
 													"cdoPostIndex++",
@@ -1158,7 +1162,8 @@
 													"    pm.expect(dog.status.status).to.equal('Interim exempt')",
 													"});"
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -1176,7 +1181,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"dogId\": \"{{index-number}}\",\n    \"indexNumber\": \"{{index-number}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\"\n}",
+											"raw": "{\n    \"dogId\": {{dogId1}},\n    \"indexNumber\": \"{{index-number}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\",\n    \"microchipNumber\": \"123456789012346\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2847,7 +2852,7 @@
 											"script": {
 												"exec": [
 													"const microchipBase = Math.floor(Math.random() * 999999999999999)",
-													"pm.variables.set('manageCdoMicrochip',`${microchipBase}`.padEnd(15, '1'))"
+													"pm.collectionVariables.set('manageCdoMicrochip',`${microchipBase}`.padEnd(15, '1'))"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -2892,7 +2897,7 @@
 									"response": []
 								},
 								{
-									"name": "409 Record Microchip Number",
+									"name": "400 Record Microchip Number",
 									"event": [
 										{
 											"listen": "test",
@@ -2934,6 +2939,69 @@
 										"body": {
 											"mode": "raw",
 											"raw": "{\n    \"microchipNumber\": \"123456789a12345\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:recordMicrochipNumber",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:recordMicrochipNumber"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "409 Record Microchip Number Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return bad request', () => {",
+													"  pm.response.to.have.status(409);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"microchipNumber\": \"123456789012346\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -3535,6 +3603,72 @@
 												"cdo",
 												"{{manageCdoPk}}",
 												"manage"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "201 Issue Certificate",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return applicationFeePaid date', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  const thisYear = new Date()",
+													"  pm.expect(payload.certificateIssued).to.contain(`${thisYear.getFullYear()}-`)",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:issueCertificate",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:issueCertificate"
 											]
 										}
 									},
@@ -10470,8 +10604,12 @@
 															"pm.test(\"response is ok\", function () {",
 															"    pm.response.to.have.status(200);",
 															"    const cdo = pm.response.json();",
+															"    const indexNumber = cdo.dogs[0].indexNumber",
+															"    const dogId = parseInt(indexNumber.replace('ED',''))",
 															"",
-															"    pm.collectionVariables.set('insuranceExpiredDog', cdo.dogs[0].indexNumber)",
+															"    pm.collectionVariables.set('insuranceExpiredDog', indexNumber)",
+															"    pm.collectionVariables.set('insuranceExpiredDogId', dogId)",
+															"",
 															"});"
 														],
 														"type": "text/javascript",
@@ -10612,7 +10750,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n    \"dogId\": \"{{insuranceExpiredDog}}\",\n    \"indexNumber\": \"{{insuranceExpiredDog}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Insurance expired Dog\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Exempt\"\n}",
+													"raw": "{\n    \"dogId\": \"{{insuranceExpiredDogId}}\",\n    \"indexNumber\": \"{{insuranceExpiredDog}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Insurance expired Dog\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Exempt\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -10803,7 +10941,9 @@
 													"    pm.response.to.have.status(200);",
 													"    const cdo = pm.response.json()",
 													"    const indexNumber = cdo.dogs[0].indexNumber",
+													"    const dogId = parseInt(indexNumber.replace('ED',''))",
 													"    pm.collectionVariables.set('breachCdo', indexNumber)",
+													"    pm.collectionVariables.set('breachCdoId', dogId)",
 													"});"
 												],
 												"type": "text/javascript",
@@ -11023,7 +11163,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"dogId\": \"{{breachCdo}}\",\n    \"indexNumber\": \"{{breachCdo}}\",\n    \"breed\": \"Pit Bull Terrier\",\n    \"name\": \"\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2024-01-01T00:00:00.000Z\",\n    \"cdoExpiry\": \"2024-04-19T00:00:00.000Z\",\n    \"interimExemption\": null,\n    \"status\": \"Failed\"\n}",
+									"raw": "{\n    \"dogId\": \"{{breachCdoId}}\",\n    \"indexNumber\": \"{{breachCdo}}\",\n    \"breed\": \"Pit Bull Terrier\",\n    \"name\": \"\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2024-01-01T00:00:00.000Z\",\n    \"cdoExpiry\": \"2024-04-19T00:00:00.000Z\",\n    \"interimExemption\": null,\n    \"status\": \"Failed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -11505,6 +11645,18 @@
 		},
 		{
 			"key": "insuranceExpiredDog",
+			"value": ""
+		},
+		{
+			"key": "insuranceExpiredDogId",
+			"value": ""
+		},
+		{
+			"key": "breachCdoId",
+			"value": ""
+		},
+		{
+			"key": "manageCdoMicrochip",
 			"value": ""
 		}
 	]
