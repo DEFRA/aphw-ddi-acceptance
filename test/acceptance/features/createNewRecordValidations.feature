@@ -16,7 +16,7 @@ Feature: Create new record validations
         And I set "02" to the inputfield "#dateOfBirth-month"
         And I set "2028" to the inputfield "#dateOfBirth-year"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "Enter a date of birth that is in the past"  
+        Then I expect that element "form" contains the text "Date of birth must be in the past"  
 
     Scenario: Owner is less than 16 years old
         Given I open the url "/"
@@ -27,7 +27,7 @@ Feature: Create new record validations
         And I set "02" to the inputfield "#dateOfBirth-month"
         And I set "2023" to the inputfield "#dateOfBirth-year"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "The dog owner must be aged 16 or over"
+        Then I expect that element "form" contains the text "Owner must be 16 or over"
 
     Scenario: Mandatory information missing on postcode lookup
         Given I open the url "/"
@@ -46,9 +46,10 @@ Feature: Create new record validations
         And I click on the element "button=Continue"
         And I click on the link "Enter address manually"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "Enter the first line of the address"
-        And I expect that element "form" contains the text "Enter the town or city"
+        Then I expect that element "form" contains the text "Enter first line of address"
+        And I expect that element "form" contains the text "Enter town or city"
         And I expect that element "form" contains the text "Enter a postcode"
+        And I expect that element "form" contains the text "Select a country"
 
     Scenario: Mandatory information missing on What is the microchip number
         Given I open the url "/"
@@ -75,8 +76,8 @@ Feature: Create new record validations
         And I click on the element "button=Confirm address"
         And I click on the link "I don’t have a microchip number"
         And I click on the element "button=Add dog details"
-        Then I expect that element "form" contains the text "Breed type is required"
-        And I expect that element "form" contains the text "Application type is required"
+        Then I expect that element "form" contains the text "Select breed type"
+        And I expect that element "form" contains the text "Select application type"
 
     Scenario: CDO Issue date validations
         Given I open the url "/"
@@ -93,7 +94,7 @@ Feature: Create new record validations
         And I set "Fido" to the inputfield "#name"
         And I select the radio option with the value "cdo" from the radio group "applicationType"
         And I click on the element "button=Add dog details"
-        Then I expect that element "form" contains the text "Enter a CDO issue date"
+        Then I expect that element "form" contains the text "Enter an issue date"
 
     Scenario: CDO Issue date in future
         Given I open the url "/"
@@ -113,7 +114,7 @@ Feature: Create new record validations
         And I set "02" to the inputfield "#cdoIssued-month"
         And I set "2028" to the inputfield "#cdoIssued-year"
         And I click on the element "button=Add dog details"
-        Then I expect that element "form" contains the text "Enter a date that is today or in the past"
+        Then I expect that element "form" contains the text "Date must be today or in the past"
 
     Scenario: Invalid CDO Issue date
         Given I open the url "/"
@@ -133,7 +134,7 @@ Feature: Create new record validations
         And I set "04" to the inputfield "#cdoIssued-month"
         And I set "2023" to the inputfield "#cdoIssued-year"
         And I click on the element "button=Add dog details"
-        Then I expect that element "form" contains the text "Enter a real date"     
+        Then I expect that element "form" contains the text "Date must be a real date"     
 
     
     Scenario: Interim exemption scheme date in future
@@ -154,7 +155,7 @@ Feature: Create new record validations
         And I set "02" to the inputfield "#interimExemption-month"
         And I set "2028" to the inputfield "#interimExemption-year"
         And I click on the element "button=Add dog details"
-        Then I expect that element "form" contains the text "Enter a date that is today or in the past"
+        Then I expect that element "form" contains the text "Date must be today or in the past"
 
     Scenario: Invalid Interim exemption scheme date
         Given I open the url "/"
@@ -174,7 +175,7 @@ Feature: Create new record validations
         And I set "04" to the inputfield "#interimExemption-month"
         And I set "2023" to the inputfield "#interimExemption-year"
         And I click on the element "button=Add dog details"
-        Then I expect that element "form" contains the text "Enter a real date"     
+        Then I expect that element "form" contains the text "Date must be a real date"     
 
     Scenario: Mandatory microchip number
         Given I open the url "/"
@@ -201,7 +202,7 @@ Feature: Create new record validations
         And I click on the element "button=Confirm address"
         And I set "345677 543 1122" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "Microchip numbers can only contain numbers" 
+        Then I expect that element "form" contains the text "Microchip number must be digits only" 
 
     Scenario: Invalid microchip number with alphabets and special characters
         Given I open the url "/"
@@ -215,7 +216,7 @@ Feature: Create new record validations
         And I click on the element "button=Confirm address"
         And I set "hgdtfrj&*()£$!£" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "Microchip numbers can only contain numbers"
+        Then I expect that element "form" contains the text "Microchip number must be digits only"
 
     Scenario: Invalid microchip number with more than 15 characters
         Given I open the url "/"
@@ -229,7 +230,7 @@ Feature: Create new record validations
         And I click on the element "button=Confirm address"
         And I set "1569874569325489" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "Microchip numbers must be 15 numbers long"
+        Then I expect that element "form" contains the text "Microchip number must be 15 digits in length"
 
     Scenario:  Reuse the same microchip number which already exists in the database
         Given I open the url "/"
@@ -255,7 +256,7 @@ Feature: Create new record validations
         And I click on the element "#legislationOfficer"
         And I click on the element "button=Continue"
         And I click on the element "button=Confirm details"
-        And I click on the link "Dangerous Dogs Index home"
+        And I click on the link "Home"
         And I click on the link containing "Process new CDO or"
         And I set "Daniel" to the inputfield "#firstName"
         And I set "Hogan" to the inputfield "#lastName"
@@ -280,4 +281,4 @@ Feature: Create new record validations
         And I click on the element "button=Continue"
         And I set "345671185225813" to the inputfield "#microchipNumber"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "This dog is already owned by this owner"    
+        Then I expect that element "form" contains the text "Dog already registered to this owner"    

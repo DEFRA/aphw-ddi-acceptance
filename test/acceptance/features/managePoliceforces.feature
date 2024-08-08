@@ -23,14 +23,14 @@ Feature: Manage police forces List
         And I click on the element "button=Add police force"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "This police force is already in the Index"
+        Then I expect that element "form" contains the text "This police force is already listed"
 
     Scenario: Add a new police force with the same name which already exists(partial match)
         When I set "Stony" to the inputfield "#police"
         And I click on the element "button=Add police force"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "This police force is already in the Index"
+        Then I expect that element "form" contains the text "This police force is already listed"
 
     Scenario: Remove a police force
         When I click on the link "Admin"

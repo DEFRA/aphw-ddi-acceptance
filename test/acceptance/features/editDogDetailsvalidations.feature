@@ -21,20 +21,20 @@ Feature: Edit dog details
         When I set "852685231167889111" to the inputfield "#microchipNumber"
         And I set "8526ertf6322$22" to the inputfield "#microchipNumber2"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "Microchip numbers must be 15 numbers long"
-        Then I expect that element "form" contains the text "Microchip numbers can only contain numbers"
+        Then I expect that element "form" contains the text "Microchip number must be 15 digits in length"
+        Then I expect that element "form" contains the text "Microchip number must be digits only"
 
     Scenario: Enter microchip number1 already exists in the database for another dog
         When I set "345677654366666" to the inputfield "#microchipNumber"
         And I set "345677654358874" to the inputfield "#microchipNumber2"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "The microchip number already exists"
+        Then I expect that element "form" contains the text "Microchip number already exists"
 
     Scenario: Enter microchip number2 already exists in the database for another dog
         When I set "345677654368874" to the inputfield "#microchipNumber"
         And I set "345677654355555" to the inputfield "#microchipNumber2"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "The microchip number already exists"    
+        Then I expect that element "form" contains the text "Microchip number already exists"    
 
     Scenario: Invalid date of birth(future date)
         When I set "12345689652364" to the inputfield "#microchipNumber"
@@ -43,7 +43,7 @@ Feature: Edit dog details
         And I set "03" to the inputfield "#dateOfBirth-month"
         And I set "2026" to the inputfield "#dateOfBirth-year"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "Enter a date that is today or in the past"
+        Then I expect that element "form" contains the text "Date must be today or in the past"
         
     Scenario: Invalid date of death(not real date)
         When I set "01" to the inputfield "#dateOfBirth-day"
@@ -53,7 +53,7 @@ Feature: Edit dog details
         And I set "02" to the inputfield "#dateOfDeath-month"
         And I set "2024" to the inputfield "#dateOfDeath-year"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "Enter a real date"
+        Then I expect that element "form" contains the text "Date must be a real date"
 
     Scenario: Invalid date in Date exported(2 digit year)
         When I set "30" to the inputfield "#dateOfDeath-day"
@@ -63,7 +63,7 @@ Feature: Edit dog details
         And I set "02" to the inputfield "#dateExported-month"
         And I set "24" to the inputfield "#dateExported-year"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "Enter a real date"
+        Then I expect that element "form" contains the text "Date must be a real date"
     
     Scenario: Invalid date in Date stolen(alphanumeric)
         When I set "30" to the inputfield "#dateExported-day"
@@ -73,7 +73,7 @@ Feature: Edit dog details
         And I set "gh" to the inputfield "#dateStolen-month"
         And I set "2024" to the inputfield "#dateStolen-year"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "Enter a real date"
+        Then I expect that element "form" contains the text "Date must be a real date"
 
     Scenario: Invalid date in Date untraceable(missing day and year)
         When I set "03" to the inputfield "#dateStolen-day"
@@ -81,4 +81,4 @@ Feature: Edit dog details
         And I set "2024" to the inputfield "#dateStolen-year"
         And I set "13" to the inputfield "#dateUntraceable-month"
         And I click on the element "button=Save details"
-        Then I expect that element "form" contains the text "A date must include a day and year"
+        Then I expect that element "form" contains the text "Date must include a day and year"
