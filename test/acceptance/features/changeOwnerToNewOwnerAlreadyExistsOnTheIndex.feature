@@ -128,10 +128,10 @@ Feature: Change owner(new owner already exists on the index)
                 And I expect that element "(//dd)[6]" contains the text "Tim Ricketts"
                 And I expect that element "(//dd)[7]" contains the text "01 December 1988"
                 And I expect that element "(//dd)[8]" contains the text "ST7 2BS"
-                And I expect that element "(//dd)[9]" contains the text "England"                
-                And I expect that element "(//dd)[10]" contains the text "Cheshire Constabulary"                  
+                And I expect that element "(//dd)[9]" contains the text "England"
+                And I expect that element "(//dd)[10]" contains the text "Cheshire Constabulary"
                 And I expect that element "(//dd)[11]" contains the text "Lucy"
-                And I expect that element "(//dd)[12]" contains the text "Northampton (Northampton Crown Court)"   
+                And I expect that element "(//dd)[12]" contains the text "Northampton (Northampton Crown Court)"
 
 
         Scenario: Verify dog is moved to existing owner and exemption details updated successfully
