@@ -27,7 +27,7 @@ Scenario:  Creating a new dog and owner
         Then I expect that element "h1" contains the text "Record created" 
         
     Scenario: Search dog 
-        When I click on the link "Dangerous Dogs Index home"
+        When I click on the link "Home"
         And I click on the link "Search dog index"
         And I set "Bunny" to the inputfield "#searchTerms"
         And I press "Enter"

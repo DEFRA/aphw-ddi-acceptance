@@ -23,14 +23,14 @@ Feature: Manage Courts List
         And I click on the element "button=Add court"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "This court name is already in the Index"
+        Then I expect that element "form" contains the text "This court name is already listed"
 
     Scenario: Add a new court with the same name which already exists(partial match) 
         When I set "Stony" to the inputfield "#court"
         And I click on the element "button=Add court"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "form" contains the text "This court name is already in the Index"
+        Then I expect that element "form" contains the text "This court name is already listed"
 
     Scenario: Remove a court
         When I click on the link "Admin"

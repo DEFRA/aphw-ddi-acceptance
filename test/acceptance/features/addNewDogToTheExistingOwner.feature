@@ -37,7 +37,7 @@ Feature: Add new dog to the existing owner
         Then I expect that element "h1" contains the text "Record created" 
         
     Scenario: Add new dog to the existing owner with multiple dogs
-        When I click on the link "Dangerous Dogs Index home"
+        When I click on the link "Home"
         And I click on the link containing "Process new CDO or"
         And I set "Natalie" to the inputfield "#firstName"
         And I set "Bernard" to the inputfield "#lastName"

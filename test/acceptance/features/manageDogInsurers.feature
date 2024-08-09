@@ -16,13 +16,13 @@ Feature: Manage Dog Insurers List
         When I click on the link "Add a dog insurer"
         And I set "AAA Insurance" to the inputfield "#name"
         And I click on the element "button=Add dog insurer"
-        Then I expect that element "main" contains the text "This dog insurer name is already in the Index"
+        Then I expect that element "main" contains the text "The insurer name is already listed"
 
     Scenario: Add a new dog insurer with same which already exists(partial match)   
         When I click on the link "Add a dog insurer"
         And I set "AAA" to the inputfield "#name"
         And I click on the element "button=Add dog insurer"
-        Then I expect that element "main" contains the text "This dog insurer name is already in the Index"
+        Then I expect that element "main" contains the text "The insurer name is already listed"
 
     Scenario: Remove dog insurer  
         When I click on the element "button=Remove"

@@ -26,7 +26,7 @@ Scenario:  Creating a new dog and owner
         Then I expect that element "h1" contains the text "Record created" 
 
     Scenario: Search dog and navigate to manage cdo application
-        When I click on the link "Dangerous Dogs Index home"
+        When I click on the link "Home"
         And I click on the link "Search dog index"
         And I set "Cherry" to the inputfield "#searchTerms"
         And I press "Enter"
@@ -49,7 +49,7 @@ Scenario:  Creating a new dog and owner
     Scenario: Send application pack task validations
         When I click on the link "Send application pack"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Confirm if you have sent the application pack before continuing."
+        Then I expect that element "form" contains the text "Confirm you've sent the application pack"
     
     Scenario: Record insurance details task validations
         When I click on the element "#taskDone"
@@ -57,7 +57,7 @@ Scenario:  Creating a new dog and owner
         And I click on the link "Record insurance details"
         And I click on the element "button=Save and continue"
         Then I expect that element "form" contains the text "Select an insurance company"
-        And I expect that element "form" contains the text "Insurance renewal date is required"
+        And I expect that element "form" contains the text "Enter a renewal date"
 
      Scenario: Record insurance details task validations with past date
         When I select the option with the value "Dogs Trust" for element "#insuranceCompany" 
@@ -65,7 +65,7 @@ Scenario:  Creating a new dog and owner
         And I set "07" to the inputfield "#insuranceRenewal-month"
         And I set "2024" to the inputfield "#insuranceRenewal-year"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Enter a date that is today or in the future"
+        Then I expect that element "form" contains the text "Date must be today or in the future"
 
     Scenario: Record microchip number task validations
         When I set "10" to the inputfield "#insuranceRenewal-day"
@@ -74,22 +74,22 @@ Scenario:  Creating a new dog and owner
         And I click on the element "button=Save and continue"
         And I click on the link "Record microchip number"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Microchip number is required"
+        Then I expect that element "form" contains the text "Enter a microchip number"
 
     Scenario: Enter duplicate microchip number
         When I set "123658965278569" to the inputfield "#microchipNumber"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "The microchip number already exists"
+        Then I expect that element "form" contains the text "Microchip number already exists"
 
     Scenario: Microchip number must be 15 numbers long
         When I set "12365878569" to the inputfield "#microchipNumber"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Microchip numbers must be 15 numbers long"
+        Then I expect that element "form" contains the text "Microchip number must be 15 digits in length"
 
     Scenario: Invalid microchip number with alphabets
         When I set "123658mkjl78569" to the inputfield "#microchipNumber"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Microchip numbers can only contain numbers"
+        Then I expect that element "form" contains the text "Microchip number must be digits only"
 
     Scenario: Record application fee payment task validations
         When I set "123658955278569" to the inputfield "#microchipNumber"
@@ -103,7 +103,7 @@ Scenario:  Creating a new dog and owner
         And I set "07" to the inputfield "#applicationFeePaid-month"
         And I set "2026" to the inputfield "#applicationFeePaid-year"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Enter a date that is today or in the past"
+        Then I expect that element "form" contains the text "Date must be today or in the past"
 
     Scenario: Send Form 2 validations
         When I set "10" to the inputfield "#applicationFeePaid-day"
@@ -112,15 +112,15 @@ Scenario:  Creating a new dog and owner
         And I click on the element "button=Save and continue"
         And I click on the link "Send Form 2"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Confirm if you have sent the Form 2 before continuing."
+        Then I expect that element "form" contains the text "Confirm you've sent the Form 2"
 
     Scenario: Record the verification date for microchip and neutering validations
         When I click on the element "#taskDone"
         And I click on the element "button=Save and continue"
         And I click on the link "Record the verification date for microchip and neutering"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Microchip number verified date is required"
-        And I expect that element "form" contains the text "Neutering verified date is required"
+        Then I expect that element "form" contains the text "Enter a microchip number verified date"
+        And I expect that element "form" contains the text "Enter a neutering verified date"
 
     Scenario: Record the verification date for microchip and neutering validations with invalid dates
         When I set "11" to the inputfield "#microchipVerification-day"
@@ -130,5 +130,5 @@ Scenario:  Creating a new dog and owner
         And I set "06" to the inputfield "#neuteringConfirmation-month"
         And I set "2024" to the inputfield "#neuteringConfirmation-year"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Enter a date that is today or in the past"
-        And I expect that element "form" contains the text "Enter a real date"    
+        Then I expect that element "form" contains the text "Date must be today or in the past"
+        And I expect that element "form" contains the text "Date must be a real date"

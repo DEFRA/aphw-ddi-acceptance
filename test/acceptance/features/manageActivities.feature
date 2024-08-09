@@ -28,7 +28,7 @@ Feature: Manage activities lists
         And I click on the element "button=Add activity"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "main" contains the text "This activity name is already in the Index"        
+        Then I expect that element "main" contains the text "This activity name is already listed"        
 
     Scenario: Add dog record receive activity  
         When I click on the link "Admin"
@@ -48,7 +48,7 @@ Feature: Manage activities lists
         And I click on the element "button=Add activity"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "main" contains the text "This activity name is already in the Index"
+        Then I expect that element "main" contains the text "This activity name is already listed"
         
     Scenario: Add owner record send activity 
         When I click on the link "Admin"
@@ -68,7 +68,7 @@ Feature: Manage activities lists
         And I click on the element "button=Add activity"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "main" contains the text "This activity name is already in the Index"
+        Then I expect that element "main" contains the text "This activity name is already listed"
 
     Scenario: Add owner record receive activity 
         When I click on the link "Admin"
@@ -88,7 +88,7 @@ Feature: Manage activities lists
         And I click on the element "button=Add activity"
         And I select the radio option with the value "Y" from the radio group "confirm"
         And I click on the element "button=Continue"
-        Then I expect that element "main" contains the text "This activity name is already in the Index"
+        Then I expect that element "main" contains the text "This activity name is already listed"
             
     Scenario: Remove dog record send activity 
         When I click on the link "Admin"

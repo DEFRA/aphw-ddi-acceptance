@@ -112,5 +112,6 @@ Feature: Create new CDO with multiple dogs
         And I expect that element "(//dd)[11]" contains the text "Mike Turner"
         And I expect that element "(//dd)[12]" contains the text "NN1 1ES"
         And I expect that element "(//dd)[13]" contains the text "England"
-        And I expect that element "(//dd)[14]" contains the text "Northampton (Northampton Crown Court)"  
-        And I expect that element "(//dd)[15]" contains the text "Northamptonshire Police"
+        And I expect that element "(//dd)[14]" contains the text "Northamptonshire Police"
+        And I expect that element "(//dd)[15]" contains the text "Northampton (Northampton Crown Court)"  
+        

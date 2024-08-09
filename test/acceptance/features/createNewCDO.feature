@@ -71,5 +71,5 @@ Feature: Create new CDO
         And I expect that element "(//dd)[6]" contains the text "John Smith"
         And I expect that element "(//dd)[7]" contains the text "LS20 8DA"
         And I expect that element "(//dd)[8]" contains the text "England"
-        And I expect that element "(//dd)[9]" contains the text "Northampton (Northampton Crown Court)"  
-        And I expect that element "(//dd)[10]" contains the text "West Yorkshire Police"         
+        And I expect that element "(//dd)[9]" contains the text "West Yorkshire Police" 
+        And I expect that element "(//dd)[10]" contains the text "Northampton (Northampton Crown Court)"  

@@ -26,7 +26,7 @@ Scenario:  Creating a new dog and owner
         Then I expect that element "h1" contains the text "Record created" 
 
     Scenario: Navigate to manage cdo application from search 
-        When I click on the link "Dangerous Dogs Index home"
+        When I click on the link "Home"
         And I click on the link "Search dog index"
         And I set "Milo" to the inputfield "#searchTerms"
         And I press "Enter"
