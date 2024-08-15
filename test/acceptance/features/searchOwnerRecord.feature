@@ -83,4 +83,16 @@ Feature: Perform a basic search
         And I expect that element "(//td)[5]" contains the text "Dino"
         And I expect that element "(//td)[6]" contains the text "Interim exempt"
         And I expect that element "(//td)[8]" contains the text "Maxie"
-        And I expect that element "(//td)[9]" contains the text "Interim exempt"                 
+        And I expect that element "(//td)[9]" contains the text "Interim exempt"
+
+    Scenario: Search owner record with email
+        When I clear the inputfield "#searchTerms"
+        And I set "mike1_turner1@outlook.com" to the inputfield "#searchTerms"
+        And I select the radio option with the value "owner" from the radio group "searchType"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "1 owner record"
+        And I expect that element "(//ul)[1]" contains the text "6 HEATH MEAD, CARDIFF, CF14 3PJ"
+        And I expect that element "(//td)[2]" contains the text "Bruce"
+        And I expect that element "(//td)[3]" contains the text "Pre-exempt"
+        And I expect that element "(//td)[5]" contains the text "Bravo"
+        And I expect that element "(//td)[6]" contains the text "Exempt"
