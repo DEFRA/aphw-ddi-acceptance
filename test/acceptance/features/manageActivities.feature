@@ -8,7 +8,7 @@ Feature: Manage activities lists
     Scenario: Click on dog record send activity    
         When I click on the link "Activities"
         And I click on the element "(//a[contains(text(),'Add an activity')])[1]"
-        Then I expect that element "h1" contains the text "What is the name of the activity you want to add?"
+        Then I expect that element "h1" contains the text "What activity do you want to add?"
 
      Scenario: Add dog record send activity
         When I set "A dog record send test activity" to the inputfield "#activity" 
