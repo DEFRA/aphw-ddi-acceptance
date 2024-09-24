@@ -117,6 +117,9 @@ scripts/test
 scripts/test -w
 ```
 
+### Api Tests
+To run api tests ``npm run test:api:dev``.  Will need to be run in conjunction with ``./scripts/api-tests`` from api portal.
+
 ## CI pipeline
 
 This service uses the [FFC CI pipeline](https://github.com/DEFRA/ffc-jenkins-pipeline-library)
