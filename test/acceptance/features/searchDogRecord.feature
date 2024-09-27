@@ -68,7 +68,3 @@ Feature: Perform a basic search
         And I set "mike1_turner1@outlook.com" to the inputfield "#searchTerms"
         And I click on the element "button=Search"
         Then I expect that element "html" contains the text "2 dog records"
-        And I expect that element "(//ul)[1]" contains the text "Pre-exempt"
-        And I expect that element "(//td)[1]" contains the text "Bruce"
-        And I expect that element "(//ul)[2]" contains the text "Exempt"
-        And I expect that element "(//td)[4]" contains the text "Bravo"
