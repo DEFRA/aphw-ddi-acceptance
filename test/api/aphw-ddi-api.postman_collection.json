@@ -11232,6 +11232,454 @@
 					]
 				},
 				{
+					"name": "User",
+					"item": [
+						{
+							"name": "me/validate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/me/validate",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "204 - add new user without police force",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.username).to.eq('user@example.com')",
+											"    pm.expect(jsonData.active).to.be.true;",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"user@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "204 - add new user with police force",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.username).to.eq('alpha@police.org')",
+											"    pm.expect(jsonData.active).to.be.true;",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"alpha@police.org\",\n    \"police_force\": \"Alpha Police Force\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "204 - add new user with police force id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.username).to.eq('police-user@example.com')",
+											"    pm.expect(jsonData.active).to.be.true;",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"police-user@example.com\",\n    \"police_force_id\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "409 - add duplicate user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"user@example.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 - add user to police force that does not exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"police-force-2@example.com\",\n    \"police_force\": \"unknown\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Setup user to delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    const jsonData = pm.response.json();",
+											"    pm.collectionVariables.set('accountToDelete', jsonData.id)",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"deleteme@example.com\",\n    \"police_force_id\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Setup user to delete Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"deleteme@example.com\",\n    \"police_force_id\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/{{accountToDelete}}",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"{{accountToDelete}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "me/validate - should fail without scopes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "header",
+											"value": "{\n    \"kid\": \"aphw-ddi-portal\",\n    \"typ\": \"JWT\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "payload",
+											"value": "{\n    \"scopes\": [],\n    \"aud\": \"aphw-ddi-api\",\n    \"username\": \"internal - user\" ,\n    \"displayname\": \"User, Internal\",\n    \"iss\": \"aphw-ddi-portal\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "privateKey",
+											"value": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhWj5SRk7Y76mT\nTR+XDY3uo0LF0eTuplodWymhc1p2krU7s9bisngVkyBcdYQ2mJbITDQzgv0mYQrg\n1j7wEM+y+r8bm7u6jiyIIPGZleyDE4/Z+fACnDX7iaulurYuLaIF+NL0oedhVK3Q\njTAQCmwo+9aGRWaFy8voWHH6q1d/3auCMNBpvDMx6N7dHBEsuY7V0yNNH6xzi5WE\n4IcB5Yrcuv08DIcUdgmW2wjycCYwsHIbN5xwV4QxnjSlKGY36/s+j8cP8WdxY2ys\njLHgfLNvC9v0Gjc30Ld1EUTOV6hB3OjIm5vxx6yyYws9ggaHSTSZgRzohEx0rlI4\nKGpm8qyZAgMBAAECggEAHlYuNpg1bBnTW7uRqZ2PAlWjGwtXBNOLJRGNKKllP7of\nQLLElk8NQGZGgHvneQwQnFU538dd+ektdDgTT/ELbN45lOdhncse7pJ0w8a9iKW9\nA0yUxV0vHTYaz9wzQ0MsYR5uk7Up913ValJfaoFkrx278uZr104onJYvfd3MES/P\nAv/YYkqNppXytPcHVArGZG8cY9QMdqDMwHfr80xXpIXMIBQuNrVIJks3AyB+Tbdy\n87ETDw24tujOTB+39eJv4xDD67JMe1CgaPxXvMESCutdLPgZYUauXCHJnNdDJAaz\nPvQknklm6QBGOH8AqAbTq7+33n83vkoyM39h6xDeSQKBgQD2TXwB1FiqZlqi+YS2\nOYddCETp3IMFsdvsRHk1wOOluAI4PlEQBBqEjuw++8G8WtLakM0+QiMo/xN+h3ao\ndNoQ53ByIWKy/4z6HE1LOsGuFFfVNTInC/DtufcpdwSzQeiUsgTEqrGup7Oqn7pp\nZvIs+4DQKPzrY5Cx34PhSeu5DQKBgQDqOZmI3e6zQc90fRjrwYB/gO/TxF7WWndQ\nbHIoUcj7Au77ohpmORFt+Zo5rrvzpOvr2/OjgyDZZt92lf9Ff8w1mFj5UAwYbtiH\nulf1B5Sb0h/OYrZgXNpFWPaRmFM7tIeyTRJC7oa7KThFmArevy2PIzhbTu1LHZDO\n+HMqhTfGvQKBgEjBZLMppbNYHsfriu9FGR47Fhg6wh1Jh5xIMcHWI6jNLSKuDcX8\nYFTt3w1P0s+vyH81rNsKMFao2npSy5NBSTUbGJUuFXiokl1DRPXG+nVQnw1k9Fai\naV3fxAnklWfaPTjHSS9K+MeN1D2/hxIhjcIJ3OggY22o8JIKY2uGKXJ1AoGBAIxw\nEuXko93pZLkk1M9uy1wn9CSWRoLh5U5cZ6pTN12B6ccI8ClAqHm3Qki5w0oYJbja\nvd/ZnNWdf/k7gL6sHMY53YdG/qmbtMrU6S4q6GjxeU6nE1D9+4W/DMBJhAZ1fTNk\nUMG/ARuxYGMiAcqC+I8tf/oHffIe/ReMEol5LPNFAoGBAJL8Bkm4CdSfWviwDnSk\nQyCM2RN1K1fIA0WxMIk7zh9hpsrpojJvL6k/7WBQr58fGegd0vSauzZ6wu0/eBBT\nYAmRPJkXj6pEtKaaq+HvPbw2WF332D2VJ3MSdNpLODebxd/VajefyDW6Tp3nv5GZ\nqbi6nTXSSeQg4IsVbs9BDIpU\n-----END PRIVATE KEY-----",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "RS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/me/validate",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "me/cache - Delete user cache",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/me/cache",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"cache"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "countries",
 					"event": [
 						{
@@ -11439,13 +11887,13 @@
 		"type": "jwt",
 		"jwt": [
 			{
-				"key": "privateKey",
-				"value": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhWj5SRk7Y76mT\nTR+XDY3uo0LF0eTuplodWymhc1p2krU7s9bisngVkyBcdYQ2mJbITDQzgv0mYQrg\n1j7wEM+y+r8bm7u6jiyIIPGZleyDE4/Z+fACnDX7iaulurYuLaIF+NL0oedhVK3Q\njTAQCmwo+9aGRWaFy8voWHH6q1d/3auCMNBpvDMx6N7dHBEsuY7V0yNNH6xzi5WE\n4IcB5Yrcuv08DIcUdgmW2wjycCYwsHIbN5xwV4QxnjSlKGY36/s+j8cP8WdxY2ys\njLHgfLNvC9v0Gjc30Ld1EUTOV6hB3OjIm5vxx6yyYws9ggaHSTSZgRzohEx0rlI4\nKGpm8qyZAgMBAAECggEAHlYuNpg1bBnTW7uRqZ2PAlWjGwtXBNOLJRGNKKllP7of\nQLLElk8NQGZGgHvneQwQnFU538dd+ektdDgTT/ELbN45lOdhncse7pJ0w8a9iKW9\nA0yUxV0vHTYaz9wzQ0MsYR5uk7Up913ValJfaoFkrx278uZr104onJYvfd3MES/P\nAv/YYkqNppXytPcHVArGZG8cY9QMdqDMwHfr80xXpIXMIBQuNrVIJks3AyB+Tbdy\n87ETDw24tujOTB+39eJv4xDD67JMe1CgaPxXvMESCutdLPgZYUauXCHJnNdDJAaz\nPvQknklm6QBGOH8AqAbTq7+33n83vkoyM39h6xDeSQKBgQD2TXwB1FiqZlqi+YS2\nOYddCETp3IMFsdvsRHk1wOOluAI4PlEQBBqEjuw++8G8WtLakM0+QiMo/xN+h3ao\ndNoQ53ByIWKy/4z6HE1LOsGuFFfVNTInC/DtufcpdwSzQeiUsgTEqrGup7Oqn7pp\nZvIs+4DQKPzrY5Cx34PhSeu5DQKBgQDqOZmI3e6zQc90fRjrwYB/gO/TxF7WWndQ\nbHIoUcj7Au77ohpmORFt+Zo5rrvzpOvr2/OjgyDZZt92lf9Ff8w1mFj5UAwYbtiH\nulf1B5Sb0h/OYrZgXNpFWPaRmFM7tIeyTRJC7oa7KThFmArevy2PIzhbTu1LHZDO\n+HMqhTfGvQKBgEjBZLMppbNYHsfriu9FGR47Fhg6wh1Jh5xIMcHWI6jNLSKuDcX8\nYFTt3w1P0s+vyH81rNsKMFao2npSy5NBSTUbGJUuFXiokl1DRPXG+nVQnw1k9Fai\naV3fxAnklWfaPTjHSS9K+MeN1D2/hxIhjcIJ3OggY22o8JIKY2uGKXJ1AoGBAIxw\nEuXko93pZLkk1M9uy1wn9CSWRoLh5U5cZ6pTN12B6ccI8ClAqHm3Qki5w0oYJbja\nvd/ZnNWdf/k7gL6sHMY53YdG/qmbtMrU6S4q6GjxeU6nE1D9+4W/DMBJhAZ1fTNk\nUMG/ARuxYGMiAcqC+I8tf/oHffIe/ReMEol5LPNFAoGBAJL8Bkm4CdSfWviwDnSk\nQyCM2RN1K1fIA0WxMIk7zh9hpsrpojJvL6k/7WBQr58fGegd0vSauzZ6wu0/eBBT\nYAmRPJkXj6pEtKaaq+HvPbw2WF332D2VJ3MSdNpLODebxd/VajefyDW6Tp3nv5GZ\nqbi6nTXSSeQg4IsVbs9BDIpU\n-----END PRIVATE KEY-----",
+				"key": "payload",
+				"value": "{\n    \"scope\": [\"Dog.Index.Admin\"],\n    \"aud\": \"aphw-ddi-api\",\n    \"username\": \"internal - user\" ,\n    \"displayname\": \"User, Internal\",\n    \"iss\": \"aphw-ddi-portal\"\n}",
 				"type": "string"
 			},
 			{
-				"key": "payload",
-				"value": "{\n    \"scopes\": [\"Dog.Index.Admin\"],\n    \"aud\": \"aphw-ddi-api\",\n    \"username\": \"internal - user\" ,\n    \"displayname\": \"User, Internal\",\n    \"iss\": \"aphw-ddi-portal\"\n}",
+				"key": "privateKey",
+				"value": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhWj5SRk7Y76mT\nTR+XDY3uo0LF0eTuplodWymhc1p2krU7s9bisngVkyBcdYQ2mJbITDQzgv0mYQrg\n1j7wEM+y+r8bm7u6jiyIIPGZleyDE4/Z+fACnDX7iaulurYuLaIF+NL0oedhVK3Q\njTAQCmwo+9aGRWaFy8voWHH6q1d/3auCMNBpvDMx6N7dHBEsuY7V0yNNH6xzi5WE\n4IcB5Yrcuv08DIcUdgmW2wjycCYwsHIbN5xwV4QxnjSlKGY36/s+j8cP8WdxY2ys\njLHgfLNvC9v0Gjc30Ld1EUTOV6hB3OjIm5vxx6yyYws9ggaHSTSZgRzohEx0rlI4\nKGpm8qyZAgMBAAECggEAHlYuNpg1bBnTW7uRqZ2PAlWjGwtXBNOLJRGNKKllP7of\nQLLElk8NQGZGgHvneQwQnFU538dd+ektdDgTT/ELbN45lOdhncse7pJ0w8a9iKW9\nA0yUxV0vHTYaz9wzQ0MsYR5uk7Up913ValJfaoFkrx278uZr104onJYvfd3MES/P\nAv/YYkqNppXytPcHVArGZG8cY9QMdqDMwHfr80xXpIXMIBQuNrVIJks3AyB+Tbdy\n87ETDw24tujOTB+39eJv4xDD67JMe1CgaPxXvMESCutdLPgZYUauXCHJnNdDJAaz\nPvQknklm6QBGOH8AqAbTq7+33n83vkoyM39h6xDeSQKBgQD2TXwB1FiqZlqi+YS2\nOYddCETp3IMFsdvsRHk1wOOluAI4PlEQBBqEjuw++8G8WtLakM0+QiMo/xN+h3ao\ndNoQ53ByIWKy/4z6HE1LOsGuFFfVNTInC/DtufcpdwSzQeiUsgTEqrGup7Oqn7pp\nZvIs+4DQKPzrY5Cx34PhSeu5DQKBgQDqOZmI3e6zQc90fRjrwYB/gO/TxF7WWndQ\nbHIoUcj7Au77ohpmORFt+Zo5rrvzpOvr2/OjgyDZZt92lf9Ff8w1mFj5UAwYbtiH\nulf1B5Sb0h/OYrZgXNpFWPaRmFM7tIeyTRJC7oa7KThFmArevy2PIzhbTu1LHZDO\n+HMqhTfGvQKBgEjBZLMppbNYHsfriu9FGR47Fhg6wh1Jh5xIMcHWI6jNLSKuDcX8\nYFTt3w1P0s+vyH81rNsKMFao2npSy5NBSTUbGJUuFXiokl1DRPXG+nVQnw1k9Fai\naV3fxAnklWfaPTjHSS9K+MeN1D2/hxIhjcIJ3OggY22o8JIKY2uGKXJ1AoGBAIxw\nEuXko93pZLkk1M9uy1wn9CSWRoLh5U5cZ6pTN12B6ccI8ClAqHm3Qki5w0oYJbja\nvd/ZnNWdf/k7gL6sHMY53YdG/qmbtMrU6S4q6GjxeU6nE1D9+4W/DMBJhAZ1fTNk\nUMG/ARuxYGMiAcqC+I8tf/oHffIe/ReMEol5LPNFAoGBAJL8Bkm4CdSfWviwDnSk\nQyCM2RN1K1fIA0WxMIk7zh9hpsrpojJvL6k/7WBQr58fGegd0vSauzZ6wu0/eBBT\nYAmRPJkXj6pEtKaaq+HvPbw2WF332D2VJ3MSdNpLODebxd/VajefyDW6Tp3nv5GZ\nqbi6nTXSSeQg4IsVbs9BDIpU\n-----END PRIVATE KEY-----",
 				"type": "string"
 			},
 			{
@@ -11736,6 +12184,10 @@
 		},
 		{
 			"key": "manageCdoMicrochip",
+			"value": ""
+		},
+		{
+			"key": "accountToDelete",
 			"value": ""
 		}
 	]
