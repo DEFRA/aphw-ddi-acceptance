@@ -1,6 +1,6 @@
 Feature: Update status manually
 
-      Scenario: Add Removed from CDO process(update status from pre-exempt to failed) 
+    Scenario: Add Removed from CDO process(update status from pre-exempt to failed) 
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Bob" to the inputfield "#searchTerms"
@@ -15,7 +15,12 @@ Feature: Update status manually
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[14]" contains the text "Failed"
 
-      Scenario: Add CDO issued, CDO expiry and court to dog in interim exempt status(update status from interim exempt to pre-exempt) 
+    Scenario: Check the status for dog
+        When I click on the link "Check activity"
+        Then I expect that element "tbody" contains the text "Dog status set to Failed"
+        And I expect that element "tbody" contains the text "Non-compliance letter sent"
+
+    Scenario: Add CDO issued, CDO expiry and court to dog in interim exempt status(update status from interim exempt to pre-exempt) 
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Maxie" to the inputfield "#searchTerms"
@@ -36,7 +41,13 @@ Feature: Update status manually
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[14]" contains the text "Pre-exempt"
 
-     Scenario: Add First certificate issued and Insurance renewal date to dog in pre-exempt status(update pre-exempt to Exempt) 
+    Scenario: Check the status for dog
+        When I click on the link "Check activity"
+        Then I expect that element "tbody" contains the text "Dog status set to Pre-exempt"
+        And I expect that element "tbody" contains the text "CDO issue date updated"
+        And I expect that element "tbody" contains the text "CDO expiry date updated"
+
+    Scenario: Add First certificate issued and Insurance renewal date to dog in pre-exempt status(update pre-exempt to Exempt) 
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Bruce" to the inputfield "#searchTerms"
@@ -55,6 +66,13 @@ Feature: Update status manually
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[15]" contains the text "Exempt"
 
+    Scenario: Check the status for dog
+        When I click on the link "Check activity"
+        Then I expect that element "tbody" contains the text "Dog status set to Exempt"
+        And I expect that element "tbody" contains the text "Insurance renewal date updated"
+        And I expect that element "tbody" contains the text "Insurance company updated"
+        And I expect that element "tbody" contains the text "First certificate date updated"
+
     Scenario: Add dog date of death to dog in Exempt status(update Exempt to Inactive) 
         Given I open the url "/"
         When I click on the link "Search dog index"
@@ -68,3 +86,8 @@ Feature: Update status manually
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[16]" contains the text "Inactive"
+
+    Scenario: Check the status for dog
+        When I click on the link "Check activity"
+        Then I expect that element "tbody" contains the text "Dog status set to Inactive"
+        And I expect that element "tbody" contains the text "Dog date of death added"
