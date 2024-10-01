@@ -209,3 +209,17 @@ Scenario:  Creating a new dog and owner
         And I expect that element "(//dd)[24]" contains the text "10 March 2026"
         And I expect that element "(//dd)[25]" contains the text "11 July 2024"
         And I expect that element "(//dd)[26]" contains the text "11 July 2024"
+
+    Scenario: Verify activity for dog
+        When I click on the link "Check activity"
+        Then I expect that element "tbody" contains the text "Dog record created (Pre-exempt)"
+        And I expect that element "tbody" contains the text "Application pack sent"
+        And I expect that element "tbody" contains the text "Form 2 sent"
+        And I expect that element "tbody" contains the text "Insurance renewal date updated"
+        And I expect that element "tbody" contains the text "Insurance company updated"
+        And I expect that element "tbody" contains the text "Microchip number 1 updated"
+        And I expect that element "tbody" contains the text "Application fee paid date updated"
+        And I expect that element "tbody" contains the text "Microchip number verified updated"
+        And I expect that element "tbody" contains the text "Neutering confirmed updated"
+        And I expect that element "tbody" contains the text "Certificate issued"
+        And I expect that element "tbody" contains the text "Dog status set to Exempt"
