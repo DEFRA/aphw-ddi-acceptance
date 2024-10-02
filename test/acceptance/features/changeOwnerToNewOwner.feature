@@ -164,4 +164,36 @@ Feature: Change owner(new owner new to the index)
                 And I expect that element "(//dd)[23]" contains the text "Dogs Trust" 
                 And I expect that element "(//dd)[24]" contains the text "29 May 2026" 
                 And I expect that element "(//dd)[25]" contains the text "Not entered" 
-                And I expect that element "(//dd)[26]" contains the text "Not entered"         
+                And I expect that element "(//dd)[26]" contains the text "Not entered"
+
+        Scenario: Check activity for the previous owner
+                Given I open the url "/"
+                When I click on the link "Search dog index"
+                And I set "Grace Lawton" to the inputfield "#searchTerms"
+                And I select the radio option with the value "owner" from the radio group "searchType"
+                And I click on the element "button=Search"
+                And I click on the link containing "Grace Lawton"
+                And I click on the link "Check owner activity"
+                Then I expect that element "tbody" contains the text "moved to Tim Ricketts"
+        
+        Scenario: Check activity for the new owner
+                Given I open the url "/"
+                When I click on the link "Search dog index"
+                And I set "Tim Ricketts" to the inputfield "#searchTerms"
+                And I select the radio option with the value "owner" from the radio group "searchType"
+                And I click on the element "button=Search"
+                And I click on the link containing "Tim Ricketts"
+                And I click on the link "Check owner activity"
+                Then I expect that element "tbody" contains the text "moved from Grace Lawton"
+
+        Scenario: Check activity for the dog(After change)
+                Given I open the url "/"
+                When I click on the link "Search dog index"
+                And I set "Mojo" to the inputfield "#searchTerms"
+                And I press "Enter"
+                And I click on the link containing "ED30"
+                And I click on the link "Dog record"
+                And I click on the link "Check activity"
+                Then I expect that element "tbody" contains the text "Dog record created (Pre-exempt)"
+                And I expect that element "tbody" contains the text "moved from Grace Lawton"
+                And I expect that element "tbody" contains the text "Owner changed from Grace Lawton"
