@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "63f72dbb-99b7-4b75-ae90-d313802fad61",
+		"_postman_id": "88c252a3-326e-4202-8bf8-eca7489bbfec",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -11680,6 +11680,291 @@
 					]
 				},
 				{
+					"name": "User registration",
+					"item": [
+						{
+							"name": "Setup user to test account",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"newreguser@example.com\",\n    \"police_force_id\": \"1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check licence not accepted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.result).to.be.false;",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n    \"scope\": [\"Dog.Index.Enforcement\"],\n    \"aud\": \"aphw-ddi-api\",\n    \"username\": \"newreguser@example.com\" ,\n    \"displayname\": \"User, DLO\",\n    \"iss\": \"aphw-ddi-enforcement\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "privateKey",
+											"value": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgapHzAWFAeHzg\nSHNwF5UwhTZ300pDWj0y7thFnWBZwad2PXIalxNYks3ZkiZF0ZfdX8ghlO0pM1Bn\n8VIbUeP2FG+T80qE7QBXGNo1JMBHf+OWuUVBs5riRwj8r2v2TBObQYxQoLPDgLYI\n9p09hCv+kUwRXa5+InzGoheBDu4Hl0S9uJyVH6tbCILDrlvQ74gx6ZLayuxc4Xws\nPzyoyR3inVsXYH1yvze87eHd2fwuzFQoz1Y9tup+G2AWoW2p/dkWSL1dCT34dbF7\nvlbi/SOb43I3IQ6NCrpp25YJS+2CjYFQaSBZ/IeDlx8f9K9bOw+tR8XmgiZvc+HM\n/1FXNo6xAgMBAAECggEAAMWbEWQvp3CI8OyWA9kWxlwMOd6EjCIZTLNKT07GXhfP\nWRFG14JpSY+txyKLVUgXhA01dU94GlN9EEktSdPACkHCryrjLWrsYUKZRni3ao74\nkAL8pTO8FQylxKHN3td6ha27gz2pjOnbidxxghpml7sug1yr1ZNkz1D9EtU4Tfca\n8rhsLzBbBeGeLu+E8b6j71RN2M5300KHFA1FCnxwY20dNQlkaPxZSrHrE76mdY/o\nc7BU8pZU4KM2tzfh98hq/6mA+wkh2+u/bGrv732ZFakS7hNxrmZhHytyv4zqBBTq\nVQgn/oFdL0RQD0fI+NkxR/Idn9+tZa7+ece1jRRBoQKBgQD9l0zX2tLI6YWZLb2U\n5XTwbzjLw/M1j9JHNvgpaStOCi/YybfD4LvqMTH+REeUYitJMHM7S8favfHhpdGb\nJ8VLWWPzZ1RD1cQnFaMIkYYCHhWC4U52xoBh2z83JF4w2xx6WVVF6RU52RzuKg9N\nCMB3lMbncE1R4Jzh+8tV5L/QoQKBgQDijFIkTP0EFPpGo40eBndWOIHqBFhE57th\n2RwEfQ5atg+lMhPSPLd/LmQ+6p/5YP5akb8/5Szc/DfQ1TnqrS5eLBq5BaFNv7qw\n6iSt98qTxIrRcfjKoayVcQ4M0vWCfy7uq1N2E36OZusu/8lLQS+lSvb/ywxWqF+s\n7/MwFHk0EQKBgQDXrqOQw3CbqOIUEi84QKBhDnfD9vkYCSbToxEWR3ipe0iOnaJK\nWw34dbcLh49JyOT/7tFTEXT9uqfLP3ky+XR4TaMRFkU5HMskYuazFvJfQq8RDgfq\nRZJTqGHvyGLEMtfZx7kbKM8A0IQmnGc/Ib5w9nzlw0I/7UYBfmLGvzPVgQKBgC3h\nz20Mrp2aBgoya40uMBMlRKJ5mMrzx86MYxFBppuWjdqeJseIhn1ajvDzIc0m6Ly9\nEefF6W0kI8XGuYEe6+okspDQZBfUAeJ8uUsGiV+eCaNbmtCnJ8XobLkKLLDuQzoR\nNskOL651h6IwKbt1C0pFwXqSy//s/9uNiUoui1GRAoGBAPTK7RRf4vup06yXt9W6\nD3lB0zA5pICMs2o64xkRxbjK9QvzRktwDaADRzrVR5GWuqyhefkjt6BpdxHTeKXd\nDXzO8UffbKYg1grEIBx201m21pZRKwMfU68xseaLqMLdXdQ7E2RQPnoyUXG1D/68\ni4mgAyTXNt8B1U6wtlSdGnmk\n-----END PRIVATE KEY-----",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{\n    \"kid\": \"aphw-ddi-enforcement\",\n    \"typ\": \"JWT\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "RS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/me/licence",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"licence"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accept licence",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"creates a user\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n    \"scope\": [\"Dog.Index.Enforcement\"],\n    \"aud\": \"aphw-ddi-api\",\n    \"username\": \"newreguser@example.com\" ,\n    \"displayname\": \"User, DLO\",\n    \"iss\": \"aphw-ddi-enforcement\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "privateKey",
+											"value": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgapHzAWFAeHzg\nSHNwF5UwhTZ300pDWj0y7thFnWBZwad2PXIalxNYks3ZkiZF0ZfdX8ghlO0pM1Bn\n8VIbUeP2FG+T80qE7QBXGNo1JMBHf+OWuUVBs5riRwj8r2v2TBObQYxQoLPDgLYI\n9p09hCv+kUwRXa5+InzGoheBDu4Hl0S9uJyVH6tbCILDrlvQ74gx6ZLayuxc4Xws\nPzyoyR3inVsXYH1yvze87eHd2fwuzFQoz1Y9tup+G2AWoW2p/dkWSL1dCT34dbF7\nvlbi/SOb43I3IQ6NCrpp25YJS+2CjYFQaSBZ/IeDlx8f9K9bOw+tR8XmgiZvc+HM\n/1FXNo6xAgMBAAECggEAAMWbEWQvp3CI8OyWA9kWxlwMOd6EjCIZTLNKT07GXhfP\nWRFG14JpSY+txyKLVUgXhA01dU94GlN9EEktSdPACkHCryrjLWrsYUKZRni3ao74\nkAL8pTO8FQylxKHN3td6ha27gz2pjOnbidxxghpml7sug1yr1ZNkz1D9EtU4Tfca\n8rhsLzBbBeGeLu+E8b6j71RN2M5300KHFA1FCnxwY20dNQlkaPxZSrHrE76mdY/o\nc7BU8pZU4KM2tzfh98hq/6mA+wkh2+u/bGrv732ZFakS7hNxrmZhHytyv4zqBBTq\nVQgn/oFdL0RQD0fI+NkxR/Idn9+tZa7+ece1jRRBoQKBgQD9l0zX2tLI6YWZLb2U\n5XTwbzjLw/M1j9JHNvgpaStOCi/YybfD4LvqMTH+REeUYitJMHM7S8favfHhpdGb\nJ8VLWWPzZ1RD1cQnFaMIkYYCHhWC4U52xoBh2z83JF4w2xx6WVVF6RU52RzuKg9N\nCMB3lMbncE1R4Jzh+8tV5L/QoQKBgQDijFIkTP0EFPpGo40eBndWOIHqBFhE57th\n2RwEfQ5atg+lMhPSPLd/LmQ+6p/5YP5akb8/5Szc/DfQ1TnqrS5eLBq5BaFNv7qw\n6iSt98qTxIrRcfjKoayVcQ4M0vWCfy7uq1N2E36OZusu/8lLQS+lSvb/ywxWqF+s\n7/MwFHk0EQKBgQDXrqOQw3CbqOIUEi84QKBhDnfD9vkYCSbToxEWR3ipe0iOnaJK\nWw34dbcLh49JyOT/7tFTEXT9uqfLP3ky+XR4TaMRFkU5HMskYuazFvJfQq8RDgfq\nRZJTqGHvyGLEMtfZx7kbKM8A0IQmnGc/Ib5w9nzlw0I/7UYBfmLGvzPVgQKBgC3h\nz20Mrp2aBgoya40uMBMlRKJ5mMrzx86MYxFBppuWjdqeJseIhn1ajvDzIc0m6Ly9\nEefF6W0kI8XGuYEe6+okspDQZBfUAeJ8uUsGiV+eCaNbmtCnJ8XobLkKLLDuQzoR\nNskOL651h6IwKbt1C0pFwXqSy//s/9uNiUoui1GRAoGBAPTK7RRf4vup06yXt9W6\nD3lB0zA5pICMs2o64xkRxbjK9QvzRktwDaADRzrVR5GWuqyhefkjt6BpdxHTeKXd\nDXzO8UffbKYg1grEIBx201m21pZRKwMfU68xseaLqMLdXdQ7E2RQPnoyUXG1D/68\ni4mgAyTXNt8B1U6wtlSdGnmk\n-----END PRIVATE KEY-----",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{\n    \"kid\": \"aphw-ddi-enforcement\",\n    \"typ\": \"JWT\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "RS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/me/licence",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"licence"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check email not verified",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.result).to.be.false;",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": [
+										{
+											"key": "payload",
+											"value": "{\n    \"scope\": [\"Dog.Index.Enforcement\"],\n    \"aud\": \"aphw-ddi-api\",\n    \"username\": \"newreguser@example.com\" ,\n    \"displayname\": \"User, DLO\",\n    \"iss\": \"aphw-ddi-enforcement\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "privateKey",
+											"value": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDgapHzAWFAeHzg\nSHNwF5UwhTZ300pDWj0y7thFnWBZwad2PXIalxNYks3ZkiZF0ZfdX8ghlO0pM1Bn\n8VIbUeP2FG+T80qE7QBXGNo1JMBHf+OWuUVBs5riRwj8r2v2TBObQYxQoLPDgLYI\n9p09hCv+kUwRXa5+InzGoheBDu4Hl0S9uJyVH6tbCILDrlvQ74gx6ZLayuxc4Xws\nPzyoyR3inVsXYH1yvze87eHd2fwuzFQoz1Y9tup+G2AWoW2p/dkWSL1dCT34dbF7\nvlbi/SOb43I3IQ6NCrpp25YJS+2CjYFQaSBZ/IeDlx8f9K9bOw+tR8XmgiZvc+HM\n/1FXNo6xAgMBAAECggEAAMWbEWQvp3CI8OyWA9kWxlwMOd6EjCIZTLNKT07GXhfP\nWRFG14JpSY+txyKLVUgXhA01dU94GlN9EEktSdPACkHCryrjLWrsYUKZRni3ao74\nkAL8pTO8FQylxKHN3td6ha27gz2pjOnbidxxghpml7sug1yr1ZNkz1D9EtU4Tfca\n8rhsLzBbBeGeLu+E8b6j71RN2M5300KHFA1FCnxwY20dNQlkaPxZSrHrE76mdY/o\nc7BU8pZU4KM2tzfh98hq/6mA+wkh2+u/bGrv732ZFakS7hNxrmZhHytyv4zqBBTq\nVQgn/oFdL0RQD0fI+NkxR/Idn9+tZa7+ece1jRRBoQKBgQD9l0zX2tLI6YWZLb2U\n5XTwbzjLw/M1j9JHNvgpaStOCi/YybfD4LvqMTH+REeUYitJMHM7S8favfHhpdGb\nJ8VLWWPzZ1RD1cQnFaMIkYYCHhWC4U52xoBh2z83JF4w2xx6WVVF6RU52RzuKg9N\nCMB3lMbncE1R4Jzh+8tV5L/QoQKBgQDijFIkTP0EFPpGo40eBndWOIHqBFhE57th\n2RwEfQ5atg+lMhPSPLd/LmQ+6p/5YP5akb8/5Szc/DfQ1TnqrS5eLBq5BaFNv7qw\n6iSt98qTxIrRcfjKoayVcQ4M0vWCfy7uq1N2E36OZusu/8lLQS+lSvb/ywxWqF+s\n7/MwFHk0EQKBgQDXrqOQw3CbqOIUEi84QKBhDnfD9vkYCSbToxEWR3ipe0iOnaJK\nWw34dbcLh49JyOT/7tFTEXT9uqfLP3ky+XR4TaMRFkU5HMskYuazFvJfQq8RDgfq\nRZJTqGHvyGLEMtfZx7kbKM8A0IQmnGc/Ib5w9nzlw0I/7UYBfmLGvzPVgQKBgC3h\nz20Mrp2aBgoya40uMBMlRKJ5mMrzx86MYxFBppuWjdqeJseIhn1ajvDzIc0m6Ly9\nEefF6W0kI8XGuYEe6+okspDQZBfUAeJ8uUsGiV+eCaNbmtCnJ8XobLkKLLDuQzoR\nNskOL651h6IwKbt1C0pFwXqSy//s/9uNiUoui1GRAoGBAPTK7RRf4vup06yXt9W6\nD3lB0zA5pICMs2o64xkRxbjK9QvzRktwDaADRzrVR5GWuqyhefkjt6BpdxHTeKXd\nDXzO8UffbKYg1grEIBx201m21pZRKwMfU68xseaLqMLdXdQ7E2RQPnoyUXG1D/68\ni4mgAyTXNt8B1U6wtlSdGnmk\n-----END PRIVATE KEY-----",
+											"type": "string"
+										},
+										{
+											"key": "header",
+											"value": "{\n    \"kid\": \"aphw-ddi-enforcement\",\n    \"typ\": \"JWT\"\n}",
+											"type": "string"
+										},
+										{
+											"key": "algorithm",
+											"value": "RS256",
+											"type": "string"
+										},
+										{
+											"key": "isSecretBase64Encoded",
+											"value": false,
+											"type": "boolean"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										},
+										{
+											"key": "headerPrefix",
+											"value": "Bearer",
+											"type": "string"
+										},
+										{
+											"key": "queryParamKey",
+											"value": "token",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/user/me/email",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"user",
+										"me",
+										"email"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "countries",
 					"event": [
 						{
@@ -12142,10 +12427,6 @@
 			"value": ""
 		},
 		{
-			"key": "batchDeleteDogs",
-			"value": ""
-		},
-		{
 			"key": "purgeDogs",
 			"value": "[]",
 			"type": "string"
@@ -12188,6 +12469,10 @@
 		},
 		{
 			"key": "accountToDelete",
+			"value": ""
+		},
+		{
+			"key": "accountToTest",
 			"value": ""
 		}
 	]
