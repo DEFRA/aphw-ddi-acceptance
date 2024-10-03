@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "63f72dbb-99b7-4b75-ae90-d313802fad61",
+		"_postman_id": "3b419c8e-90f2-47b2-aa0f-df8fa06894b4",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -11235,6 +11235,366 @@
 					"name": "User",
 					"item": [
 						{
+							"name": "POST /user",
+							"item": [
+								{
+									"name": "204 - add new user without police force",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.username).to.eq('user@example.com')",
+													"    pm.expect(jsonData.active).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"user@example.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/user",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "204 - add new user with police force",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.username).to.eq('alpha@police.org')",
+													"    pm.expect(jsonData.active).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"alpha@police.org\",\n    \"police_force\": \"Alpha Police Force\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/user",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "204 - add new user with police force id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(201);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.username).to.eq('police-user@example.com')",
+													"    pm.expect(jsonData.active).to.be.true;",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"police-user@example.com\",\n    \"police_force_id\": \"1\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/user",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "409 - add duplicate user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"user@example.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/user",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "404 - add user to police force that does not exist",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"police-force-2@example.com\",\n    \"police_force\": \"unknown\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/user",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "POST /users",
+							"item": [
+								{
+									"name": "200 - bulk add police users - success",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.users[0].username).to.eq('joe.bloggs@hampshire.police.uk')",
+													"    pm.expect(jsonData.users[0].police_force_id).to.be.above(1)",
+													"    pm.expect(jsonData.users[1].username).to.eq('jane.doe@hampshire.pnn.police.uk')",
+													"    pm.expect(jsonData.users[1].police_force_id).to.equal(jsonData.users[0].police_force_id)",
+													"    pm.expect(jsonData.users[2].username).to.eq('john.smith@example.com')",
+													"    pm.expect(jsonData.users[2].police_force_id).to.be.undefined",
+													"    pm.expect(jsonData.errors).to.be.undefined",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"users\": [\n        {\n            \"username\": \"joe.bloggs@hampshire.police.uk\"\n        },\n        {\n            \"username\": \"jane.doe@hampshire.pnn.police.uk\"\n        },\n        {\n            \"username\": \"john.smith@example.com\"\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "400 - bulk add police users - partial success",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(400);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.users[0].username).to.eq('joe.bloggs@btp.police.uk')",
+													"    pm.expect(jsonData.users.length).to.eq(2)",
+													"    pm.expect(jsonData.errors.length).to.eq(1)",
+													"    pm.expect(jsonData.errors[0].username).to.eq('joe.bloggs@hampshire.police.uk')",
+													"    pm.expect(jsonData.errors[0].statusCode).to.eq(409)",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"users\": [\n        {\n            \"username\": \"joe.bloggs@hampshire.police.uk\"\n        },\n        {\n            \"username\": \"joe.bloggs@btp.police.uk\"\n        },\n        {\n            \"username\": \"jane.bloggs@example.com\"\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "409 - bulk add police users - full failure duplicate",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"creates a user\", function () {",
+													"    pm.response.to.have.status(409);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.errors[0].username).to.eq('joe.bloggs@hampshire.police.uk')",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"users\": [\n        {\n            \"username\": \"joe.BLOGGS@hampshire.police.uk\"\n        },\n        {\n            \"username\": \"jane.bloggs@example.com\"\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "me/validate",
 							"event": [
 								{
@@ -11262,220 +11622,6 @@
 										"user",
 										"me",
 										"validate"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "204 - add new user without police force",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"creates a user\", function () {",
-											"    pm.response.to.have.status(201);",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.username).to.eq('user@example.com')",
-											"    pm.expect(jsonData.active).to.be.true;",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"username\": \"user@example.com\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{DDI_API_BASE_URL}}/user",
-									"host": [
-										"{{DDI_API_BASE_URL}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "204 - add new user with police force",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"creates a user\", function () {",
-											"    pm.response.to.have.status(201);",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.username).to.eq('alpha@police.org')",
-											"    pm.expect(jsonData.active).to.be.true;",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"username\": \"alpha@police.org\",\n    \"police_force\": \"Alpha Police Force\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{DDI_API_BASE_URL}}/user",
-									"host": [
-										"{{DDI_API_BASE_URL}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "204 - add new user with police force id",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"creates a user\", function () {",
-											"    pm.response.to.have.status(201);",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.username).to.eq('police-user@example.com')",
-											"    pm.expect(jsonData.active).to.be.true;",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"username\": \"police-user@example.com\",\n    \"police_force_id\": \"1\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{DDI_API_BASE_URL}}/user",
-									"host": [
-										"{{DDI_API_BASE_URL}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "409 - add duplicate user",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"creates a user\", function () {",
-											"    pm.response.to.have.status(409);",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"username\": \"user@example.com\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{DDI_API_BASE_URL}}/user",
-									"host": [
-										"{{DDI_API_BASE_URL}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "404 - add user to police force that does not exist",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"creates a user\", function () {",
-											"    pm.response.to.have.status(404);",
-											"});",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"username\": \"police-force-2@example.com\",\n    \"police_force\": \"unknown\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{DDI_API_BASE_URL}}/user",
-									"host": [
-										"{{DDI_API_BASE_URL}}"
-									],
-									"path": [
-										"user"
 									]
 								}
 							},
