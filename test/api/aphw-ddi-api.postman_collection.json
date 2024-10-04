@@ -11454,7 +11454,7 @@
 							]
 						},
 						{
-							"name": "POST /users",
+							"name": "/users",
 							"item": [
 								{
 									"name": "200 - bulk add police users - success",
@@ -11580,6 +11580,42 @@
 												}
 											}
 										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - returns list of users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.users[0].username).to.contain('@')",
+													"    pm.expect(jsonData.users[0].id).to.be.a('number')",
+													"    pm.expect(jsonData.users[0].id).to.be.above(0)",
+													"    pm.expect(jsonData.users.some(user => user.username === 'joe.bloggs@hampshire.police.uk')).to.be.true",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
 										"url": {
 											"raw": "{{DDI_API_BASE_URL}}/users",
 											"host": [
