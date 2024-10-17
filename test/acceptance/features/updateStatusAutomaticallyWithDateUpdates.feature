@@ -13,11 +13,11 @@ Feature: Update status manually
         And I set "2024" to the inputfield "#nonComplianceLetterSent-year"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[14]" contains the text "Failed"
+        And I expect that element "(//dd)[14]" contains the text "Failed to exempt dog"
 
-    Scenario: Check the status for dog
+    Scenario: Check the activity for dog
         When I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog status set to Failed"
+        Then I expect that element "tbody" contains the text "Dog status set to Failed to exempt dog"
         And I expect that element "tbody" contains the text "Non-compliance letter sent"
 
     Scenario: Add CDO issued, CDO expiry and court to dog in interim exempt status(update status from interim exempt to pre-exempt) 
@@ -39,11 +39,11 @@ Feature: Update status manually
         And I click on the element "button=Save details"
         And I click on the link "Dog record" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[14]" contains the text "Pre-exempt"
+        And I expect that element "(//dd)[14]" contains the text "Applying for exemption"
 
-    Scenario: Check the status for dog
+    Scenario: Check the activity for dog
         When I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog status set to Pre-exempt"
+        Then I expect that element "tbody" contains the text "Dog status set to Applying for exemption"
         And I expect that element "tbody" contains the text "CDO issue date updated"
         And I expect that element "tbody" contains the text "CDO expiry date updated"
 
@@ -66,7 +66,7 @@ Feature: Update status manually
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[15]" contains the text "Exempt"
 
-    Scenario: Check the status for dog
+    Scenario: Check the activity for dog
         When I click on the link "Check activity"
         Then I expect that element "tbody" contains the text "Dog status set to Exempt"
         And I expect that element "tbody" contains the text "Insurance renewal date updated"
@@ -85,9 +85,9 @@ Feature: Update status manually
         And I set "2024" to the inputfield "#dateOfDeath-year"
         And I click on the element "button=Save details" 
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[16]" contains the text "Inactive"
+        And I expect that element "(//dd)[16]" contains the text "Dog dead"
 
-    Scenario: Check the status for dog
+    Scenario: Check the activity for dog
         When I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog status set to Inactive"
+        Then I expect that element "tbody" contains the text "Dog status set to Dog dead"
         And I expect that element "tbody" contains the text "Dog date of death added"

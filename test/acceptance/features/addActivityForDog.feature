@@ -44,7 +44,7 @@ Feature: Add an activity for dog
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
         And I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog record created (Pre-exempt)"
+        Then I expect that element "tbody" contains the text "Dog record created (Applying for exemption)"
 
     Scenario: Add an activity to the dog(We've sent something)
         When I open the url "/"

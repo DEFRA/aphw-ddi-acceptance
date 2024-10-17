@@ -77,7 +77,7 @@ Feature: Reuse existing owner and dog for new application
       And I expect that element "(//dd)[11]" contains the text "Not entered"
       And I expect that element "(//dd)[12]" contains the text "Not entered"  
       And I expect that element "(//dd)[13]" contains the text "England" 
-      And I expect that element "(//dd)[14]" contains the text "Pre-exempt"
+      And I expect that element "(//dd)[14]" contains the text "Applying for exemption"
       And I expect that element "(//dd)[16]" contains the text "Not entered" 
       And I expect that element "(//dd)[17]" contains the text "01 February 2024"
       And I expect that element "(//dd)[18]" contains the text "01 April 2024"

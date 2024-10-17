@@ -5,7 +5,7 @@ Feature: Edit dog details
         When I click on the link "Search dog index"
         And I set "Bravo" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 dog record"
+        Then I expect that element "html" contains the text "1 matching record"
 
     Scenario: Select a dog
         When I click on the link containing "ED30"
@@ -75,7 +75,7 @@ Feature: Edit dog details
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
         And I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog record created (Pre-exempt)"
+        Then I expect that element "tbody" contains the text "Dog record created (Applying for exemption)"
         And I expect that element "tbody" contains the text "Microchip number 1 updated"
         And I expect that element "tbody" contains the text "Microchip number 2 updated"
         And I expect that element "tbody" contains the text "Tattoo updated"

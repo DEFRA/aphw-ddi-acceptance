@@ -41,7 +41,7 @@ Scenario:  Creating a new dog and owner
         And I click on the link "Search dog index"
         And I set "Tommy" to the inputfield "#searchTerms"
         And I press "Enter"
-        And I expect that element "html" contains the text "1 dog record"
+        And I expect that element "html" contains the text "1 matching record"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
         Then I expect that element "h1" contains the text "Dog ED30"
@@ -58,12 +58,12 @@ Scenario:  Creating a new dog and owner
         When I click on the link "Search the Index"
         And I set "Tommy" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "No results found"     
+        Then I expect that element "html" contains the text "Your search for Tommy did not match any records."     
 
     Scenario: Search dog 
         When I set "Cookie" to the inputfield "#searchTerms"
         And I press "Enter"
-        And I expect that element "html" contains the text "1 dog record"
+        And I expect that element "html" contains the text "1 matching record"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
         Then I expect that element "h1" contains the text "Dog ED30"
@@ -82,16 +82,10 @@ Scenario:  Creating a new dog and owner
         When I click on the link "Search the Index"
         And I set "Cookie" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "No results found"
+        Then I expect that element "html" contains the text "Your search for Cookie did not match any records."
 
     Scenario: Search deleted owner 
         When I select the radio option with the value "owner" from the radio group "searchType"
         And I set "David Murdoch" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "No results found"
-
-
-
-
-
-
+        Then I expect that element "html" contains the text "Your search for David Murdoch did not match any records."
