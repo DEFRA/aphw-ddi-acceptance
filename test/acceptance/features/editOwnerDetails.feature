@@ -6,7 +6,7 @@ Feature: Edit owner details
         And I set "Mike Turner" to the inputfield "#searchTerms"
         And I select the radio option with the value "owner" from the radio group "searchType"
         And I click on the element "button=Search"
-        Then I expect that element "html" contains the text "1 owner record"
+        Then I expect that element "html" contains the text "1 matching record"
 
     Scenario: Select an owner
         When I click on the link containing "Mike Turner"

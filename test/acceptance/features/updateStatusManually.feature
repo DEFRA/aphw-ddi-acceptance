@@ -5,7 +5,7 @@ Feature: Update status manually
         When I click on the link "Search dog index"
         And I set "Fido" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 dog record"
+        Then I expect that element "html" contains the text "1 matching record"
 
     Scenario: Select a dog
         When I click on the link containing "ED30"
@@ -20,7 +20,7 @@ Feature: Update status manually
     Scenario: Click on change status
         When I click on the link "Change status"
         Then I expect that element "h1" contains the text "Change the status for Dog ED30"
-        And I expect that element "form" contains the text "is currently Pre-exempt."
+        And I expect that element "form" contains the text "is currently Applying for exemption"
         
     Scenario: Change status
         When I select the radio option with the value "Exempt" from the radio group "newStatus"
@@ -49,7 +49,7 @@ Feature: Update status manually
         And I click on the link containing "Change status"
         And I select the radio option with the value "Pre-exempt" from the radio group "newStatus"
         And I click on the element "button=Change status"
-        Then I expect that element "main" contains the text "Pre-exempt"
+        Then I expect that element "main" contains the text "Applying for exemption"
 
     Scenario: Check status is updated successfully
         Given I open the url "/"
@@ -59,8 +59,8 @@ Feature: Update status manually
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
         Then I expect that element "h1" contains the text "Dog ED30"
-        And I expect that element "(//dd)[14]" contains the text "Pre-exempt"
+        And I expect that element "(//dd)[14]" contains the text "Applying for exemption"
 
     Scenario: Check the activity for dog
         When I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog status set to Pre-exempt"
+        Then I expect that element "tbody" contains the text "Dog status set to Applying for exemption"

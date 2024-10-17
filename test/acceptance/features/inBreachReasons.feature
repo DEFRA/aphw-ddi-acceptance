@@ -66,7 +66,7 @@ Feature: Add/Remove InBreach Reasons
         And I click on the link containing "Change status"
         And I select the radio option with the value "Pre-exempt" from the radio group "newStatus"
         And I click on the element "button=Change status"
-        Then I expect that element "main" contains the text "Pre-exempt"
+        Then I expect that element "main" contains the text "Applying for exemption"
 
     Scenario: Check status is updated successfully to Pre-exempt
         Given I open the url "/"
@@ -75,10 +75,10 @@ Feature: Add/Remove InBreach Reasons
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link containing "Dog record"
-        Then I expect that element "(//dd)[14]" contains the text "Pre-exempt"
+        Then I expect that element "(//dd)[14]" contains the text "Applying for exemption"
         And I expect that element "(//dd)[14]" not contains the text "dog not kept on lead or muzzled" 
         And I expect that element "(//dd)[14]" not contains the text "insurance evidence not provided to police"
 
      Scenario: Check the activity for dog
         When I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog status set to Pre-exempt"
+        Then I expect that element "tbody" contains the text "Dog status set to Applying for exemption"

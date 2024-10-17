@@ -212,7 +212,7 @@ Scenario:  Creating a new dog and owner
 
     Scenario: Verify activity for dog
         When I click on the link "Check activity"
-        Then I expect that element "tbody" contains the text "Dog record created (Pre-exempt)"
+        Then I expect that element "tbody" contains the text "Dog record created (Applying for exemption)"
         And I expect that element "tbody" contains the text "Application pack sent"
         And I expect that element "tbody" contains the text "Form 2 sent"
         And I expect that element "tbody" contains the text "Insurance renewal date updated"

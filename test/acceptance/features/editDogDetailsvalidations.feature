@@ -5,7 +5,7 @@ Feature: Edit dog details
         When I click on the link "Search dog index"
         And I set "Bravo" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 dog record"
+        Then I expect that element "html" contains the text "1 matching record"
 
     Scenario: Select a dog
         When I click on the link containing "ED30"
