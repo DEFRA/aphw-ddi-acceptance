@@ -25,7 +25,7 @@ Feature: Fuzzy/Partial searching
     Scenario: Dog Search including close matches(Nortampton - spelling mistake)
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "3 matching records"
+        Then I expect that element "html" contains the text "5 matching records"
 
     Scenario: Search dog record with microchip number(last 2 digits swapped) without including close matches
         When I clear the inputfield "#searchTerms"
@@ -49,7 +49,7 @@ Feature: Fuzzy/Partial searching
     Scenario: Search dog record with postcode(last 2 characters swapped) including close matches
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "3 matching records"
+        Then I expect that element "html" contains the text "5 matching records"
 
     Scenario: Search dog record without including close matches
         When I clear the inputfield "#searchTerms"

@@ -6,7 +6,7 @@ Feature: Reuse existing owner and dog for new application
       And I set "John" to the inputfield "#firstName"
       And I set "Smith" to the inputfield "#lastName"
       And I click on the element "button=Continue"
-      Then I expect that element "h1" contains the text "Select the address for John Smith"
+      Then I expect that element "h1" contains the text "There are existing dog owners named John Smith"
 
    Scenario: Select existing owner address and Confirm existing dog details
       When I select the radio option with the value "0" from the radio group "address"

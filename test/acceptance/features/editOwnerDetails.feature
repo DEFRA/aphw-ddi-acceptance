@@ -13,7 +13,7 @@ Feature: Edit owner details
         Then I expect that element "h1" contains the text "Mike Turner"
         And I expect that element "(//dd)[1]" contains the text "Mike Turner"
 
-    Scenario: Owner details updated successfully
+    Scenario: Update Owner details
         When I click on the link containing "Edit details"  
         And I set "03" to the inputfield "#dateOfBirth-day"
         And I set "03" to the inputfield "#dateOfBirth-month"
@@ -27,6 +27,14 @@ Feature: Edit owner details
         And I set "07566874546" to the inputfield "#secondaryTelephone"
         And I select the option with the value "Wales" for element "#country"
         And I click on the element "button=Save details"
+
+    Scenario: Verify owner details updated successfully
+        Given I open the url "/"
+        When I click on the link "Search dog index"
+        And I set "Mike Turner" to the inputfield "#searchTerms"
+        And I select the radio option with the value "owner" from the radio group "searchType"
+        And I click on the element "button=Search"
+        And I click on the link containing "Mike Turner"
         Then I expect that element "h1" contains the text "Mike Turner"
         And I expect that element "(//dd)[1]" contains the text "Mike Turner"
         And I expect that element "(//dd)[2]" contains the text "03 March 1990"
