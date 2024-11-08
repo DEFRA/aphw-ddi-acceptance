@@ -48,14 +48,14 @@ Feature: Add/Remove InBreach Reasons
         And I click on the link containing "ED30"
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[14]" contains the text "In breach"
-        And I expect that element "(//dd)[14]" contains the text "dog not kept on lead or muzzled" 
-        And I expect that element "(//dd)[14]" contains the text "insurance evidence not provided to police"
+        And I expect that element "(//dd)[14]" contains the text "dog not kept on lead or muzzled in public place" 
+        And I expect that element "(//dd)[14]" contains the text "evidence of insurance not provided to police within five days of request"
         
     Scenario: Check the activity for dog
         When I click on the link "Check activity"
         Then I expect that element "tbody" contains the text "Dog status set to In breach:"
-        And I expect that element "tbody" contains the text "dog not kept on lead or muzzled" 
-        And I expect that element "tbody" contains the text "insurance evidence not provided to police"
+        And I expect that element "tbody" contains the text "dog not kept on lead or muzzled in public place" 
+        And I expect that element "tbody" contains the text "evidence of insurance not provided to police within five days of request"
 
     Scenario: Change status to Pre-exempt
         Given I open the url "/"
@@ -76,8 +76,8 @@ Feature: Add/Remove InBreach Reasons
         And I click on the link containing "ED30"
         And I click on the link containing "Dog record"
         Then I expect that element "(//dd)[14]" contains the text "Applying for exemption"
-        And I expect that element "(//dd)[14]" not contains the text "dog not kept on lead or muzzled" 
-        And I expect that element "(//dd)[14]" not contains the text "insurance evidence not provided to police"
+        And I expect that element "(//dd)[14]" not contains the text "dog not kept on lead or muzzled in public place" 
+        And I expect that element "(//dd)[14]" not contains the text "evidence of insurance not provided to police within five days of request"
 
      Scenario: Check the activity for dog
         When I click on the link "Check activity"
