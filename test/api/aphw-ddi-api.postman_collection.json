@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3b419c8e-90f2-47b2-aa0f-df8fa06894b4",
+		"_postman_id": "c0960bec-6606-4268-9202-0a9e12b77f5c",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -10803,8 +10803,7 @@
 													"pm.test(\"response returns a list of counts of each status\", function () {",
 													"    pm.response.to.have.status(200);",
 													"    const { response } = pm.response.json()",
-													"    const [,,,,,count] = response.split(' ')",
-													"    pm.expect(parseInt(count)).to.equal(1)",
+													"    pm.expect(response).to.equal('Success Revert In-breach Insurance to Exempt - updated 0 rowsSuccess Insurance Expiry add breach reason - updated 0 rowsSuccess Insurance Expiry to Breach - updated 0 rows')",
 													"});",
 													""
 												],
@@ -11038,9 +11037,9 @@
 											"    const dog = pm.response.json();",
 											"    pm.expect(dog.id).to.be.a('number')",
 											"    pm.expect(dog.indexNumber).to.eq(indexNumber)",
-											"    pm.expect(dog.breaches.includes(\"dog not covered by third party insurance\")).to.be.true",
+											"    pm.expect(dog.breaches.includes(\"annual evidence of insurance not provided to Defra\")).to.be.true",
 											"",
-											"    pm.expect(dog.breaches.includes(\"dog not kept on lead or muzzled\")).to.be.true",
+											"    pm.expect(dog.breaches.includes(\"dog not kept on lead or muzzled in public place\")).to.be.true",
 											"    pm.expect(dog.breaches.includes(\"dog kept in insecure place\")).to.be.true",
 											"    pm.expect(dog.breaches.length).to.eq(3)",
 											"});"
@@ -11099,7 +11098,7 @@
 											"    const dog = pm.response.json().cdo.dog;",
 											"    pm.expect(dog.breaches).to.be.an('array')",
 											"    pm.expect(dog.breaches).to.have.length(3)",
-											"    pm.expect(dog.breaches[0]).to.eq('dog not covered by third party insurance')",
+											"    pm.expect(dog.breaches[0]).to.eq('annual evidence of insurance not provided to Defra')",
 											"});",
 											""
 										],
@@ -11467,11 +11466,11 @@
 													"    pm.response.to.have.status(200);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.users[0].username).to.eq('joe.bloggs@hampshire.police.uk')",
-													"    pm.expect(jsonData.users[0].police_force_id).to.be.above(1)",
+													"    pm.expect(jsonData.users[0].policeForceId).to.be.above(1)",
 													"    pm.expect(jsonData.users[1].username).to.eq('jane.doe@hampshire.pnn.police.uk')",
-													"    pm.expect(jsonData.users[1].police_force_id).to.equal(jsonData.users[0].police_force_id)",
+													"    pm.expect(jsonData.users[1].policeForceId).to.equal(jsonData.users[0].policeForceId)",
 													"    pm.expect(jsonData.users[2].username).to.eq('john.smith@example.com')",
-													"    pm.expect(jsonData.users[2].police_force_id).to.be.undefined",
+													"    pm.expect(jsonData.users[2].policeForceId).to.be.undefined",
 													"    pm.expect(jsonData.errors).to.be.undefined",
 													"});"
 												],
@@ -12321,10 +12320,6 @@
 		},
 		{
 			"key": "oldDog2",
-			"value": ""
-		},
-		{
-			"key": "batchDeleteDogs",
 			"value": ""
 		},
 		{
