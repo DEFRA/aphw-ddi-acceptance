@@ -85,7 +85,6 @@ Scenario:  Creating a new dog and owner
         Then I expect that element "html" contains the text "Your search for Cookie did not match any records."
 
     Scenario: Search deleted owner 
-        When I select the radio option with the value "owner" from the radio group "searchType"
-        And I set "David Murdoch" to the inputfield "#searchTerms"
+        When I set "David Murdoch" to the inputfield "#searchTerms"
         And I press "Enter"
         Then I expect that element "html" contains the text "Your search for David Murdoch did not match any records."

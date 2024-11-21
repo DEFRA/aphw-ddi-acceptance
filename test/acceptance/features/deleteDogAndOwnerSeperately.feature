@@ -56,8 +56,7 @@ Scenario:  Creating a new dog and owner
         Then I expect that element "html" contains the text "Your search for Bunny did not match any records."    
 
     Scenario: Search owner with no dogs
-        When I select the radio option with the value "owner" from the radio group "searchType"
-        And I set "Oliver Davis" to the inputfield "#searchTerms"
+        When I set "Oliver Davis" to the inputfield "#searchTerms"
         And I press "Enter"
         Then I expect that element "html" contains the text "1 matching record"
 
@@ -71,7 +70,6 @@ Scenario:  Creating a new dog and owner
 
     Scenario: Search deleted owner 
         When I click on the link "Search the Index"
-        And I select the radio option with the value "owner" from the radio group "searchType"
         And I set "Oliver Davis" to the inputfield "#searchTerms"
         And I press "Enter"
         Then I expect that element "html" contains the text "Your search for Oliver Davis did not match any records."
