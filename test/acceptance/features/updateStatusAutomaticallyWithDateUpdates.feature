@@ -69,7 +69,7 @@ Feature: Update status manually
     Scenario: Check the activity for dog
         When I click on the link "Check activity"
         Then I expect that element "tbody" contains the text "Dog status set to Exempt"
-        And I expect that element "tbody" contains the text "Insurance renewal date updated"
+        And I expect that element "tbody" contains the text "Last known insurance renewal date updated"
         And I expect that element "tbody" contains the text "Insurance company updated"
         And I expect that element "tbody" contains the text "First certificate date updated"
 

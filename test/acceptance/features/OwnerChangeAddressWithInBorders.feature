@@ -75,7 +75,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "South Wales Police"
+        Then I expect that element "(//dd)[21]" contains the text "South Wales Police"
 
     Scenario: Verify police force is updated (Dog2 of 2)
         Given I open the url "/"
@@ -84,7 +84,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "South Wales Police"
+        Then I expect that element "(//dd)[21]" contains the text "South Wales Police"
 
     Scenario: Change from Cardiff(Wales) to Leeds(England) address through postcode lookup
         Given I open the url "/"
@@ -123,7 +123,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "West Yorkshire Police"
+        Then I expect that element "(//dd)[21]" contains the text "West Yorkshire Police"
 
     Scenario: Verify police force is updated (Dog2 of 2)
         Given I open the url "/"
@@ -132,7 +132,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "West Yorkshire Police"
+        Then I expect that element "(//dd)[21]" contains the text "West Yorkshire Police"
 
     Scenario: Change Leeds(England) to Bristol(England) address through enter address manually
         Given I open the url "/"
@@ -171,7 +171,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "Avon and Somerset Constabulary"
+        Then I expect that element "(//dd)[21]" contains the text "Avon and Somerset Constabulary"
 
     Scenario: Verify police force is updated (Dog2 of 2)
         Given I open the url "/"
@@ -180,7 +180,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "Avon and Somerset Constabulary"
+        Then I expect that element "(//dd)[21]" contains the text "Avon and Somerset Constabulary"
 
     Scenario: Change from Bristol(England) address to Northampton(England) address through edit owner details page with invalid postcode
         Given I open the url "/"
@@ -221,7 +221,7 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "Avon and Somerset Constabulary"
+        Then I expect that element "(//dd)[21]" contains the text "Avon and Somerset Constabulary"
 
     Scenario: Verify police force is not updated (Dog2 of 2)
         Given I open the url "/"
@@ -230,4 +230,4 @@ Feature: Change address or Country of an owner
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        Then I expect that element "(//dd)[20]" contains the text "Avon and Somerset Constabulary"     
+        Then I expect that element "(//dd)[21]" contains the text "Avon and Somerset Constabulary"     
