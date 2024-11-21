@@ -108,7 +108,6 @@ Feature: Prevent XLBully for Scotland address
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Kelly" to the inputfield "#searchTerms"
-        And I select the radio option with the value "owner" from the radio group "searchType"
         And I click on the element "button=Search"
         And I click on the link containing "Kelly"
         And I click on the link containing "Edit details"

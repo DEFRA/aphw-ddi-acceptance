@@ -4,7 +4,6 @@ Feature: Edit owner details
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "John Smith" to the inputfield "#searchTerms"
-        And I select the radio option with the value "owner" from the radio group "searchType"
         And I click on the element "button=Search"
         Then I expect that element "html" contains the text "1 matching record"
 

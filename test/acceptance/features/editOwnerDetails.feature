@@ -4,9 +4,8 @@ Feature: Edit owner details
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Mike Turner" to the inputfield "#searchTerms"
-        And I select the radio option with the value "owner" from the radio group "searchType"
         And I click on the element "button=Search"
-        Then I expect that element "html" contains the text "1 matching record"
+        Then I expect that element "html" contains the text "2 matching records"
 
     Scenario: Select an owner
         When I click on the link containing "Mike Turner"
@@ -32,7 +31,6 @@ Feature: Edit owner details
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Mike Turner" to the inputfield "#searchTerms"
-        And I select the radio option with the value "owner" from the radio group "searchType"
         And I click on the element "button=Search"
         And I click on the link containing "Mike Turner"
         Then I expect that element "h1" contains the text "Mike Turner"
@@ -51,7 +49,6 @@ Feature: Edit owner details
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Mike Turner" to the inputfield "#searchTerms"
-        And I select the radio option with the value "owner" from the radio group "searchType"
         And I press "Enter"
         And I click on the link containing "Mike Turner"
         And I click on the link "Check owner activity"
