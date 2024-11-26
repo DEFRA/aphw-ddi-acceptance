@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "3b419c8e-90f2-47b2-aa0f-df8fa06894b4",
+		"_postman_id": "a20397b4-6dad-4660-a7b2-480ac025abf6",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "12107479"
+		"_exporter_id": "23938788"
 	},
 	"item": [
 		{
@@ -7446,6 +7446,165 @@
 					]
 				},
 				{
+					"name": "Exemption",
+					"item": [
+						{
+							"name": "/exemption returns 200 for 2015 XLB dog",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"response returns a dog\", function () {",
+											"    const exemption = pm.response.json();",
+											"    pm.expect(exemption.dog_id).to.eq(parseInt(pm.collectionVariables.get('index-number').replace('ED','')))",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"exemptionOrder\": 2015,\n  \"indexNumber\": \"{{index-number}}\",\n  \"cdoIssued\": \"2020-01-01\",\n  \"cdoExpiry\": \"2020-02-01\",\n  \"policeForce\": \"Avon and Somerset Constabulary\",\n  \"legislationOfficer\": \"Test Officer\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"microchipDeadline\": \"2025-10-10\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Dogs Trust\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/exemption",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"exemption"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change breed",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"dogId\": \"{{dogId1}}\",\n    \"indexNumber\": \"{{index-number}}\",\n    \"breed\": \"Pit Bull Terrier\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"status\": \"Exempt\",\n    \"microchipNumber\": \"123451234512345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/dog",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"dog"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/exemption fails for 2015 non-XLB dog if neut deadline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"response is ok\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "ddi-username",
+										"value": "internal-user"
+									},
+									{
+										"key": "ddi-displayname",
+										"value": "User, Internal"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"exemptionOrder\": \"2015\",\n  \"indexNumber\": \"{{index-number}}\",\n  \"cdoIssued\": \"2020-01-01\",\n  \"cdoExpiry\": \"2020-02-01\",\n  \"policeForce\": \"Avon and Somerset Constabulary\",\n  \"legislationOfficer\": \"Test Officer\",\n  \"certificateIssued\": \"2020-03-01\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"neuteringConfirmation\": \"2020-04-01\",\n  \"microchipVerification\": \"2020-04-01\",\n  \"microchipDeadline\": \"2025-10-10\",\n  \"neuteringDeadline\": \"2025-11-11\",\n  \"joinedExemptionScheme\": \"2020-05-01\",\n  \"insurance\": {\n    \"company\": \"Dogs Trust\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{DDI_API_BASE_URL}}/exemption",
+									"host": [
+										"{{DDI_API_BASE_URL}}"
+									],
+									"path": [
+										"exemption"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Courts",
 					"item": [
 						{
@@ -10803,8 +10962,8 @@
 													"pm.test(\"response returns a list of counts of each status\", function () {",
 													"    pm.response.to.have.status(200);",
 													"    const { response } = pm.response.json()",
-													"    const [,,,,,count] = response.split(' ')",
-													"    pm.expect(parseInt(count)).to.equal(1)",
+													"    pm.expect(response).to.contain(\"Success Insurance Expiry add breach reason\")",
+													"    pm.expect(response).to.contain(\"Success Insurance Expiry to Breach\")",
 													"});",
 													""
 												],
@@ -11038,9 +11197,9 @@
 											"    const dog = pm.response.json();",
 											"    pm.expect(dog.id).to.be.a('number')",
 											"    pm.expect(dog.indexNumber).to.eq(indexNumber)",
-											"    pm.expect(dog.breaches.includes(\"dog not covered by third party insurance\")).to.be.true",
+											"    pm.expect(dog.breaches.includes(\"annual evidence of insurance not provided to Defra\")).to.be.true",
 											"",
-											"    pm.expect(dog.breaches.includes(\"dog not kept on lead or muzzled\")).to.be.true",
+											"    pm.expect(dog.breaches.includes(\"dog not kept on lead or muzzled in public place\")).to.be.true",
 											"    pm.expect(dog.breaches.includes(\"dog kept in insecure place\")).to.be.true",
 											"    pm.expect(dog.breaches.length).to.eq(3)",
 											"});"
@@ -11099,7 +11258,7 @@
 											"    const dog = pm.response.json().cdo.dog;",
 											"    pm.expect(dog.breaches).to.be.an('array')",
 											"    pm.expect(dog.breaches).to.have.length(3)",
-											"    pm.expect(dog.breaches[0]).to.eq('dog not covered by third party insurance')",
+											"    pm.expect(dog.breaches[0]).to.eq('annual evidence of insurance not provided to Defra')",
 											"});",
 											""
 										],
@@ -11454,7 +11613,7 @@
 							]
 						},
 						{
-							"name": "/users",
+							"name": "GET /users",
 							"item": [
 								{
 									"name": "200 - bulk add police users - success",
@@ -11467,11 +11626,11 @@
 													"    pm.response.to.have.status(200);",
 													"    const jsonData = pm.response.json();",
 													"    pm.expect(jsonData.users[0].username).to.eq('joe.bloggs@hampshire.police.uk')",
-													"    pm.expect(jsonData.users[0].police_force_id).to.be.above(1)",
+													"    pm.expect(jsonData.users[0].policeForceId).to.be.above(1)",
 													"    pm.expect(jsonData.users[1].username).to.eq('jane.doe@hampshire.pnn.police.uk')",
-													"    pm.expect(jsonData.users[1].police_force_id).to.equal(jsonData.users[0].police_force_id)",
+													"    pm.expect(jsonData.users[1].policeForceId).to.equal(jsonData.users[0].policeForceId)",
 													"    pm.expect(jsonData.users[2].username).to.eq('john.smith@example.com')",
-													"    pm.expect(jsonData.users[2].police_force_id).to.be.undefined",
+													"    pm.expect(jsonData.users[2].policeForceId).to.be.undefined",
 													"    pm.expect(jsonData.errors).to.be.undefined",
 													"});"
 												],
@@ -11623,6 +11782,356 @@
 											],
 											"path": [
 												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - returns sorted list of users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const sortBase = { lastUser: 'zzzzzzzz' }",
+													"const sortFn = user => {",
+													"    const newUser = user.username",
+													"    ",
+													"    if (sortBase.lastUser.toLowerCase() > newUser.toLowerCase()) {",
+													"        return false",
+													"    }",
+													"    sortBase.lastUser = newUser",
+													"    return true",
+													"}",
+													"",
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json(); ",
+													"    pm.expect(jsonData.users[0].username).to.contain('@')",
+													"    pm.expect(jsonData.users[0].id).to.be.a('number')",
+													"    pm.expect(jsonData.users[0].id).to.be.above(0)",
+													"    pm.expect(jsonData.users.some(user => user.username === 'joe.bloggs@hampshire.police.uk')).to.be.true",
+													"    pm.expect(jsonData.users.every(sortFn))",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?sortKey=username&sortOrder=DESC",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "sortKey",
+													"value": "username"
+												},
+												{
+													"key": "sortOrder",
+													"value": "DESC"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - returns sorted by indexAccess=N list of users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json(); ",
+													"    pm.expect(jsonData.users[0].username).to.contain('@')",
+													"    pm.expect(jsonData.users[0].id).to.be.a('number')",
+													"    pm.expect(jsonData.users[0].id).to.be.above(0)",
+													"    pm.expect(jsonData.users.some(user => user.username === 'joe.bloggs@hampshire.police.uk')).to.be.true",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "",
+												"value": "",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?sortKey=indexAccess&indexAccessSortOrder=N",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "sortKey",
+													"value": "indexAccess"
+												},
+												{
+													"key": "indexAccessSortOrder",
+													"value": "N"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - returns sorted by indexAccess=Y list of users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json(); ",
+													"    pm.expect(jsonData.users[0].username).to.contain('@')",
+													"    pm.expect(jsonData.users[0].id).to.be.a('number')",
+													"    pm.expect(jsonData.users[0].id).to.be.above(0)",
+													"    pm.expect(jsonData.users.some(user => user.username === 'joe.bloggs@hampshire.police.uk')).to.be.true",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "",
+												"value": "",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?sortKey=indexAccess&indexAccessSortOrder=Y",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "sortKey",
+													"value": "indexAccess"
+												},
+												{
+													"key": "indexAccessSortOrder",
+													"value": "Y"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - returns sorted by policeForce DESC list of users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const sortBase = { lastPolice: 'a' }",
+													"const sortFn = user => {",
+													"    const newPolice = user.policeForce",
+													"    if (newPolice === undefined) {",
+													"        ",
+													"        return true",
+													"    } ",
+													"    if (sortBase.lastPolice.toLowerCase() > newPolice.toLowerCase()) {",
+													"        return false",
+													"    }",
+													"    sortBase.lastPolice = newPolice",
+													"",
+													"    return true",
+													"}",
+													"",
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json(); ",
+													"    pm.expect(jsonData.users[0].username).to.contain('@')",
+													"    pm.expect(jsonData.users[0].id).to.be.a('number')",
+													"    pm.expect(jsonData.users[0].id).to.be.above(0)",
+													"    pm.expect(jsonData.users.some(user => user.username === 'joe.bloggs@hampshire.police.uk')).to.be.true",
+													"    pm.expect(jsonData.users.every(sortFn)).to.be.true",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?sortKey=policeForce&sortOrder=ASC",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "sortKey",
+													"value": "policeForce"
+												},
+												{
+													"key": "sortOrder",
+													"value": "ASC"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - [policeForceId] returns list of users filtered by policeForceId",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.users).to.have.lengthOf(2)",
+													"    pm.expect(jsonData.users.every(({ username }) => username.includes('hampshire'))).to.be.true",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?policeForceId=21",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "policeForceId",
+													"value": "21"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - [policeForce] returns list of users filtered by policeForce",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.users).to.have.lengthOf(1)",
+													"    pm.expect(jsonData.users.every(({ username }) => username === 'joe.bloggs@btp.police.uk' )).to.be.true",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?policeForce=British Transport Police",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "policeForce",
+													"value": "British Transport Police"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 - [username] returns list of users filtered by username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"gets a list of users\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    const jsonData = pm.response.json();",
+													"    pm.expect(jsonData.users).to.have.lengthOf(1)",
+													"    pm.expect(jsonData.users[0].username).to.eq('john.smith@example.com')",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/users?username=john.smith@example.com&sortKey=username",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"users"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "john.smith@example.com"
+												},
+												{
+													"key": "sortKey",
+													"value": "username"
+												}
 											]
 										}
 									},
@@ -12321,10 +12830,6 @@
 		},
 		{
 			"key": "oldDog2",
-			"value": ""
-		},
-		{
-			"key": "batchDeleteDogs",
 			"value": ""
 		},
 		{
