@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a20397b4-6dad-4660-a7b2-480ac025abf6",
+		"_postman_id": "e3ed48e2-394e-4183-af62-77889d02867c",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23938788"
+		"_exporter_id": "12107479"
 	},
 	"item": [
 		{
@@ -2560,6 +2560,703 @@
 														"cdo",
 														"{{manageCdoPk}}",
 														"manage:recordInsuranceDetails"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "6th Si Manage CDO",
+									"item": [
+										{
+											"name": "Create dog 1 Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const manageCdo = {}",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"    const cdo = pm.response.json();",
+															"",
+															"    manageCdo.pk = cdo.dogs[0].indexNumber",
+															"    pm.collectionVariables.set('manageCdo6th', JSON.stringify(manageCdo))",
+															"    pm.collectionVariables.set('manageCdoPk6th', manageCdo.pk)",
+															"    pm.collectionVariables.set('manageCdoPk6thId', manageCdo.pk.replace('ED',''))",
+															"});"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"pm.collectionVariables.set('batchDeleteDogs', '[]')",
+															"const microchipBase = Math.floor(Math.random() * 999999999999999)",
+															"pm.collectionVariables.set('manageCdoMicrochip',`${microchipBase}`.padEnd(15, '1'))"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"owner\": {\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"dateOfBirth\": \"1990-10-10\",\n    \"address\": {\n      \"addressLine1\": \"{{$randomStreetAddress}}\",\n      \"addressLine2\": null,\n      \"town\": \"{{$randomCity}}\",\n      \"postcode\": \"S1 1AA\"\n    }\n  },\n  \"enforcementDetails\": {\n    \"court\": \"1\",\n    \"policeForce\": \"1\",\n    \"legislationOfficer\": \"Sidney Lewis\"\n  },\n  \"dogs\": [\n    {\n      \"breed\": \"XL Bully\",\n      \"name\": \"{{$randomFirstName}}\",\n      \"applicationType\": \"interim-exemption\",\n      \"cdoIssued\": \"2023-10-10\",\n      \"cdoExpiry\": \"2023-12-10\",\n      \"interimExemption\": \"2023-12-10\",\n      \"status\": \"Status 1\"\n    }\n  ]\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/exemption returns 200 Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"exemptionOrder\": 2015,\n  \"indexNumber\": \"{{manageCdoPk6th}}\",\n  \"cdoIssued\": \"2020-01-01\",\n  \"cdoExpiry\": \"9999-02-01\",\n  \"policeForce\": \"Avon and Somerset Constabulary\",\n  \"legislationOfficer\": \"Test Officer\",\n  \"applicationFeePaid\": \"2020-03-01\",\n  \"insurance\": {\n    \"company\": \"Dogs Trust\",\n    \"renewalDate\": \"2020-06-01\"\n  }\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/exemption",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"exemption"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/dog returns 200",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"});",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"dogId\": {{manageCdoPk6thId}},\n    \"indexNumber\": \"{{manageCdoPk6th}}\",\n    \"breed\": \"XL Bully\",\n    \"name\": \"Rex alive\",\n    \"applicationType\": \"cdo\",\n    \"cdoIssued\": \"2023-10-10\",\n    \"cdoExpiry\": \"2023-12-10\",\n    \"interimExemption\": \"2023-12-10\",\n    \"status\": \"Interim exempt\",\n    \"microchipNumber\": \"{{manageCdoMicrochip}}\",\n    \"dateOfBirth\": \"{{today}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/dog",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"dog"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "204 Send Application Pack",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return a manageCdo object', () => {",
+															"  pm.response.to.have.status(204);",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:sendApplicationPack",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:sendApplicationPack"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "201 Send Record Insurance Details",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return an insurance object', () => {",
+															"  pm.response.to.have.status(201);",
+															"  const payload = pm.response.json()",
+															"  pm.expect(payload.insuranceCompany).to.eq('Dogs Trust')",
+															"  pm.expect(payload.insuranceRenewal).to.be.a('string')",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const futureDate = new Date()",
+															"futureDate.setDate(futureDate.getDate() + 60)",
+															"pm.variables.set('futureDate', futureDate)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"insuranceCompany\": \"Dogs Trust\",\n    \"insuranceRenewal\": \"{{futureDate}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:recordInsuranceDetails",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:recordInsuranceDetails"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "204 Send Form 2",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should send form 2', () => {",
+															"  pm.response.to.have.status(204);",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:sendForm2",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:sendForm2"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "200 Manage CDO form2Sent",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return a manageCdo object', () => {",
+															"  pm.response.to.have.status(200);",
+															"})",
+															"",
+															"const cdo = pm.response.json();",
+															"",
+															"",
+															"pm.test('should return the cdo data for the task list', () => {",
+															"    // 'neuteringConfirmation', 'microchipVerification', 'certificateIssued'",
+															"    pm.expect(cdo.applicationPackSent).to.be.a('string')",
+															"    pm.expect(cdo.insuranceCompany).to.equal('Dogs Trust')",
+															"    pm.expect(cdo.insuranceRenewal).to.be.a('string')",
+															"    pm.expect(cdo.microchipNumber).to.be.a('string')",
+															"    pm.expect(cdo.applicationFeePaid).to.be.a('string')",
+															"    pm.expect(cdo.form2Sent).to.be.a('string')",
+															"})",
+															"",
+															"pm.test('should show the Cdo Management tasks correctly', () => {",
+															"    pm.expect(cdo.tasks.applicationPackSent).to.deep.contain({",
+															"        \"key\": \"applicationPackSent\",",
+															"        \"available\": true,",
+															"        \"completed\": true,",
+															"        \"readonly\": true,",
+															"    })",
+															"",
+															"    pm.expect(cdo.tasks.insuranceDetailsRecorded).to.deep.contain({",
+															"        key: 'insuranceDetailsRecorded',",
+															"        available: true,",
+															"        completed: true,",
+															"        readonly: false,",
+															"    })",
+															"",
+															"    pm.expect(cdo.tasks.microchipNumberRecorded).to.deep.contain({",
+															"        key: 'microchipNumberRecorded',",
+															"        available: true,",
+															"        completed: true,",
+															"        readonly: false,",
+															"    })",
+															"    ",
+															"    pm.expect(cdo.tasks.applicationFeePaid).to.deep.contain({",
+															"        key: 'applicationFeePaid',",
+															"        available: true,",
+															"        completed: true,",
+															"        readonly: false,",
+															"    })",
+															"    pm.expect(cdo.tasks.form2Sent).to.deep.contain({",
+															"        key: 'form2Sent',",
+															"        available: true,",
+															"        completed: true,",
+															"        readonly: true,",
+															"    })",
+															"    pm.expect(cdo.tasks.verificationDateRecorded).to.deep.contain({",
+															"        key: 'verificationDateRecorded',",
+															"        available: true,",
+															"        completed: false,",
+															"        readonly: false,",
+															"    })",
+															"    pm.expect(cdo.tasks.certificateIssued).to.deep.contain({",
+															"        key: 'certificateIssued',",
+															"        available: false,",
+															"        completed: false,",
+															"        readonly: false,",
+															"    })",
+															"})",
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "400 dogNotNeutered Verify Dates",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return applicationFeePaid date', () => {",
+															"  pm.response.to.have.status(400);",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"neuteringConfirmation\": \"2024-07-03\",\n    \"dogNotFitForMicrochip\": true\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:verifyDates",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:verifyDates"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "201 dogNotNeutered Verify Dates Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return applicationFeePaid date', () => {",
+															"  pm.response.to.have.status(201);",
+															"  const payload = pm.response.json()",
+															"  pm.expect(payload.microchipVerification).to.eq(\"2024-07-03T00:00:00.000Z\")",
+															"  pm.expect(isNaN(new Date(payload.neuteringDeadline).getTime())).to.be.false",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"microchipVerification\": \"2024-07-03\",\n    \"dogNotNeutered\": true\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:verifyDates",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:verifyDates"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "201 Verify Dates dogNotNeutered Copy",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return applicationFeePaid date', () => {",
+															"  pm.response.to.have.status(201);",
+															"  const payload = pm.response.json()",
+															"  pm.expect(payload.neuteringConfirmation).to.eq(\"2024-07-03T00:00:00.000Z\")",
+															"  const dateTest = new Date(payload.microchipDeadline)",
+															"  pm.expect(isNaN(dateTest.getTime())).to.be.false",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"neuteringConfirmation\": \"2024-07-03\",\n    \"dogNotFitForMicrochip\": true,\n    \"microchipDeadline\": \"{{nextYear}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:verifyDates",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:verifyDates"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "201 Issue Certificate",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return applicationFeePaid date', () => {",
+															"  pm.response.to.have.status(201);",
+															"  const payload = pm.response.json()",
+															"  const thisYear = new Date()",
+															"  pm.expect(payload.certificateIssued).to.contain(`${thisYear.getFullYear()}-`)",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:issueCertificate",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:issueCertificate"
 													]
 												}
 											},
@@ -12625,7 +13322,22 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"const makeDate = thisDate => {",
+					"    const year = thisDate.getFullYear()",
+					"    const month = `${thisDate.getMonth() + 1}`.padStart(2, \"0\")",
+					"    const date = `${thisDate.getDate()}`.padStart(2, \"0\")",
+					"",
+					"    return `${year}-${month}-${date}`",
+					"}",
+					"",
+					"const nextYear = new Date()",
+					"nextYear.setFullYear(nextYear.getFullYear() + 1)",
+					"",
+					"const today = new Date()",
+					"today.setHours(0, 0, 0, 0)",
+					"",
+					"pm.globals.set('nextYear', makeDate(nextYear))",
+					"pm.globals.set('today', makeDate(today))"
 				]
 			}
 		},
@@ -12875,6 +13587,22 @@
 		},
 		{
 			"key": "accountToDelete",
+			"value": ""
+		},
+		{
+			"key": "batchDeleteDogs",
+			"value": ""
+		},
+		{
+			"key": "manageCdo6th",
+			"value": ""
+		},
+		{
+			"key": "manageCdoPk6th",
+			"value": ""
+		},
+		{
+			"key": "manageCdoPk6thId",
 			"value": ""
 		}
 	]
