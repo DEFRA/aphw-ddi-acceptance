@@ -31,7 +31,7 @@ Scenario:  Creating a new dog and owner
         And I click on the link "Search dog index"
         And I set "Bunny" to the inputfield "#searchTerms"
         And I press "Enter"
-        And I expect that element "html" contains the text "1 matching record"
+        And I expect that element "html" contains the text "1 record found"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
         Then I expect that element "h1" contains the text "Dog ED30"
@@ -58,7 +58,7 @@ Scenario:  Creating a new dog and owner
     Scenario: Search owner with no dogs
         When I set "Oliver Davis" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 matching record"
+        Then I expect that element "html" contains the text "1 record found"
 
     Scenario: Delete owner
         When I click on the link containing "Oliver Davis"

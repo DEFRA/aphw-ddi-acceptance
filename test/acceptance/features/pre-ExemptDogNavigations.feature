@@ -30,7 +30,7 @@ Scenario:  Creating a new dog and owner
         And I click on the link "Search dog index"
         And I set "Milo" to the inputfield "#searchTerms"
         And I press "Enter"
-        And I expect that element "html" contains the text "1 matching record"
+        And I expect that element "html" contains the text "1 record found"
         And I click on the link containing "ED30"
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "form" contains the text "Manage CDO application"

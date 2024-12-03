@@ -13,7 +13,7 @@ Feature: Fuzzy/Partial searching
     Scenario: Dog Search including close matches(same sound)
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 matching record"
+        Then I expect that element "html" contains the text "1 record found"
 
     Scenario: Dog Search without including close matches(Nortampton - spelling mistake)
         When I clear the inputfield "#searchTerms"
@@ -25,7 +25,7 @@ Feature: Fuzzy/Partial searching
     Scenario: Dog Search including close matches(Nortampton - spelling mistake)
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "5 matching records"
+        Then I expect that element "html" contains the text "5 records found"
 
     Scenario: Search dog record with microchip number(last 2 digits swapped) without including close matches
         When I clear the inputfield "#searchTerms"
@@ -37,7 +37,7 @@ Feature: Fuzzy/Partial searching
     Scenario: Search dog record with microchip number(last 2 digits swapped) including close matches
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 matching record"
+        Then I expect that element "html" contains the text "1 record found"
 
     Scenario: Search dog record with postcode(last 2 characters swapped) without including close matches
         When I clear the inputfield "#searchTerms"
@@ -49,16 +49,16 @@ Feature: Fuzzy/Partial searching
     Scenario: Search dog record with postcode(last 2 characters swapped) including close matches
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "5 matching records"
+        Then I expect that element "html" contains the text "5 records found"
 
     Scenario: Search dog record without including close matches
         When I clear the inputfield "#searchTerms"
         And I click on the element "#fuzzy"
         And I set "Tom" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "2 matching records"
+        Then I expect that element "html" contains the text "2 records found"
 
     Scenario: Search dog record including close matches
         When I click on the element "#fuzzy"
         And I press "Enter"
-        Then I expect that element "html" contains the text "4 matching records"
+        Then I expect that element "html" contains the text "4 records found"
