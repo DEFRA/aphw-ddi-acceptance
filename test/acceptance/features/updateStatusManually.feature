@@ -5,7 +5,7 @@ Feature: Update status manually
         When I click on the link "Search dog index"
         And I set "Fido" to the inputfield "#searchTerms"
         And I press "Enter"
-        Then I expect that element "html" contains the text "1 matching record"
+        Then I expect that element "html" contains the text "1 record found"
 
     Scenario: Select a dog
         When I click on the link containing "ED30"

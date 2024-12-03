@@ -5,7 +5,7 @@ Feature: Edit owner details
         When I click on the link "Search dog index"
         And I set "John Smith" to the inputfield "#searchTerms"
         And I click on the element "button=Search"
-        Then I expect that element "html" contains the text "1 matching record"
+        Then I expect that element "html" contains the text "1 record found"
 
     Scenario: Select an owner
         When I click on the link containing "John Smith"
