@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e3ed48e2-394e-4183-af62-77889d02867c",
+		"_postman_id": "e7b4b819-c6e1-4f6d-a505-e65b9c40ff2b",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -2564,6 +2564,71 @@
 												}
 											},
 											"response": []
+										},
+										{
+											"name": "409 processApplicationPack too early",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return an insurance object', () => {",
+															"  pm.response.to.have.status(409);",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															"const futureDate = new Date()",
+															"futureDate.setDate(futureDate.getDate() + 60)",
+															"pm.variables.set('futureDate', futureDate)"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"insuranceCompany\": \"Dog's Trust\",\n    \"insuranceRenewal\": \"{{futureDate}}\"\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:processApplicationPack",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk}}",
+														"manage:processApplicationPack"
+													]
+												}
+											},
+											"response": []
 										}
 									]
 								},
@@ -2778,6 +2843,50 @@
 														"cdo",
 														"{{manageCdoPk6th}}",
 														"manage:sendApplicationPack"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "204 Process Application Pack",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"pm.test('should return a manageCdo object', () => {",
+															"  pm.response.to.have.status(204);",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "ddi-username",
+														"value": "internal-user",
+														"type": "text"
+													},
+													{
+														"key": "ddi-displayname",
+														"value": "User, Internal",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:processApplicationPack",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdo",
+														"{{manageCdoPk6th}}",
+														"manage:processApplicationPack"
 													]
 												}
 											},
@@ -3283,6 +3392,9 @@
 													"pm.test('should have applicationPackSent', () => {",
 													"  pm.expect(cdo.tasks).to.have.property('applicationPackSent');",
 													"})",
+													"pm.test('should have applicationPackProcessed', () => {",
+													"  pm.expect(cdo.tasks).to.have.property('applicationPackProcessed');",
+													"})",
 													"pm.test('should have insuranceDetailsRecorded', () => {",
 													"  pm.expect(cdo.tasks).to.have.property('insuranceDetailsRecorded');",
 													"})",
@@ -3307,6 +3419,12 @@
 													"        applicationPackSent: {",
 													"            key: 'applicationPackSent',",
 													"            available: true,",
+													"            completed: false,",
+													"            readonly: false,",
+													"        },",
+													"        applicationPackProcessed: {",
+													"            key: 'applicationPackProcessed',",
+													"            available: false,",
 													"            completed: false,",
 													"            readonly: false,",
 													"        },",
@@ -3454,6 +3572,94 @@
 												"cdo",
 												"{{manageCdoPk}}",
 												"manage:sendApplicationPack"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "204 Process Application Pack",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(204);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:processApplicationPack",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:processApplicationPack"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "409 Process Application Pack a second time",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"  pm.response.to.have.status(409);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:processApplicationPack",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:processApplicationPack"
 											]
 										}
 									},
@@ -11351,7 +11557,9 @@
 											"script": {
 												"exec": [
 													"const dateToday = new Date()",
-													"dateToday.setMonth(dateToday.getMonth() + 3)",
+													"dateToday.setUTCMonth(dateToday.getUTCMonth() + 3)",
+													"dateToday.setUTCDate(dateToday.getUTCDate() + 1)",
+													"dateToday.setUTCHours(0,0,0,0)",
 													"const in90Days = dateToday.toISOString().split('T')[0]",
 													"",
 													"pm.variables.set('in90Days', in90Days)"
