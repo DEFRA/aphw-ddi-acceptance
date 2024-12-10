@@ -30,13 +30,13 @@ Feature: Add an activity for owner
         And I click on the element "button=Confirm details"
         Then I expect that element "h1" contains the text "Record created"
 
-    Scenario: Search the dog and check activity
+    Scenario: Search the dog and check history
         When I click on the link "Home"
         And I click on the link "Search dog index"
         And I set "Eva" to the inputfield "#searchTerms"
         And I press "Enter"
         And I click on the link containing "ED30"
-        And I click on the link "Check activity"
+        And I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog record created (Interim exempt)"
 
     Scenario: Add an activity to the owner
@@ -51,11 +51,11 @@ Feature: Add an activity for owner
         Then I expect that element "h1" contains the text "Change of address form sent"
         And I click on the link "Go to the owner record for Steve Richards"
         
-    Scenario: Check the activity to the owner
+    Scenario: Check the history to the owner
         When I open the url "/"
         And I click on the link "Search dog index"
         And I set "Steve Richards" to the inputfield "#searchTerms"
         And I press "Enter"
         And I click on the link containing "Steve Richards"
-        And I click on the link "Check owner activity"
+        And I click on the link "Check owner history"
         Then I expect that element "tbody" contains the text "Change of address form sent" 

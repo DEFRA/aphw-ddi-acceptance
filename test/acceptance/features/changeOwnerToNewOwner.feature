@@ -170,32 +170,32 @@ Feature: Change owner(new owner new to the index)
                 And I expect that element "(//dd)[27]" contains the text "Not entered" 
                 And I expect that element "(//dd)[28]" contains the text "Not entered"
 
-        Scenario: Check activity for the previous owner
+        Scenario: Check history for the previous owner
                 Given I open the url "/"
                 When I click on the link "Search dog index"
                 And I set "Grace Lawton" to the inputfield "#searchTerms"
                 And I click on the element "button=Search"
                 And I click on the link containing "Grace Lawton"
-                And I click on the link "Check owner activity"
+                And I click on the link "Check owner history"
                 Then I expect that element "tbody" contains the text "moved to Tim Ricketts"
         
-        Scenario: Check activity for the new owner
+        Scenario: Check history for the new owner
                 Given I open the url "/"
                 When I click on the link "Search dog index"
                 And I set "Tim Ricketts" to the inputfield "#searchTerms"
                 And I click on the element "button=Search"
                 And I click on the link containing "Tim Ricketts"
-                And I click on the link "Check owner activity"
+                And I click on the link "Check owner history"
                 Then I expect that element "tbody" contains the text "moved from Grace Lawton"
 
-        Scenario: Check activity for the dog(After change)
+        Scenario: Check history for the dog(After change)
                 Given I open the url "/"
                 When I click on the link "Search dog index"
                 And I set "Mojo" to the inputfield "#searchTerms"
                 And I press "Enter"
                 And I click on the link containing "ED30"
                 And I click on the link "Dog record"
-                And I click on the link "Check activity"
+                And I click on the link "Check history"
                 Then I expect that element "tbody" contains the text "Dog record created (Applying for exemption)"
                 And I expect that element "tbody" contains the text "moved from Grace Lawton"
                 And I expect that element "tbody" contains the text "Owner changed from Grace Lawton"

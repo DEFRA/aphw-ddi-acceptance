@@ -45,13 +45,13 @@ Feature: Edit owner details
         And I expect that element "(//dd)[7]" contains the text "07566874546" 
         And I expect that element "(//dd)[8]" contains the text "Wales"
        
-    Scenario: Check the activity for the owner
+    Scenario: Check the history for the owner
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Mike Turner" to the inputfield "#searchTerms"
         And I press "Enter"
         And I click on the link containing "Mike Turner"
-        And I click on the link "Check owner activity"
+        And I click on the link "Check owner history"
         Then I expect that element "tbody" contains the text "Owner date of birth updated"
         And I expect that element "tbody" contains the text "Address line 1 updated from 50 Scholars Court"
         And I expect that element "tbody" contains the text "Address line 2 updated from null"
