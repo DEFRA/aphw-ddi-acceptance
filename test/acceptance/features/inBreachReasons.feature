@@ -51,8 +51,8 @@ Feature: Add/Remove InBreach Reasons
         And I expect that element "(//dd)[14]" contains the text "dog not kept on lead or muzzled in public place" 
         And I expect that element "(//dd)[14]" contains the text "insurance evidence not provided to police within 5 days of request"
         
-    Scenario: Check the activity for dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to In breach:"
         And I expect that element "tbody" contains the text "dog not kept on lead or muzzled in public place" 
         And I expect that element "tbody" contains the text "insurance evidence not provided to police within 5 days of request"
@@ -79,6 +79,6 @@ Feature: Add/Remove InBreach Reasons
         And I expect that element "(//dd)[14]" not contains the text "dog not kept on lead or muzzled in public place" 
         And I expect that element "(//dd)[14]" not contains the text "insurance evidence not provided to police within 5 days of request"
 
-     Scenario: Check the activity for dog
-        When I click on the link "Check activity"
+     Scenario: Check the history for dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Applying for exemption"

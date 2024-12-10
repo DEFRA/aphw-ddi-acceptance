@@ -36,8 +36,8 @@ Feature: Update status manually
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[14]" contains the text "Exempt"
 
-    Scenario: Check the activity for dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Exempt"
 
     Scenario: Change status from dog details page
@@ -61,6 +61,6 @@ Feature: Update status manually
         Then I expect that element "h1" contains the text "Dog ED30"
         And I expect that element "(//dd)[14]" contains the text "Applying for exemption"
 
-    Scenario: Check the activity for dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Applying for exemption"

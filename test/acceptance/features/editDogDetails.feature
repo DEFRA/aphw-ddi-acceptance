@@ -67,14 +67,14 @@ Feature: Edit dog details
         And I expect that element "(//dd)[7]" contains the text "852638526311111" 
         And I expect that element "(//dd)[8]" contains the text "852638526322222"
 
-    Scenario: Check the activity for the dog
+    Scenario: Check the history for the dog
         Given I open the url "/"
         When I click on the link "Search dog index"
         And I set "Bravo" to the inputfield "#searchTerms"
         And I press "Enter"
         And I click on the link containing "ED30"
         And I click on the link "Dog record"
-        And I click on the link "Check activity"
+        And I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog record created (Applying for exemption)"
         And I expect that element "tbody" contains the text "Microchip number 1 updated"
         And I expect that element "tbody" contains the text "Microchip number 2 updated"

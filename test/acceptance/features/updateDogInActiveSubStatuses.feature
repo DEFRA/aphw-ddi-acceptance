@@ -59,6 +59,9 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I click on the link "Send application pack"
         And I click on the element "#taskDone"
         And I click on the element "button=Save and continue"
+        And I click on the link "Process application"
+        And I click on the element "#taskDone"
+        And I click on the element "button=Save and continue"
         And I click on the link "Record insurance details"
         And I select the option with the value "Dogs Trust" for element "#insuranceCompany"
         And I set "10" to the inputfield "#insuranceRenewal-day"
@@ -107,8 +110,8 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I click on the element "button=Save details"
         Then I expect that element "(//dd)[18]" contains the text "Dog dead"
 
-    Scenario: Check the activity for the dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for the dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Dog dead"
         And I expect that element "tbody" contains the text "Date untraceable added"
         And I expect that element "tbody" contains the text "Date stolen added"
@@ -135,8 +138,8 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I click on the element "button=Save details"
         Then I expect that element "(//dd)[17]" contains the text "Dog exported"
 
-    Scenario: Check the activity for the dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for the dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Dog exported"
         And I expect that element "tbody" contains the text "Date untraceable added"
         And I expect that element "tbody" contains the text "Date stolen added"
@@ -159,8 +162,8 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I click on the element "button=Save details"
         Then I expect that element "(//dd)[16]" contains the text "Reported stolen"
 
-    Scenario: Check the activity for the dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for the dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Reported stolen"
         And I expect that element "tbody" contains the text "Date untraceable added"
         And I expect that element "tbody" contains the text "Date stolen added"
@@ -181,8 +184,8 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I click on the element "button=Save details"
         Then I expect that element "(//dd)[15]" contains the text "Owner untraceable"  
 
-    Scenario: Check the activity for the dog
-        When I click on the link "Check activity"
+    Scenario: Check the history for the dog
+        When I click on the link "Check history"
         Then I expect that element "tbody" contains the text "Dog status set to Owner untraceable"
         And I expect that element "tbody" contains the text "Date untraceable added"
         And I expect that element "tbody" contains the text "Dog record created (Applying for exemption)"
