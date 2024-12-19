@@ -2141,7 +2141,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt",
+													"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&noCache=true",
 													"host": [
 														"{{DDI_API_BASE_URL}}"
 													],
@@ -2152,6 +2152,60 @@
 														{
 															"key": "status",
 															"value": "PreExempt"
+														},
+														{
+															"key": "noCache",
+															"value": "true"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "/cdos - with Task List",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"const cdos = pm.response.json().cdos;",
+															"",
+															"pm.test(\"response is ok\", function () {",
+															"    pm.response.to.have.status(200);",
+															"})",
+															"",
+															"pm.test(\"contains tasklist\", function () {",
+															"    pm.expect(cdos[0].taskList[0].key).to.eq('applicationPackSent')",
+															"    pm.expect(cdos[0].taskList[0].completed).to.be.a('Boolean')",
+															"    pm.expect(cdos[0].taskList[0].available).to.a('Boolean')",
+															"    pm.expect(cdos[0].taskList[0].readonly).to.a('Boolean')",
+															"})"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{DDI_API_BASE_URL}}/cdos?status=PreExempt&showTasks=Y",
+													"host": [
+														"{{DDI_API_BASE_URL}}"
+													],
+													"path": [
+														"cdos"
+													],
+													"query": [
+														{
+															"key": "status",
+															"value": "PreExempt"
+														},
+														{
+															"key": "showTasks",
+															"value": "Y"
 														}
 													]
 												}
