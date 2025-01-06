@@ -43,7 +43,7 @@ Scenario:  Creating a new dog and owner
         And I expect that element "(//li)[6]" contains the text "Cannot start yet"
         And I expect that element "(//li)[7]" contains the text "Record application fee payment"
         And I expect that element "(//li)[7]" contains the text "Cannot start yet"
-        And I expect that element "(//li)[8]" contains the text "Send Form 2"
+        And I expect that element "(//li)[8]" contains the text "Request Form 2"
         And I expect that element "(//li)[8]" contains the text "Cannot start yet"
         And I expect that element "(//li)[9]" contains the text "Record the verification date for microchip and neutering"
         And I expect that element "(//li)[9]" contains the text "Cannot start yet"
@@ -107,14 +107,14 @@ Scenario:  Creating a new dog and owner
         And I click on the element "button=Save and continue"
         Then I expect that element "form" contains the text "Date must be today or in the past"
 
-    Scenario: Send Form 2 validations
+    Scenario: Request Form 2 validations
         When I set "10" to the inputfield "#applicationFeePaid-day"
         And I set "07" to the inputfield "#applicationFeePaid-month"
         And I set "2024" to the inputfield "#applicationFeePaid-year"
         And I click on the element "button=Save and continue"
-        And I click on the link "Send Form 2"
+        And I click on the link "Request Form 2"
         And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Confirm you've sent the Form 2"
+        Then I expect that element "form" contains the text "Confirm you've requested the Form 2"
 
     Scenario: Record the verification date for microchip and neutering validations
         When I click on the element "#taskDone"
