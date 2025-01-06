@@ -73,7 +73,7 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I set "07" to the inputfield "#applicationFeePaid-month"
         And I set "2024" to the inputfield "#applicationFeePaid-year"
         And I click on the element "button=Save and continue"
-        And I click on the link "Send Form 2"
+        And I click on the link "Request Form 2"
         And I click on the element "#taskDone"
         And I click on the element "button=Save and continue"
         And I click on the link "Record the verification date for microchip and neutering"

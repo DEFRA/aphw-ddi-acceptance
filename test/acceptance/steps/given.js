@@ -20,10 +20,16 @@ import isEnabled from '../support/check/isEnabled'
 import isDisplayed from '../support/check/isDisplayed'
 import openWebsite from '../support/action/openWebsite'
 import setWindowSize from '../support/action/setWindowSize'
+import openEnforcementWebsite from '../support/action/openEnforcementWebsite'
 
 Given(
   /^I open the (url|site) "([^"]*)?"$/,
   openWebsite
+)
+
+Given(
+  /^I open the enforcement (url|site) "([^"]*)?"$/,
+  openEnforcementWebsite
 )
 
 Given(
