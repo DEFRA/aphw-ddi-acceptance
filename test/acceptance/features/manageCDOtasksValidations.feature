@@ -50,12 +50,14 @@ Scenario:  Creating a new dog and owner
 
     Scenario: Send application pack task validations
         When I click on the link "Send application pack"
-        And I click on the element "button=Save and continue"
-        Then I expect that element "form" contains the text "Confirm you've sent the application pack"
+        And I click on the element "button=Send application"
+        Then I expect that element "form" contains the text "Select an option"
     
     Scenario: Record insurance details task validations
-        When I click on the element "#taskDone"
-        And I click on the element "button=Save and continue"
+        When I select the radio option with the value "email" from the radio group "contact"
+        And I set "sarah_baker@testmail.com" to the inputfield "//input[@name='email']"
+        And I click on the element "button=Send application"
+        And I click on the link containing "Manage CDO application for Dog"
         And I click on the link "Record insurance details"
         And I click on the element "button=Save and continue"
         Then I expect that element "form" contains the text "Select an insurance company"

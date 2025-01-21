@@ -50,11 +50,16 @@ Scenario:  Creating a new dog and owner
 
     Scenario: Navigate to send application pack task
         When I click on the link "Send application pack"
-        Then I expect that element "h1" contains the text "Send application pack"
+        Then I expect that element "h1" contains the text "How do you want to send the application pack?"
 
-    Scenario: Complete send application pack task
-        When I click on the element "#taskDone"
-        And I click on the element "button=Save and continue"
+    Scenario: Send application pack by email
+        When I select the radio option with the value "email" from the radio group "contact"
+        And I set "adam_kent@testmail.com" to the inputfield "//input[@name='email']"
+        And I click on the element "button=Send application"
+        Then I expect that element "h1" contains the text "Email with the application pack sent"
+
+    Scenario: Verify Send application task is completed
+        When I click on the link containing "Manage CDO application for Dog"
         Then I expect that element "form" contains the text "Manage CDO application"
         And I expect that element "(//li)[3]" contains the text "Send application pack"
         And I expect that element "(//li)[3]" contains the text "Completed"
