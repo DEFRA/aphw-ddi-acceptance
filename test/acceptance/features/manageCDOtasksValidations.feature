@@ -51,7 +51,7 @@ Scenario:  Creating a new dog and owner
     Scenario: Send application pack task validations
         When I click on the link "Send application pack"
         And I click on the element "button=Send application"
-        Then I expect that element "form" contains the text "Select an option"
+        Then I expect that element "form" contains the text "Select how you want to send the application pack"
     
     Scenario: Record insurance details task validations
         When I select the radio option with the value "email" from the radio group "contact"

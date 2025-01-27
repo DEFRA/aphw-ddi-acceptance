@@ -86,8 +86,9 @@ Feature: Update dogs Inactive sub-statuses(Dog Dead, Dog Exported, Reported Stol
         And I set "09" to the inputfield "#neuteringConfirmation-month"
         And I set "2024" to the inputfield "#neuteringConfirmation-year"
         And I click on the element "button=Save and continue"
-        And I click on the link "Continue"
-        And I click on the element "button=Generate certificate"
+        And I click on the link "Issue certificate"
+        And I click on the element "button=Send certificate"
+        Then I expect that element "h1" contains the text "Email with the certificate sent"
 
     Scenario: Add dateOfDeath, dateExported, dateStolen and dateUntraceable to dog in 'Applying for exemption' status
         When I open the url "/"

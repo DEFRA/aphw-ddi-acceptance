@@ -223,14 +223,17 @@ Scenario:  Creating a new dog and owner
         And I expect that element "(//li)[8]" contains the text "Completed"
         And I expect that element "(//li)[9]" contains the text "Record the verification date for microchip and neutering"
         And I expect that element "(//li)[9]" contains the text "Completed"
-        And I expect that element "form" contains the text "Continue"
+        And I expect that element "form" contains the text "Issue certificate"
 
     Scenario: Navigate to generate certificate
-        When I click on the link "Continue"  
-        Then I expect that element "h1" contains the text "Generate a certificate of exemption"
+        When I click on the link "Issue certificate"  
+        Then I expect that element "h1" contains the text "How do you want to send the certificate of exemption?"
 
     Scenario: Generate certificate
-        When I click on the element "button=Generate certificate"
+        When I select the radio option with the value "email" from the radio group "sendOption"
+        And I click on the element "button=Send certificate"
+        Then I expect that element "h1" contains the text "Email with the certificate sent"
+        And I expect that element "main" contains the text "The certificate of exemption has been emailed"
 
     Scenario:  Verify the status change from pre-exempt to exempt
         Given I open the url "/"    
