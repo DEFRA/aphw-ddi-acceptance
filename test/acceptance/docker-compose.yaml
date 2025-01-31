@@ -11,7 +11,12 @@ services:
       ENFORCEMENT_TEST_ENVIRONMENT_ROOT_URL: ${ENFORCEMENT_TEST_ENVIRONMENT_ROOT_URL}
       CHROME_ARGS: "--headless --ignore-certificate-errors"
       JAVA_HOME: "/usr/libexec/java_home"
+#    volumes:
+#      - wdio_logs:/home/node/.npm/_logs
 
   selenium:
     image: selenium/standalone-chrome-debug
     container_name: chrome-browser
+
+#volumes:
+#  wdio_logs:
