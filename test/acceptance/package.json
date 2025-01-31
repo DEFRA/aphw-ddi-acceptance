@@ -23,7 +23,7 @@
     "test:portal:debug": "node --inspect-brk=0.0.0.0 ./node_modules/@wdio/cli/bin/wdio.js wdio.aphw-ddi-portal.conf.js",
     "test:enforcement": "wdio wdio.aphw-ddi-enforcement.conf.js",
     "test:enforcement:debug": "node --inspect-brk=0.0.0.0 ./node_modules/@wdio/cli/bin/wdio.js wdio.aphw-ddi-enforcement.conf.js",
-    "test": "npm run test:enforcement",
+    "test": "npm run test:portal && npm run test:enforcement",
     "test:all": "npm run test:portal && npm run test:enforcement",
     "test:debug": "npm run test:portal:debug && npm run test:enforcement:debug"
   },
