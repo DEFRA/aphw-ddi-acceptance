@@ -1,8 +1,7 @@
 const { ReportAggregator, HtmlReporter } = require('@rpii/wdio-html-reporter')
 const log4js = require('@log4js-node/log4js-api')
 const logger = log4js.getLogger('default')
-const envRoot = (process.env.TEST_ENVIRONMENT_ROOT_URL || 'http://host.docker.internal:3002')
-const enforcementEnvRoot = (process.env.ENFORCEMENT_TEST_ENVIRONMENT_ROOT_URL || 'http://host.docker.internal:3003')
+const envRoot = (process.env.TEST_ENVIRONMENT_ROOT_URL || 'http://host.docker.internal:3003')
 const chromeArgs = process.env.CHROME_ARGS ? process.env.CHROME_ARGS.split(' ') : []
 const maxInstances = process.env.MAX_INSTANCES ? Number(process.env.MAX_INSTANCES) : 5
 
@@ -10,7 +9,7 @@ exports.config = {
   hostname: 'selenium',
   port: 4444,
   path: '/wd/hub',
-  specs: ['./features/**/*.feature'],
+  specs: ['./features/aphw-ddi-enforcement/**/*.feature'],
   exclude: ['./scratch/**'],
 
   maxInstances: 1,
@@ -31,7 +30,6 @@ exports.config = {
   logLevel: 'warn',
   bail: 0,
   baseUrl: envRoot + '',
-  enforcementBaseUrl: enforcementEnvRoot + '',
   waitforTimeout: 60000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 1,
