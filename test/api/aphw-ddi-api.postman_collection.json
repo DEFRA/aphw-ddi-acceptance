@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "591c8594-00de-410b-9b7c-21bb5d634e06",
+		"_postman_id": "1d5ae982-75e9-49a1-a619-5842a26df251",
 		"name": "aphw-ddi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12107479"
@@ -2933,14 +2933,14 @@
 											"response": []
 										},
 										{
-											"name": "204 Send Application Pack",
+											"name": "204 Post Application Pack",
 											"event": [
 												{
 													"listen": "test",
 													"script": {
 														"exec": [
 															"pm.test('should return a manageCdo object', () => {",
-															"  pm.response.to.have.status(204);",
+															"  pm.response.to.have.status(200);",
 															"})"
 														],
 														"type": "text/javascript",
@@ -2963,14 +2963,14 @@
 													}
 												],
 												"url": {
-													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:sendApplicationPack",
+													"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk6th}}/manage:postApplicationPack",
 													"host": [
 														"{{DDI_API_BASE_URL}}"
 													],
 													"path": [
 														"cdo",
 														"{{manageCdoPk6th}}",
-														"manage:sendApplicationPack"
+														"manage:postApplicationPack"
 													]
 												}
 											},
@@ -3478,7 +3478,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{}",
+													"raw": "{\n    \"updateEmail\": false,\n    \"firstCertificate\": true,\n    \"certificateId\":\"1060822f-8138-4d8e-8e87-a49327a3b933\",\n    \"sendOption\":\"post\"\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -3618,14 +3618,14 @@
 									"response": []
 								},
 								{
-									"name": "204 Send Application Pack",
+									"name": "204 Post Application Pack",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
 													"pm.test('should return a manageCdo object', () => {",
-													"  pm.response.to.have.status(204);",
+													"  pm.response.to.have.status(200);",
 													"})"
 												],
 												"type": "text/javascript",
@@ -3648,28 +3648,30 @@
 											}
 										],
 										"url": {
-											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:sendApplicationPack",
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:postApplicationPack",
 											"host": [
 												"{{DDI_API_BASE_URL}}"
 											],
 											"path": [
 												"cdo",
 												"{{manageCdoPk}}",
-												"manage:sendApplicationPack"
+												"manage:postApplicationPack"
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "409 Send Application a second time",
+									"name": "200 Email Application Pack with update",
 									"event": [
 										{
 											"listen": "test",
 											"script": {
 												"exec": [
 													"pm.test('should return a manageCdo object', () => {",
-													"  pm.response.to.have.status(409);",
+													"    pm.response.to.have.status(200);",
+													"    const payload = pm.response.json()",
+													"    pm.expect(payload.email).to.eq(pm.environment.get('email'))",
 													"})"
 												],
 												"type": "text/javascript",
@@ -3691,15 +3693,79 @@
 												"type": "text"
 											}
 										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"{{email}}\",\n  \"updateEmail\": true\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
-											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:sendApplicationPack",
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:emailApplicationPack",
 											"host": [
 												"{{DDI_API_BASE_URL}}"
 											],
 											"path": [
 												"cdo",
 												"{{manageCdoPk}}",
-												"manage:sendApplicationPack"
+												"manage:emailApplicationPack"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "200 Email Application Pack without update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return a manageCdo object', () => {",
+													"    pm.response.to.have.status(200);",
+													"    const payload = pm.response.json()",
+													"    pm.expect(payload.email).to.eq(pm.environment.get('email'))",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"{{email}}\",\n  \"updateEmail\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:emailApplicationPack",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:emailApplicationPack"
 											]
 										}
 									},
@@ -4209,7 +4275,12 @@
 													"        \"completed\": true,",
 													"        \"readonly\": true,",
 													"    })",
-													"",
+													"    pm.expect(cdo.tasks.applicationPackProcessed).to.deep.contain({",
+													"        \"key\": \"applicationPackProcessed\",",
+													"        \"available\": true,",
+													"        \"completed\": true,",
+													"        \"readonly\": true,",
+													"    })",
 													"    pm.expect(cdo.tasks.insuranceDetailsRecorded).to.deep.contain({",
 													"        key: 'insuranceDetailsRecorded',",
 													"        available: true,",
@@ -4238,7 +4309,7 @@
 													"    })",
 													"    pm.expect(cdo.tasks.verificationDateRecorded).to.deep.contain({",
 													"        key: 'verificationDateRecorded',",
-													"        available: false,",
+													"        available: true,",
 													"        completed: false,",
 													"        readonly: false,",
 													"    })",
@@ -4684,7 +4755,205 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{}",
+											"raw": "{\n    \"updateEmail\": false,\n    \"firstCertificate\": true,\n    \"certificateId\":\"1060822f-8138-4d8e-8e87-a49327a3b933\",\n    \"sendOption\":\"post\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:issueCertificate",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:issueCertificate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "201 Re-Issue Certificate by Post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return applicationFeePaid date', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  const thisYear = new Date()",
+													"  pm.expect(payload.certificateIssued).to.contain(`${thisYear.getFullYear()}-`)",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"updateEmail\": false,\n    \"firstCertificate\": false,\n    \"certificateId\":\"1060822f-8138-4d8e-8e87-a49327a3b933\",\n    \"sendOption\":\"post\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:issueCertificate",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:issueCertificate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "201 Re-Issue Certificate by Email with update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return applicationFeePaid date', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  const thisYear = new Date()",
+													"  pm.expect(payload.certificateIssued).to.contain(`${thisYear.getFullYear()}-`)",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"updateEmail\": true,\n    \"email\": \"{{email}}\",\n    \"firstCertificate\": false,\n    \"certificateId\":\"1060822f-8138-4d8e-8e87-a49327a3b933\",\n    \"sendOption\":\"email\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/cdo/{{manageCdoPk}}/manage:issueCertificate",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"cdo",
+												"{{manageCdoPk}}",
+												"manage:issueCertificate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "201 Re-Issue Certificate by Email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should return applicationFeePaid date', () => {",
+													"  pm.response.to.have.status(201);",
+													"  const payload = pm.response.json()",
+													"  const thisYear = new Date()",
+													"  pm.expect(payload.certificateIssued).to.contain(`${thisYear.getFullYear()}-`)",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "ddi-username",
+												"value": "internal-user",
+												"type": "text"
+											},
+											{
+												"key": "ddi-displayname",
+												"value": "User, Internal",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"updateEmail\": false,\n    \"email\": \"{{email}}\",\n    \"firstCertificate\": false,\n    \"certificateId\":\"1060822f-8138-4d8e-8e87-a49327a3b933\",\n    \"sendOption\":\"email\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -8473,6 +8742,137 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Withdraw a Dog",
+							"item": [
+								{
+									"name": "204 Withdraw Dog - update email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should withdraw a dog', () => {",
+													"    pm.response.to.have.status(204);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"updateEmail\": true,\n  \"email\": \"{{email}}\",\n  \"indexNumber\": \"ED100001\",\n  \"withdrawOption\": \"email\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dog/withdraw/ED100001",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dog",
+												"withdraw",
+												"ED100001"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "204 Withdraw Dog - use default email",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should withdraw a dog', () => {",
+													"    pm.response.to.have.status(204);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"updateEmail\": false,\n  \"indexNumber\": \"ED100001\",\n  \"withdrawOption\": \"email\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dog/withdraw/ED100001",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dog",
+												"withdraw",
+												"ED100001"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "204 Withdraw Dog - by Post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('should withdraw a dog', () => {",
+													"    pm.response.to.have.status(204);",
+													"})"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"updateEmail\": false,\n  \"indexNumber\": \"ED100001\",\n  \"withdrawOption\": \"post\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{DDI_API_BASE_URL}}/dog/withdraw/ED100001",
+											"host": [
+												"{{DDI_API_BASE_URL}}"
+											],
+											"path": [
+												"dog",
+												"withdraw",
+												"ED100001"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
@@ -11685,12 +12085,12 @@
 											"script": {
 												"exec": [
 													"const dateToday = new Date()",
-													"dateToday.setUTCMonth(dateToday.getUTCMonth() + 3)",
-													"dateToday.setUTCDate(dateToday.getUTCDate() + 1)",
+													"dateToday.setUTCDate(dateToday.getUTCDate() + 91)",
 													"dateToday.setUTCHours(0,0,0,0)",
 													"const in90Days = dateToday.toISOString().split('T')[0]",
 													"",
-													"pm.variables.set('in90Days', in90Days)"
+													"pm.variables.set('in90Days', in90Days)",
+													"console.log(in90Days)"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -13923,10 +14323,6 @@
 		},
 		{
 			"key": "accountToDelete",
-			"value": ""
-		},
-		{
-			"key": "batchDeleteDogs",
 			"value": ""
 		},
 		{
