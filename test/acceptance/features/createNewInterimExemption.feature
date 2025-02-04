@@ -30,15 +30,11 @@ Feature: Create new interim exemption
         When I select the radio option with the value "Dogo Argentino" from the radio group "breed"
         And I set "Bruno" to the inputfield "#name"
         And I select the radio option with the value "interim-exemption" from the radio group "applicationType"
-        And I set "01" to the inputfield "#interimExemption-day"
-        And I set "02" to the inputfield "#interimExemption-month"
-        And I set "2024" to the inputfield "#interimExemption-year"
         And I click on the element "button=Add dog details"
         Then I expect that element "h1" contains the text "Confirm dog details"
         And I expect that element "(//dd)[1]" contains the text "Dogo Argentino"
         And I expect that element "(//dd)[2]" contains the text "Bruno"
         And I expect that element "(//dd)[3]" contains the text "345671234512345"
-        And I expect that element "(//dd)[4]" contains the text "01 February 2024" 
 
     Scenario: Confirm dog details
         And I click on the element "button=Confirm details"
@@ -58,7 +54,6 @@ Feature: Create new interim exemption
         And I expect that element "(//dd)[11]" contains the text "Dogo Argentino"
         And I expect that element "(//dd)[12]" contains the text "Bruno"
         And I expect that element "(//dd)[13]" contains the text "345671234512345"
-        And I expect that element "(//dd)[14]" contains the text "01 February 2024"
 
     Scenario: Interim exemption record created successfully
         And I click on the element "button=Confirm details"
@@ -66,7 +61,6 @@ Feature: Create new interim exemption
         And I expect that element "(//dd)[1]" contains the text "Dogo Argentino"
         And I expect that element "(//dd)[2]" contains the text "Bruno"
         And I expect that element "(//dd)[3]" contains the text "345671234512345"
-        And I expect that element "(//dd)[4]" contains the text "01 February 2024"
         And I expect that element "(//dd)[5]" contains the text "Mike Clark"
         And I expect that element "(//dd)[6]" contains the text "03 March 1980"
         And I expect that element "(//dd)[7]" contains the text "CF14 9JF"
