@@ -8,6 +8,7 @@ service="wdio-cucumber"
 echo $projectRoot
 
 export TEST_ENVIRONMENT_ROOT_URL=http://host.docker.internal:3002
+export ENFORCEMENT_TEST_ENVIRONMENT_ROOT_URL=http://host.docker.internal:3003
 export JAVA_HOME=/usr/libexec/java_home
 
 docker-compose run --rm ${service}
