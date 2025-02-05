@@ -1,0 +1,148 @@
+Feature: Perform a basic search in enforcement
+
+Scenario: Navigate to Enforcement Search page
+        Given I open the url "/"
+        When I click on the element "button=Accept analytics cookies"
+        And I click on the element "button=Hide this message"
+        And I click on the link "Start now"
+        Then I expect that element "h1" contains the text "Search"
+
+    Scenario: Search with no results
+        When I select the radio option with the value "true" from the radio group "national"
+        And I set "rexZZZ" to the inputfield "#searchTerms"
+        And I press "Enter"
+        Then I expect that element "html" contains the text "Your search for rexZZZ did not match any records."
+
+    Scenario: Search with dog name
+        When I clear the inputfield "#searchTerms"
+        And I set "Bravo" to the inputfield "#searchTerms"
+        And I press "Enter"
+        Then I expect that element "html" contains the text "1 record found"
+        And I expect that element "(//dd)[1]" contains the text "Exempt"
+        And I expect that element "(//dd)[2]" contains the text "Bravo"
+        And I expect that element "(//dd)[3]" contains the text "Mike Turner"
+        And I expect that element "(//dd)[4]" contains the text "6 HEATH MEAD, CARDIFF, CF14 3PJ"
+        And I expect that element "(//dd)[5]" contains the text "852638526311111"
+        And I expect that element "(//dd)[5]" contains the text "852638526322222"
+
+    Scenario: Search with microchip number
+        When I clear the inputfield "#searchTerms"
+        And I set "345677654355555" to the inputfield "#searchTerms"
+        And I press "Enter"
+        Then I expect that element "html" contains the text "1 record found"
+        And I expect that element "(//dd)[1]" contains the text "Interim exempt"
+        And I expect that element "(//dd)[2]" contains the text "Dino"
+        And I expect that element "(//dd)[3]" contains the text "James Gunn"
+        And I expect that element "(//dd)[4]" contains the text "60 Scholars Court, Northampton, NN1 1ES"
+        And I expect that element "(//dd)[5]" contains the text "345677654355555"
+
+    Scenario: Search with microchip number2
+        When I clear the inputfield "#searchTerms"
+        And I set "852638526322222" to the inputfield "#searchTerms"
+        And I press "Enter"
+        Then I expect that element "html" contains the text "1 record found"
+        And I expect that element "(//dd)[1]" contains the text "Exempt"
+        And I expect that element "(//dd)[2]" contains the text "Bravo"
+        And I expect that element "(//dd)[3]" contains the text "Mike Turner"
+        And I expect that element "(//dd)[4]" contains the text "6 HEATH MEAD, CARDIFF, CF14 3PJ"
+        And I expect that element "(//dd)[5]" contains the text "852638526311111"
+        And I expect that element "(//dd)[5]" contains the text "852638526322222"
+
+    Scenario: Search with owner name
+        When I clear the inputfield "#searchTerms"
+        And I set "James Gunn" to the inputfield "#searchTerms"
+        And I press "Enter"
+        Then I expect that element "html" contains the text "2 records found"
+        And I expect that element "(//dd)[1]" contains the text "Interim exempt"
+        And I expect that element "(//dd)[2]" contains the text "Dino"
+        And I expect that element "(//dd)[3]" contains the text "James Gunn"
+        And I expect that element "(//dd)[4]" contains the text "60 Scholars Court, Northampton, NN1 1ES"
+        And I expect that element "(//dd)[5]" contains the text "345677654355555"
+        And I expect that element "(//dd)[6]" contains the text "Applying for exemption"
+        And I expect that element "(//dd)[7]" contains the text "Maxie"
+        And I expect that element "(//dd)[8]" contains the text "James Gunn"
+        And I expect that element "(//dd)[9]" contains the text "60 Scholars Court, Northampton, NN1 1ES"
+        And I expect that element "(//dd)[10]" contains the text "345677654366666"
+
+    Scenario: Search with owner name + dog name
+        When I clear the inputfield "#searchTerms"
+        And I set "James Gunn Maxie" to the inputfield "#searchTerms"
+        And I press "Enter"
+        Then I expect that element "html" contains the text "1 record found"
+        And I expect that element "(//dd)[1]" contains the text "Applying for exemption"
+        And I expect that element "(//dd)[2]" contains the text "Maxie"
+        And I expect that element "(//dd)[3]" contains the text "James Gunn"
+        And I expect that element "(//dd)[4]" contains the text "60 Scholars Court, Northampton, NN1 1ES"
+        And I expect that element "(//dd)[5]" contains the text "345677654366666"    
+
+    Scenario: Search with email
+        When I clear the inputfield "#searchTerms"
+        And I set "mike1_turner1@outlook.com" to the inputfield "#searchTerms"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "2 records found"
+
+    Scenario: Search with owner first name
+        When I clear the inputfield "#searchTerms"
+        And I set "Mike" to the inputfield "#searchTerms"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "3 records found"
+        And I expect that element "(//dd)[1]" contains the text "Exempt"
+        And I expect that element "(//dd)[2]" contains the text "Bravo"
+        And I expect that element "(//dd)[3]" contains the text "Mike Turner"
+        And I expect that element "(//dd)[4]" contains the text "6 HEATH MEAD, CARDIFF, CF14 3PJ"
+        And I expect that element "(//dd)[5]" contains the text "852638526311111"
+        And I expect that element "(//dd)[5]" contains the text "852638526322222"
+        And I expect that element "(//dd)[6]" contains the text "Dog dead"
+        And I expect that element "(//dd)[7]" contains the text "Bruce"
+        And I expect that element "(//dd)[8]" contains the text "Mike Turner"
+        And I expect that element "(//dd)[9]" contains the text "6 HEATH MEAD, CARDIFF, CF14 3PJ"
+        And I expect that element "(//dd)[10]" contains the text "345677654333334"
+        And I expect that element "(//dd)[11]" contains the text "Interim exempt"
+        And I expect that element "(//dd)[12]" contains the text "Bruno"
+        And I expect that element "(//dd)[13]" contains the text "Mike Clark"
+        And I expect that element "(//dd)[14]" contains the text "94 Heol Llinos, Caerdydd, CF14 9JF"
+        And I expect that element "(//dd)[15]" contains the text "345671234512345"        
+
+    Scenario: Search with owner last name
+        When I clear the inputfield "#searchTerms"
+        And I set "Clark" to the inputfield "#searchTerms"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "1 record found"
+        And I expect that element "(//dd)[1]" contains the text "Interim exempt"
+        And I expect that element "(//dd)[2]" contains the text "Bruno"
+        And I expect that element "(//dd)[3]" contains the text "Mike Clark"
+        And I expect that element "(//dd)[4]" contains the text "94 Heol Llinos, Caerdydd, CF14 9JF"
+        And I expect that element "(//dd)[5]" contains the text "345671234512345"
+        
+
+    Scenario: Search with owner first name + dog name
+        When I clear the inputfield "#searchTerms"
+        And I set "Mike Bravo" to the inputfield "#searchTerms"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "1 record found"
+        And I expect that element "(//dd)[1]" contains the text "Exempt"
+        And I expect that element "(//dd)[2]" contains the text "Bravo"
+        And I expect that element "(//dd)[3]" contains the text "Mike Turner"
+        And I expect that element "(//dd)[4]" contains the text "6 HEATH MEAD, CARDIFF, CF14 3PJ"
+        And I expect that element "(//dd)[5]" contains the text "852638526311111"
+        And I expect that element "(//dd)[5]" contains the text "852638526322222"
+
+     Scenario: Search with town/city name
+        When I clear the inputfield "#searchTerms"
+        And I set "Northampton" to the inputfield "#searchTerms"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "5 records found"
+        And I expect that element "(//dd)[4]" contains the text "Northampton"
+        And I expect that element "(//dd)[9]" contains the text "Northampton"
+        And I expect that element "(//dd)[14]" contains the text "Northampton"
+        And I expect that element "(//dd)[19]" contains the text "Northampton"
+        And I expect that element "(//dd)[24]" contains the text "Northampton"
+
+    Scenario: Search with postcode
+        When I clear the inputfield "#searchTerms"
+        And I set "NN1 1ES" to the inputfield "#searchTerms"
+        And I click on the element "button=Search"
+        Then I expect that element "html" contains the text "3 records found"
+        And I expect that element "(//dd)[4]" contains the text "NN1 1ES"
+        And I expect that element "(//dd)[9]" contains the text "NN1 1ES"
+        And I expect that element "(//dd)[14]" contains the text "NN1 1ES"
