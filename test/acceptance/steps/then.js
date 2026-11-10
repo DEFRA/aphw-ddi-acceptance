@@ -31,7 +31,7 @@ import waitForVisible from '../support/action/waitForDisplayed'
 import checkIfElementExists from '../support/lib/checkIfElementExists'
 import checkURLContains from '../support/check/checkURLContains'
 
-const { Then } = require('cucumber')
+const { Then } = require('@cucumber/cucumber')
 
 Then(
   /^I expect that the title is( not)* "([^"]*)?"$/,

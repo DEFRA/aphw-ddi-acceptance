@@ -8,12 +8,12 @@
  *                                  attribute matches or not
  * @param  {String}   expectedValue The value to match against
  */
-export default (isCSS, attrName, elem, falseCase, expectedValue) => {
+export default async (isCSS, attrName, elem, falseCase, expectedValue) => {
   /**
      * The command to use for fetching the expected value
      * @type {String}
      */
-  const command = isCSS ? 'getCssProperty' : 'getAttribute'
+  const command = isCSS ? 'getCSSProperty' : 'getAttribute'
 
   /**
      * Te label to identify the attribute by
@@ -25,7 +25,7 @@ export default (isCSS, attrName, elem, falseCase, expectedValue) => {
      * The actual attribute value
      * @type {Mixed}
      */
-  let attributeValue = browser[command](elem, attrName)
+  let attributeValue = await $(elem)[command](attrName)
 
   /**
      * when getting something with a color or font-weight WebdriverIO returns a

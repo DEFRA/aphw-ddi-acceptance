@@ -1,0 +1,62 @@
+environment: production
+environmentCode:
+name: aphw-ddi-acceptance
+namespace: aphw-ddi
+workstream: aphw-ddi
+image: aphw-ddi-acceptance
+
+labels:
+  component: service
+
+appInsights:
+  connectionString:
+
+containerConfigMap:
+  name: aphw-ddi-acceptance
+
+containerSecret:
+  name: aphw-ddi-acceptance
+
+deployment: {}
+
+container:
+  requestMemory: 100Mi
+  requestCpu: 100m
+  limitMemory: 100Mi
+  limitCpu: 100m
+  port: 3000
+
+livenessProbe:
+  path: /healthz
+  port: 3000
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+readinessProbe:
+  path: /healthy
+  port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+workloadIdentity: true
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
+
+secretProviderClass:
+  azure:
+    keyvaultName: SNDFFCINFKV2001
+    objects:
+      - objectName: snd2-aphw-appinsights-connectionString
+        objectType: secret
+  secretObjects:
+    - secretName: aphw-ddi-acceptance
+      type: Opaque
+      data:
+        - objectName: snd2-aphw-appinsights-connectionString
+          key: APPINSIGHTS_CONNECTIONSTRING
