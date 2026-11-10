@@ -1,10 +1,10 @@
 services:
-  ffc-template-node:
+  aphw-ddi-acceptance:
     build:
       context: .
       target: production
-    image: ffc-template-node
-    container_name: ffc-template-node
+    image: aphw-ddi-acceptance
+    container_name: aphw-ddi-acceptance
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-template-node-local
+      APPINSIGHTS_CLOUDROLE: aphw-ddi-acceptance-local
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}

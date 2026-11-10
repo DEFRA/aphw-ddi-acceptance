@@ -13,5 +13,5 @@ services:
       JAVA_HOME: "/usr/libexec/java_home"
 
   selenium:
-    image: selenium/standalone-chrome-debug
+    image: selenium/standalone-chrome
     container_name: chrome-browser

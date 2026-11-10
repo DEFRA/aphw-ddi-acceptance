@@ -1,4 +1,4 @@
-const { ReportAggregator, HtmlReporter } = require('@rpii/wdio-html-reporter')
+const { ReportAggregator, HtmlReporter } = require('wdio-html-nice-reporter')
 const log4js = require('@log4js-node/log4js-api')
 const logger = log4js.getLogger('default')
 const envRoot = (process.env.ENFORCEMENT_TEST_ENVIRONMENT_ROOT_URL || 'http://host.docker.internal:3003')
@@ -33,7 +33,6 @@ exports.config = {
   waitforTimeout: 60000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 1,
-  services: ['selenium-standalone'],
   framework: 'cucumber',
   specFileRetries: 0,
   specFileRetriesDelay: 30,
@@ -55,13 +54,9 @@ exports.config = {
     requireModule: ['@babel/register'], // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
     dryRun: false, // <boolean> invoke formatters without executing steps
     failFast: false, // <boolean> abort the run on first failure
-    format: ['pretty'], // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    colors: true, // <boolean> disable colors in formatter output
     snippets: true, // <boolean> hide step definition snippets for pending steps
     source: true, // <boolean> hide source uris
-    profile: [], // <string[]> (name) specify the profile to use
     strict: false, // <boolean> fail if there are any undefined or pending steps
-    tagExpression: '', // <string> (expression) only execute the features or scenarios with tags matching the expression
     timeout: 90000, // <number> timeout for step definitions
     ignoreUndefinedDefinitions: false // <boolean> Enable this config to treat undefined definitions as warnings.
   },
@@ -74,35 +69,31 @@ exports.config = {
       outputDir: './html-reports/',
       filename: 'acceptance-test-suite-report.html',
       reportTitle: 'Acceptance Tests Report',
-      browserName: capabilities.browserName
+      browserName: 'chrome'
     })
     reportAggregator.clean()
     global.reportAggregator = reportAggregator
   },
 
-  onComplete: function (exitCode, config, capabilities, results) {
-    (async () => {
-      await global.reportAggregator.createReport()
-    })()
+  onComplete: async function (exitCode, config, capabilities, results) {
+    await global.reportAggregator.createReport()
   },
 
-  beforeSession: function () {
+  before: function () {
     const chai = require('chai')
     global.expect = chai.expect
-    // global.assert = assert
-    // global.should = should()
+    global.assert = chai.assert
   },
 
-  afterStep: function (featureName, feature, result, ctx) {
+  afterStep: async function (step, scenario, result) {
     if (result.passed) {
       return
     }
     const path = require('path')
-    const moment = require('moment')
-    const screenshotFileName = ctx.uri.split('.feature')[0].split('/').slice(-1)[0]
-    const timestamp = moment().format('YYYYMMDD-HHmmss.SSS')
+    const screenshotFileName = scenario.uri.split('.feature')[0].split(/[\\/]/).slice(-1)[0]
+    const timestamp = new Date().toISOString().replace(/[-:]/g, '').replace('T', '-').replace('Z', '')
     const filepath = path.join('./html-reports/screenshots/', screenshotFileName + '-' + timestamp + '.png')
-    browser.saveScreenshot(filepath)
+    await browser.saveScreenshot(filepath)
     process.emit('test:screenshot', filepath)
   }
 }
