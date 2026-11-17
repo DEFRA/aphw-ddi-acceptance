@@ -5,14 +5,14 @@ import checkIfElementExists from '../lib/checkIfElementExists'
  * @param  {String}   optionValue  option value (not 'display text')
  * @param  {String}   radioName  The radio element name
  */
-export default (optionValue, radioName) => {
+export default async (optionValue, radioName) => {
   /**
      * Element to perform the action on
      * @type {String}
      */
   const selector2 = `//input[@type='radio' and @name='${radioName}' and @value='${optionValue}']`
 
-  checkIfElementExists(selector2)
+  await checkIfElementExists(selector2)
 
-  $(selector2)['click']()
+  await $(selector2).click()
 }

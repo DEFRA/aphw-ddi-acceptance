@@ -17,7 +17,7 @@ import setInputField from '../support/action/setInputField'
 import setPromptText from '../support/action/setPromptText'
 import selectRadioOption from '../support/action/selectRadioOption'
 
-const { When } = require('cucumber')
+const { When } = require('@cucumber/cucumber')
 
 When(
   /^I (click|doubleclick) on the (link|button|element) "([^"]*)?"$/,

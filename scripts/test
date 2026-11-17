@@ -3,7 +3,7 @@
 set -e
 projectRoot="$(a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; cd "$a/.." || return; pwd)"
 
-service="ffc-template-node"
+service="aphw-ddi-acceptance"
 
 show_help() {
   echo "
@@ -40,11 +40,11 @@ done
 
 compose() {
   if [ "${watch}" = "true" ]; then
-    docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml -p "${service}-test" $@
+    docker compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml -p "${service}-test" $@
   elif [ "${debug}" = "true" ]; then
-    docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml -f docker-compose.test.debug.yaml -p "${service}-test" $@
+    docker compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml -f docker-compose.test.debug.yaml -p "${service}-test" $@
   else
-    docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -p "${service}-test" $@
+    docker compose -f docker-compose.yaml -f docker-compose.test.yaml -p "${service}-test" $@
   fi
 }
 

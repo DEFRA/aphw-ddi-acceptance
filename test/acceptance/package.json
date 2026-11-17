@@ -19,53 +19,35 @@
     "selenium"
   ],
   "scripts": {
-    "test:portal": "wdio wdio.aphw-ddi-portal.conf.js",
-    "test:portal:debug": "node --inspect-brk=0.0.0.0 ./node_modules/@wdio/cli/bin/wdio.js wdio.aphw-ddi-portal.conf.js",
-    "test:enforcement": "wdio wdio.aphw-ddi-enforcement.conf.js",
-    "test:enforcement:debug": "node --inspect-brk=0.0.0.0 ./node_modules/@wdio/cli/bin/wdio.js wdio.aphw-ddi-enforcement.conf.js",
+    "test:portal": "wdio run wdio.aphw-ddi-portal.conf.js",
+    "test:portal:debug": "node --inspect-brk=0.0.0.0 ./node_modules/@wdio/cli/bin/wdio.js run wdio.aphw-ddi-portal.conf.js",
+    "test:enforcement": "wdio run wdio.aphw-ddi-enforcement.conf.js",
+    "test:enforcement:debug": "node --inspect-brk=0.0.0.0 ./node_modules/@wdio/cli/bin/wdio.js run wdio.aphw-ddi-enforcement.conf.js",
     "test": "npm run test:portal && npm run test:enforcement",
     "test:all": "npm run test:portal && npm run test:enforcement",
     "test:debug": "npm run test:portal:debug && npm run test:enforcement:debug"
   },
   "dependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/plugin-proposal-export-default-from": "^7.5.2",
-    "@babel/preset-env": "^7.4.2",
-    "@babel/register": "^7.4.0",
-    "@types/cucumber": "^4.0.5",
-    "@wdio/browserstack-service": "^5.0.0",
-    "@wdio/cli": "^5.11.0",
-    "@wdio/config": "^5.11.0",
-    "@wdio/selenium-standalone-service": "^5.11.0",
-    "@wdio/static-server-service": "^5.14.4",
-    "axe-webdriverio": "^0.2.0",
-    "browserstack-local": "^1.4.8",
-    "chai": "^4.1.2",
-    "cross-env": "^5.2.0",
-    "ecstatic": "^4.1.4",
-    "hosted-git-info": "^4.0.2",
-    "selenium-server": "^3.141.59",
-    "wdio-geckodriver-service": "^1.0.0",
-    "webdriverio": "^7.30.2",
-    "ws": "^7.2.0"
+    "@babel/cli": "^7.28.0",
+    "@babel/core": "^7.28.0",
+    "@babel/plugin-proposal-export-default-from": "^7.27.1",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/register": "^7.28.0",
+    "@cucumber/cucumber": "^13.3.0",
+    "@log4js-node/log4js-api": "^1.0.2",
+    "@wdio/cli": "^10.2.0",
+    "@wdio/cucumber-framework": "^10.2.0",
+    "@wdio/local-runner": "^10.2.0",
+    "@wdio/spec-reporter": "^10.2.0",
+    "chai": "^4.5.0",
+    "wdio-html-nice-reporter": "^8.1.7",
+    "webdriverio": "^10.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@rpii/wdio-html-reporter": "^6.0.6",
-    "@wdio/cucumber-framework": "^5.23.0",
-    "@wdio/local-runner": "^5.23.0",
-    "@wdio/spec-reporter": "^5.23.0",
-    "@wdio/sync": "^5.23.0",
-    "babel-jest": "^24.8.0",
-    "chromedriver": "^87.0.1",
-    "geckodriver": "^1.18.0",
-    "http-server": "^0.12.3",
-    "jest": "^26.6.3",
-    "npm-run-all": "^4.1.5",
-    "pngjs": "^5.0.0",
-    "selenium-standalone": "^9.3.0",
-    "standard": "12.0.1",
-    "wdio-chromedriver-service": "^5.0.2"
+    "standard": "^17.1.2"
+  },
+  "engines": {
+    "node": ">=26.12.1"
   },
   "standard": {
     "globals": [
@@ -76,7 +58,8 @@
       "jest",
       "beforeEach",
       "assert",
-      "$"
+      "$",
+      "$$"
     ]
   }
 }

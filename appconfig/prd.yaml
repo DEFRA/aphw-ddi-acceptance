@@ -1,0 +1,15 @@
+---
+environment: production
+environmentCode: prd
+secretProviderClass:
+  azure:
+    keyvaultName: PRDFFCINFKV1001
+    objects:
+      - objectName: prd-ffcahwr-appinsights-connectionString
+        objectType: secret
+  secretObjects:
+    - secretName: aphw-ddi-acceptance
+      type: Opaque
+      data:
+        - objectName: prd-ffcahwr-appinsights-connectionString
+          key: APPINSIGHTS_CONNECTIONSTRING

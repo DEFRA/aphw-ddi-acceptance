@@ -3,21 +3,21 @@
  * @param  {String}  selector  Element selector
  * @param  {Boolean} falseCase Check if the element (does not) exists
  */
-export default (selector, falseCase) => {
+export default async (selector, falseCase) => {
   /**
-     * The element found in the DOM
-     * @type {Int}
+     * Whether the element is found in the DOM
+     * @type {Boolean}
      */
-  const element = $(selector)
+  const exists = await $(selector).isExisting()
 
   if (falseCase === true) {
-    expect(element.elementId).to.be.a(
-      'undefined',
+    expect(exists).to.equal(
+      false,
       `Element with selector "${selector}" should not exist on the page`
     )
   } else {
-    expect(element.elementId).to.be.a(
-      'string',
+    expect(exists).to.equal(
+      true,
       `Element with selector "${selector}" should exist on the page`
     )
   }
